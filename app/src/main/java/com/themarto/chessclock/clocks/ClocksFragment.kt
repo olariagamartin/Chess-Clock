@@ -1,6 +1,7 @@
 package com.themarto.chessclock.clocks
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,10 +26,12 @@ class ClocksFragment : Fragment() {
 
         binding.clock1.root.setOnClickListener{
             Toast.makeText(context, "Clock 1", Toast.LENGTH_SHORT).show()
+            TransitionManager.beginDelayedTransition(binding.root)
             binding.guideline.setGuidelinePercent(0.33F)
         }
 
         binding.clock2.root.setOnClickListener{
+            TransitionManager.beginDelayedTransition(binding.root)
             Toast.makeText(context, "Clock 2", Toast.LENGTH_SHORT).show()
             binding.guideline.setGuidelinePercent(0.66F)
         }
