@@ -46,4 +46,9 @@ class ClocksFragment : Fragment() {
         binding.clock1.textMovementsCount.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }
