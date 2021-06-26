@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClocksBinding
 
@@ -15,25 +17,28 @@ class ClocksFragment : Fragment() {
 
     private var _binding: FragmentClocksBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: ClocksViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(ClocksViewModel::class.java)
+
+        viewModel.guidelinePercentage.observe(viewLifecycleOwner, Observer {
+            TransitionManager.beginDelayedTransition(binding.root)
+            binding.guideline.setGuidelinePercent(it)
+        })
 
         setClock1Theme()
 
         binding.clock1.root.setOnClickListener{
-            Toast.makeText(context, "Clock 1", Toast.LENGTH_SHORT).show()
-            TransitionManager.beginDelayedTransition(binding.root)
-            binding.guideline.setGuidelinePercent(0.33F)
+            viewModel.onClickClock1()
         }
 
         binding.clock2.root.setOnClickListener{
-            TransitionManager.beginDelayedTransition(binding.root)
-            Toast.makeText(context, "Clock 2", Toast.LENGTH_SHORT).show()
-            binding.guideline.setGuidelinePercent(0.66F)
+            viewModel.onClickClock2()
         }
 
         return binding.root
