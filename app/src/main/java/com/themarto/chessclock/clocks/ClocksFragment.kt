@@ -2,13 +2,11 @@ package com.themarto.chessclock.clocks
 
 import android.os.Bundle
 import android.transition.TransitionManager
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClocksBinding
@@ -26,7 +24,7 @@ class ClocksFragment : Fragment() {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(ClocksViewModel::class.java)
 
-        viewModel.guidelinePercentage.observe(viewLifecycleOwner, Observer {
+        viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
             TransitionManager.beginDelayedTransition(binding.root)
             binding.guideline.setGuidelinePercent(it)
         })
@@ -44,7 +42,7 @@ class ClocksFragment : Fragment() {
         return binding.root
     }
 
-    fun setClock1Theme(){
+    private fun setClock1Theme(){
         binding.clock1.root.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.black))
         binding.clock1.textViewClock.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         binding.clock1.textViewHint.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
