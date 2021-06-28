@@ -29,6 +29,14 @@ class ClocksFragment : Fragment() {
             binding.guideline.setGuidelinePercent(it)
         })
 
+        viewModel.timeLeftString1.observe(viewLifecycleOwner) {
+            binding.clock1.textViewClock.text = it
+        }
+
+        viewModel.timeLeftString2.observe(viewLifecycleOwner) {
+            binding.clock2.textViewClock.text = it
+        }
+
         setClock1Theme()
 
         binding.clock1.root.setOnClickListener{
