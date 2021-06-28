@@ -37,6 +37,13 @@ class ClocksFragment : Fragment() {
             binding.clock2.textViewClock.text = it
         }
 
+        viewModel.gameStarted.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.clock1.textViewHint.visibility = View.INVISIBLE
+                binding.clock2.textViewHint.visibility = View.INVISIBLE
+            }
+        }
+
         setClock1Theme()
 
         binding.clock1.root.setOnClickListener{

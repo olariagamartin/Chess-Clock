@@ -37,6 +37,9 @@ class ClocksViewModel() : ViewModel() {
         DateUtils.formatElapsedTime(it / ONE_SECOND)
     }
 
+    private val _gameStarted = MutableLiveData<Boolean>()
+    val gameStarted: LiveData<Boolean> get() = _gameStarted
+
     private val _turn = MutableLiveData<Int>()
     private val turn: LiveData<Int> get() = _turn
 
@@ -49,6 +52,7 @@ class ClocksViewModel() : ViewModel() {
     }
 
     init {
+        _gameStarted.value = false
         initializeTimer1()
         initializeTimer2()
     }
@@ -81,7 +85,10 @@ class ClocksViewModel() : ViewModel() {
 
     fun onClickClock1() {
         when (timer1.state) {
-            NOT_STARTED -> timer2.startTimer()
+            NOT_STARTED -> {
+                timer2.startTimer()
+                _gameStarted.value = true
+            }
             RUNNING -> {
                 timer1.pauseTimer()
                 timer2.resumeTimer()
@@ -92,7 +99,10 @@ class ClocksViewModel() : ViewModel() {
 
     fun onClickClock2() {
         when (timer2.state) {
-            NOT_STARTED -> timer1.startTimer()
+            NOT_STARTED -> {
+                timer1.startTimer()
+                _gameStarted.value = true
+            }
             RUNNING -> {
                 timer2.pauseTimer()
                 timer1.resumeTimer()
