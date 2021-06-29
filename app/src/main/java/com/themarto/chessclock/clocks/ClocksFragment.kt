@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.themarto.chessclock.R
+import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
 import com.themarto.chessclock.databinding.FragmentClocksBinding
 
 class ClocksFragment : Fragment() {
@@ -46,6 +47,27 @@ class ClocksFragment : Fragment() {
                 binding.actionImagePauseSettings.setImageResource(R.drawable.ic_pause_btn)
             }
         }
+
+        viewModel.navigateToSettings.observe(viewLifecycleOwner) {
+            if (it == true) {
+                Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.gamePaused.observe(viewLifecycleOwner) {
+            if(it == true){
+                if (viewModel.turn.value == TURN_1) {
+                    binding.clock1.textViewHint.text = "Tap to resume" //todo: extract string
+                    binding.clock1.textViewHint.visibility = View.VISIBLE
+                } else {
+                    binding.clock2.textViewHint.text = "Tap to resume"
+                    binding.clock2.textViewHint.visibility = View.VISIBLE
+                }
+            } else {
+                binding.clock1.textViewHint.visibility = View.INVISIBLE
+                binding.clock2.textViewHint.visibility = View.INVISIBLE
+            }
+        }
         //...
 
         setClock1Theme()
@@ -60,7 +82,7 @@ class ClocksFragment : Fragment() {
         }
 
         binding.actionImagePauseSettings.setOnClickListener{
-            Toast.makeText(context, "Pause / Settings", Toast.LENGTH_SHORT).show()
+            viewModel.onClickPauseSettings()
         }
         //...
         return binding.root

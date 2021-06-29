@@ -14,8 +14,8 @@ import com.themarto.chessclock.utils.MyCountDownTimer.Companion.RUNNING
 class ClocksViewModel() : ViewModel() {
 
     companion object {
-        private const val TURN_1 = 1
-        private const val TURN_2 = 2
+        const val TURN_1 = 1
+        const val TURN_2 = 2
         private const val PERCENT_33 = 0.33F
         private const val PERCENT_66 = 0.66F
         private const val PERCENT_50 = 0.50F
@@ -40,8 +40,14 @@ class ClocksViewModel() : ViewModel() {
     private val _gameStarted = MutableLiveData<Boolean>()
     val gameStarted: LiveData<Boolean> get() = _gameStarted
 
+    private val _gamePaused = MutableLiveData<Boolean>()
+    val gamePaused: LiveData<Boolean> get() = _gamePaused
+
+    private val _navigateToSettins = MutableLiveData<Boolean>()
+    val navigateToSettings: LiveData<Boolean> get() = _navigateToSettins
+
     private val _turn = MutableLiveData<Int>()
-    private val turn: LiveData<Int> get() = _turn
+    val turn: LiveData<Int> get() = _turn
 
     val guidelinePercentage = Transformations.map(turn) {
         when (turn.value) {
@@ -52,7 +58,9 @@ class ClocksViewModel() : ViewModel() {
     }
 
     init {
+        _gamePaused.value = false
         _gameStarted.value = false
+        _navigateToSettins.value = false
         initializeTimer1()
         initializeTimer2()
     }
@@ -88,13 +96,20 @@ class ClocksViewModel() : ViewModel() {
             NOT_STARTED -> {
                 timer2.startTimer()
                 _gameStarted.value = true
+                _turn.value = TURN_2
             }
             RUNNING -> {
                 timer1.pauseTimer()
                 timer2.resumeTimer()
+                _turn.value = TURN_2
+            }
+            PAUSED -> {
+                if (turn.value == TURN_1) {
+                    timer1.resumeTimer()
+                    _gamePaused.value = false
+                }
             }
         }
-        _turn.value = TURN_2
     }
 
     fun onClickClock2() {
@@ -102,13 +117,34 @@ class ClocksViewModel() : ViewModel() {
             NOT_STARTED -> {
                 timer1.startTimer()
                 _gameStarted.value = true
+                _turn.value = TURN_1
             }
             RUNNING -> {
                 timer2.pauseTimer()
                 timer1.resumeTimer()
+                _turn.value = TURN_1
+            }
+            PAUSED -> {
+                if (turn.value == TURN_2) {
+                    timer2.resumeTimer()
+                    _gamePaused.value = false
+                }
             }
         }
-        _turn.value = TURN_1
+    }
+
+    fun onClickPauseSettings(){
+        if (gameStarted.value == true) {
+            pauseTimers()
+            _gamePaused.value = true
+        } else {
+            _navigateToSettins.value = true
+        }
+    }
+
+    private fun pauseTimers() {
+        timer1.pauseTimer()
+        timer2.pauseTimer()
     }
 
     override fun onCleared() {
