@@ -5,6 +5,7 @@ import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,7 @@ class ClocksFragment : Fragment() {
             binding.guideline.setGuidelinePercent(it)
         })
 
+        // Observers...
         viewModel.timeLeftString1.observe(viewLifecycleOwner) {
             binding.clock1.textViewClock.text = it
         }
@@ -41,11 +43,14 @@ class ClocksFragment : Fragment() {
             if (it == true) {
                 binding.clock1.textViewHint.visibility = View.INVISIBLE
                 binding.clock2.textViewHint.visibility = View.INVISIBLE
+                binding.actionImagePauseSettings.setImageResource(R.drawable.ic_pause_btn)
             }
         }
+        //...
 
         setClock1Theme()
 
+        // UI actions
         binding.clock1.root.setOnClickListener{
             viewModel.onClickClock1()
         }
@@ -54,6 +59,10 @@ class ClocksFragment : Fragment() {
             viewModel.onClickClock2()
         }
 
+        binding.actionImagePauseSettings.setOnClickListener{
+            Toast.makeText(context, "Pause / Settings", Toast.LENGTH_SHORT).show()
+        }
+        //...
         return binding.root
     }
 
