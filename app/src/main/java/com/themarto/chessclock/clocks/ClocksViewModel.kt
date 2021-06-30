@@ -94,9 +94,11 @@ class ClocksViewModel() : ViewModel() {
     fun onClickClock1() {
         when (timer1.state) {
             NOT_STARTED -> {
-                timer2.startTimer()
-                _gameStarted.value = true
-                _turn.value = TURN_2
+                if (gameStarted.value != true){
+                    timer2.startTimer()
+                    _gameStarted.value = true
+                    _turn.value = TURN_2
+                }
             }
             RUNNING -> {
                 timer1.pauseTimer()
@@ -115,9 +117,11 @@ class ClocksViewModel() : ViewModel() {
     fun onClickClock2() {
         when (timer2.state) {
             NOT_STARTED -> {
-                timer1.startTimer()
-                _gameStarted.value = true
-                _turn.value = TURN_1
+                if (gameStarted.value != true){
+                    timer1.startTimer()
+                    _gameStarted.value = true
+                    _turn.value = TURN_1
+                }
             }
             RUNNING -> {
                 timer2.pauseTimer()

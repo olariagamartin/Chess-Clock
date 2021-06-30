@@ -27,7 +27,7 @@ class ClocksFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ClocksViewModel::class.java)
 
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
-            TransitionManager.beginDelayedTransition(binding.root)
+            //TransitionManager.beginDelayedTransition(binding.root)
             binding.guideline.setGuidelinePercent(it)
         })
 
@@ -83,6 +83,7 @@ class ClocksFragment : Fragment() {
 
         binding.actionImagePauseSettings.setOnClickListener{
             viewModel.onClickPauseSettings()
+            //Toast.makeText(context, "Button clicked", Toast.LENGTH_SHORT).show()
         }
         //...
         return binding.root
