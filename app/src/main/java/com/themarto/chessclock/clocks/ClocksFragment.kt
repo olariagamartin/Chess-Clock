@@ -90,7 +90,6 @@ class ClocksFragment : Fragment() {
     }
 
     private fun setClock1Theme(){
-        binding.clock1.root.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.black))
         binding.clock1.textViewClock.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         binding.clock1.textViewHint.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         binding.clock1.textMovementsCount.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))

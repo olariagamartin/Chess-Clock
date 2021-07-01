@@ -10,6 +10,7 @@
         android:id="@+id/clock1_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/black"
         android:orientation="vertical"
         android:rotation="180"
         android:paddingTop="40dp"
