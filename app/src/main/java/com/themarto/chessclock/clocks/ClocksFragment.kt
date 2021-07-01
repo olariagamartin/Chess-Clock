@@ -26,12 +26,12 @@ class ClocksFragment : Fragment() {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(ClocksViewModel::class.java)
 
+        // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
             //TransitionManager.beginDelayedTransition(binding.root)
             binding.guideline.setGuidelinePercent(it)
         })
 
-        // Observers...
         viewModel.timeLeftString1.observe(viewLifecycleOwner) {
             binding.clock1.textViewClock.text = it
         }
@@ -44,7 +44,6 @@ class ClocksFragment : Fragment() {
             if (it == true) {
                 binding.clock1.textViewHint.visibility = View.INVISIBLE
                 binding.clock2.textViewHint.visibility = View.INVISIBLE
-                binding.actionImagePauseSettings.setImageResource(R.drawable.ic_pause_btn)
             }
         }
 
@@ -81,9 +80,8 @@ class ClocksFragment : Fragment() {
             viewModel.onClickClock2()
         }
 
-        binding.actionImagePauseSettings.setOnClickListener{
-            viewModel.onClickPauseSettings()
-            //Toast.makeText(context, "Button clicked", Toast.LENGTH_SHORT).show()
+        binding.actionPause.setOnClickListener{
+            viewModel.onClickPause()
         }
         //...
         return binding.root

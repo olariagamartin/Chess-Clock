@@ -137,12 +137,10 @@ class ClocksViewModel() : ViewModel() {
         }
     }
 
-    fun onClickPauseSettings(){
+    fun onClickPause(){
         if (gameStarted.value == true) {
             pauseTimers()
             _gamePaused.value = true
-        } else {
-            _navigateToSettins.value = true
         }
     }
 
