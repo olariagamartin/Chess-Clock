@@ -91,6 +91,14 @@ class ClocksFragment : Fragment() {
         binding.actionPause.setOnClickListener {
             viewModel.onClickPause()
         }
+
+        binding.actionRestart.setOnClickListener{
+            viewModel.restartAction()
+        }
+
+        binding.actionGoToSettings.setOnClickListener{
+            viewModel.goToSettingsAction()
+        }
         //...
         return binding.root
     }
