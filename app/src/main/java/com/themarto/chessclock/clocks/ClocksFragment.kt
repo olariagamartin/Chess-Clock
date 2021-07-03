@@ -1,7 +1,8 @@
 package com.themarto.chessclock.clocks
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,11 +96,7 @@ class ClocksFragment : Fragment() {
         }
 
         binding.actionRestart.setOnClickListener{
-            val navController: NavController = requireActivity().findNavController(R.id.navHostFragment)
-            navController.run {
-                popBackStack()
-                navigate(R.id.clocksFragment)
-            }
+            resetClocksAlertDialog()
         }
 
         binding.actionGoToSettings.setOnClickListener{
@@ -128,6 +125,27 @@ class ClocksFragment : Fragment() {
                 R.color.white
             )
         )
+    }
+
+    private fun resetClocksAlertDialog(){ //todo: extract text
+        val restartBuilder = AlertDialog.Builder(requireContext())
+        restartBuilder.apply {
+            setTitle("Reset Timer?")
+            setPositiveButton("Reset", DialogInterface.OnClickListener { dialog, which ->
+                resetTimer()
+            })
+            setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                // nothing
+            })
+        }.create().show()
+    }
+
+    fun resetTimer(){
+        val navController: NavController = requireActivity().findNavController(R.id.navHostFragment)
+        navController.run {
+            popBackStack()
+            navigate(R.id.clocksFragment)
+        }
     }
 
     override fun onDestroy() {
