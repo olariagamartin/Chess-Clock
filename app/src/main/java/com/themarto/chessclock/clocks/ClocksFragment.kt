@@ -10,7 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.themarto.chessclock.R
+import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
+import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_2
 import com.themarto.chessclock.databinding.FragmentClocksBinding
 
 class ClocksFragment : Fragment() {
@@ -40,29 +42,32 @@ class ClocksFragment : Fragment() {
             binding.clock2.textViewClock.text = it
         }
 
-        viewModel.gameStarted.observe(viewLifecycleOwner) {
-            if (it == true) {
-                binding.clock1.textViewHint.visibility = View.INVISIBLE
-                binding.clock2.textViewHint.visibility = View.INVISIBLE
-            }
-        }
-
         viewModel.navigateToSettings.observe(viewLifecycleOwner) {
             if (it == true) {
                 Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
             }
         }
 
+        viewModel.updateHintText.observe(viewLifecycleOwner) {
+            // todo: extract text
+            binding.clock1.textViewHint.text = "Tap to resume"
+            binding.clock2.textViewHint.text = "Tap to resume"
+        }
+
         viewModel.gamePaused.observe(viewLifecycleOwner) {
-            if(it == true){
-                if (viewModel.turn.value == TURN_1) {
-                    binding.clock1.textViewHint.text = "Tap to resume" //todo: extract string
-                    binding.clock1.textViewHint.visibility = View.VISIBLE
-                } else {
-                    binding.clock2.textViewHint.text = "Tap to resume"
-                    binding.clock2.textViewHint.visibility = View.VISIBLE
+            if (it == true) {
+                binding.actionPause.visibility = View.INVISIBLE
+                // todo: show settings and restart
+                when (viewModel.turn.value) {
+                    TURN_1 -> binding.clock1.textViewHint.visibility = View.VISIBLE
+                    TURN_2 -> binding.clock2.textViewHint.visibility = View.VISIBLE
+                    NO_TURN -> {
+                        binding.clock1.textViewHint.visibility = View.VISIBLE
+                        binding.clock2.textViewHint.visibility = View.VISIBLE
+                    }
                 }
-            } else {
+            } else { //todo: hide settings
+                binding.actionPause.visibility = View.VISIBLE
                 binding.clock1.textViewHint.visibility = View.INVISIBLE
                 binding.clock2.textViewHint.visibility = View.INVISIBLE
             }
@@ -72,25 +77,40 @@ class ClocksFragment : Fragment() {
         setClock1Theme()
 
         // UI actions
-        binding.clock1.root.setOnClickListener{
+        binding.clock1.root.setOnClickListener {
             viewModel.onClickClock1()
         }
 
-        binding.clock2.root.setOnClickListener{
+        binding.clock2.root.setOnClickListener {
             viewModel.onClickClock2()
         }
 
-        binding.actionPause.setOnClickListener{
+        binding.actionPause.setOnClickListener {
             viewModel.onClickPause()
         }
         //...
         return binding.root
     }
 
-    private fun setClock1Theme(){
-        binding.clock1.textViewClock.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-        binding.clock1.textViewHint.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-        binding.clock1.textMovementsCount.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+    private fun setClock1Theme() {
+        binding.clock1.textViewClock.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+            )
+        )
+        binding.clock1.textViewHint.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+            )
+        )
+        binding.clock1.textMovementsCount.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+            )
+        )
     }
 
     override fun onDestroy() {

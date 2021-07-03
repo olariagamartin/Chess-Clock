@@ -16,6 +16,7 @@ class ClocksViewModel() : ViewModel() {
     companion object {
         const val TURN_1 = 1
         const val TURN_2 = 2
+        const val NO_TURN = 0
         private const val PERCENT_33 = 0.33F
         private const val PERCENT_66 = 0.66F
         private const val PERCENT_50 = 0.50F
@@ -37,8 +38,9 @@ class ClocksViewModel() : ViewModel() {
         DateUtils.formatElapsedTime(it / ONE_SECOND)
     }
 
-    private val _gameStarted = MutableLiveData<Boolean>()
-    val gameStarted: LiveData<Boolean> get() = _gameStarted
+    //todo: remove variable, add updateHintText variable
+    private val _updateHintText = MutableLiveData<Boolean>()
+    val updateHintText: LiveData<Boolean> get() = _updateHintText
 
     private val _gamePaused = MutableLiveData<Boolean>()
     val gamePaused: LiveData<Boolean> get() = _gamePaused
@@ -58,8 +60,8 @@ class ClocksViewModel() : ViewModel() {
     }
 
     init {
-        _gamePaused.value = false
-        _gameStarted.value = false
+        _gamePaused.value = true
+        _turn.value = NO_TURN
         _navigateToSettins.value = false
         initializeTimer1()
         initializeTimer2()
@@ -94,11 +96,10 @@ class ClocksViewModel() : ViewModel() {
     fun onClickClock1() {
         when (timer1.state) {
             NOT_STARTED -> {
-                if (gameStarted.value != true){
-                    timer2.startTimer()
-                    _gameStarted.value = true
-                    _turn.value = TURN_2
-                }
+                timer2.startTimer()
+                if (turn.value == NO_TURN) _updateHintText.value = true
+                _turn.value = TURN_2
+                _gamePaused.value = false
             }
             RUNNING -> {
                 timer1.pauseTimer()
@@ -117,11 +118,10 @@ class ClocksViewModel() : ViewModel() {
     fun onClickClock2() {
         when (timer2.state) {
             NOT_STARTED -> {
-                if (gameStarted.value != true){
-                    timer1.startTimer()
-                    _gameStarted.value = true
-                    _turn.value = TURN_1
-                }
+                timer1.startTimer()
+                if (turn.value == NO_TURN) _updateHintText.value = true
+                _turn.value = TURN_1
+                _gamePaused.value = false
             }
             RUNNING -> {
                 timer2.pauseTimer()
@@ -137,11 +137,9 @@ class ClocksViewModel() : ViewModel() {
         }
     }
 
-    fun onClickPause(){
-        if (gameStarted.value == true) {
-            pauseTimers()
-            _gamePaused.value = true
-        }
+    fun onClickPause() {
+        pauseTimers()
+        _gamePaused.value = true
     }
 
     private fun pauseTimers() {
