@@ -31,6 +31,28 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageButton
+        android:id="@+id/actionGoToSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_settings_btn"
+        android:background="@android:color/transparent"
+        android:layout_marginStart="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"/>
+
+    <ImageButton
+        android:id="@+id/actionRestart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_restart_btn"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <ImageButton
         android:id="@+id/action_pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
