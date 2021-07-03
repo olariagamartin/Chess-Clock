@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.themarto.chessclock.R
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
@@ -93,7 +95,11 @@ class ClocksFragment : Fragment() {
         }
 
         binding.actionRestart.setOnClickListener{
-            viewModel.restartAction()
+            val navController: NavController = requireActivity().findNavController(R.id.navHostFragment)
+            navController.run {
+                popBackStack()
+                navigate(R.id.clocksFragment)
+            }
         }
 
         binding.actionGoToSettings.setOnClickListener{

@@ -139,10 +139,6 @@ class ClocksViewModel() : ViewModel() {
         TODO("implement")
     }
 
-    fun restartAction() {
-        TODO("implement")
-    }
-
     fun onClickPause() {
         pauseTimers()
         _gamePaused.value = true
