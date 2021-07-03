@@ -38,7 +38,6 @@ class ClocksViewModel() : ViewModel() {
         DateUtils.formatElapsedTime(it / ONE_SECOND)
     }
 
-    //todo: remove variable, add updateHintText variable
     private val _updateHintText = MutableLiveData<Boolean>()
     val updateHintText: LiveData<Boolean> get() = _updateHintText
 
@@ -74,7 +73,7 @@ class ClocksViewModel() : ViewModel() {
             }
 
             override fun onFinishTimer() {
-                //TODO("Not yet implemented")
+
             }
 
         }
@@ -87,7 +86,6 @@ class ClocksViewModel() : ViewModel() {
             }
 
             override fun onFinishTimer() {
-                //TODO("Not yet implemented")
             }
 
         }
