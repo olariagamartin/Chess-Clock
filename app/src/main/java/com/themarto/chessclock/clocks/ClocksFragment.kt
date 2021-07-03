@@ -57,7 +57,8 @@ class ClocksFragment : Fragment() {
         viewModel.gamePaused.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.actionPause.visibility = View.INVISIBLE
-                // todo: show settings and restart
+                binding.actionGoToSettings.visibility = View.VISIBLE
+                binding.actionRestart.visibility = View.VISIBLE
                 when (viewModel.turn.value) {
                     TURN_1 -> binding.clock1.textViewHint.visibility = View.VISIBLE
                     TURN_2 -> binding.clock2.textViewHint.visibility = View.VISIBLE
@@ -66,7 +67,9 @@ class ClocksFragment : Fragment() {
                         binding.clock2.textViewHint.visibility = View.VISIBLE
                     }
                 }
-            } else { //todo: hide settings
+            } else {
+                binding.actionGoToSettings.visibility = View.INVISIBLE
+                binding.actionRestart.visibility = View.INVISIBLE
                 binding.actionPause.visibility = View.VISIBLE
                 binding.clock1.textViewHint.visibility = View.INVISIBLE
                 binding.clock2.textViewHint.visibility = View.INVISIBLE
