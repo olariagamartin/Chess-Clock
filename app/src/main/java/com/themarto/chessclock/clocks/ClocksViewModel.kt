@@ -136,7 +136,7 @@ class ClocksViewModel() : ViewModel() {
     }
 
     fun goToSettingsAction() {
-        TODO("implement")
+        _navigateToSettins.value = true
     }
 
     fun onClickPause() {

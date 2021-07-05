@@ -9,5 +9,14 @@
         android:id="@+id/clocksFragment"
         android:name="com.themarto.chessclock.clocks.ClocksFragment"
         android:label="fragment_clocks"
-        tools:layout="@layout/fragment_clocks" />
+        tools:layout="@layout/fragment_clocks" >
+        <action
+            android:id="@+id/action_clocksFragment_to_clockListFragment"
+            app:destination="@id/clockListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clockListFragment"
+        android:name="com.themarto.chessclock.ClockListFragment"
+        android:label="fragment_clock_list"
+        tools:layout="@layout/fragment_clock_list" />
 </navigation>

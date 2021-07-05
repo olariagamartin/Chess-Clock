@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.R
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
@@ -47,7 +48,7 @@ class ClocksFragment : Fragment() {
 
         viewModel.navigateToSettings.observe(viewLifecycleOwner) {
             if (it == true) {
-                Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+                navigateToSettings()
             }
         }
 
@@ -140,12 +141,17 @@ class ClocksFragment : Fragment() {
         }.create().show()
     }
 
-    fun resetTimer(){
+    private fun resetTimer(){
         val navController: NavController = requireActivity().findNavController(R.id.navHostFragment)
         navController.run {
             popBackStack()
             navigate(R.id.clocksFragment)
         }
+    }
+
+    private fun navigateToSettings() {
+        val action = ClocksFragmentDirections.actionClocksFragmentToClockListFragment()
+        this.findNavController().navigate(action)
     }
 
     override fun onDestroy() {
