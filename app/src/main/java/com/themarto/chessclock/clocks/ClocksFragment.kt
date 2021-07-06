@@ -152,6 +152,7 @@ class ClocksFragment : Fragment() {
     private fun navigateToSettings() {
         val action = ClocksFragmentDirections.actionClocksFragmentToClockListFragment()
         this.findNavController().navigate(action)
+        viewModel.onSettingsNavigated()
     }
 
     override fun onDestroy() {

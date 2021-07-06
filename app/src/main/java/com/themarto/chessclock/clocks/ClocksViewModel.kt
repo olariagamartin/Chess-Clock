@@ -61,7 +61,6 @@ class ClocksViewModel() : ViewModel() {
     init {
         _gamePaused.value = true
         _turn.value = NO_TURN
-        _navigateToSettins.value = false
         initializeTimer1()
         initializeTimer2()
     }
@@ -137,6 +136,10 @@ class ClocksViewModel() : ViewModel() {
 
     fun goToSettingsAction() {
         _navigateToSettins.value = true
+    }
+
+    fun onSettingsNavigated() {
+        _navigateToSettins.value = false
     }
 
     fun onClickPause() {
