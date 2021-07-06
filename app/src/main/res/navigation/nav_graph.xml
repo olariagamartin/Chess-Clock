@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/clockListFragment"
-        android:name="com.themarto.chessclock.ClockListFragment"
+        android:name="com.themarto.chessclock.clock_list.ClockListFragment"
         android:label="fragment_clock_list"
         tools:layout="@layout/fragment_clock_list" />
 </navigation>
