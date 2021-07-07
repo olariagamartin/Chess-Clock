@@ -4,5 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_clock_description">Add clock</string>
     <string name="thumbnail_clock_description">Chess clock thumbnail</string>
+    <string name="clock_item_times">%1$dm vs %2$dm</string>
 
 </resources>

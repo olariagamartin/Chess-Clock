@@ -11,5 +11,9 @@ data class ChessClock(
     @ColumnInfo
     val firstPlayerTime: Long,
     @ColumnInfo
-    val secondPlayerTime: Long
+    val secondPlayerTime: Long,
+    @ColumnInfo
+    val thumbnail: Int,
+    @ColumnInfo
+    val gameType: String
 )
