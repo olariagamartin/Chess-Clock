@@ -13,14 +13,14 @@ interface ChessClockDao {
     fun getAllChessClocks(): LiveData<List<ChessClock>>
 
     @Query("SELECT COUNT(*) FROM chess_clock")
-    fun count(): Int
+    suspend fun count(): Int
 
     @Insert
-    fun insert(chessClock: ChessClock)
+    suspend fun insert(vararg chessClocks: ChessClock)
 
     @Query("SELECT * FROM chess_clock WHERE id=:id")
-    fun get(id: Long): ChessClock
+    suspend fun get(id: Long): ChessClock
 
     @Delete
-    fun delete(clock: ChessClock)
+    suspend fun delete(clock: ChessClock)
 }

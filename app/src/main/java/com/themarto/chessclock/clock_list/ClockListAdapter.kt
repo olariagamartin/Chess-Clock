@@ -14,7 +14,7 @@ import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
-class ClockListAdapter() : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
+class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 
