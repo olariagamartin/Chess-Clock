@@ -16,7 +16,10 @@ interface ChessClockDao {
     suspend fun count(): Int
 
     @Insert
-    suspend fun insert(vararg chessClocks: ChessClock)
+    suspend fun insert(chessClock: ChessClock)
+
+    @Insert
+    suspend fun insertAll(chessClockList: List<ChessClock>)
 
     @Query("SELECT * FROM chess_clock WHERE id=:id")
     suspend fun get(id: Long): ChessClock
