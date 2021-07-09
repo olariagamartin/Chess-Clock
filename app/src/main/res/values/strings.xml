@@ -5,5 +5,9 @@
     <string name="add_clock_description">Add clock</string>
     <string name="thumbnail_clock_description">Chess clock thumbnail</string>
     <string name="clock_item_times">%1$dm vs %2$dm</string>
+    <string name="bullet_type">Bullet</string>
+    <string name="blitz_type">Blitz</string>
+    <string name="rapid_type">Rapid</string>
+    <string name="classic_type">Classic</string>
 
 </resources>
