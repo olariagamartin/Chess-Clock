@@ -25,7 +25,9 @@ class ClockListFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(ClockListViewModel::class.java)
 
         val adapter = ClockListAdapter()
-        adapter.data = viewModel.getDummyData()
+        viewModel.clocks.observe(viewLifecycleOwner) {
+            adapter.data = it
+        }
 
         binding.clockList.adapter = adapter
 
