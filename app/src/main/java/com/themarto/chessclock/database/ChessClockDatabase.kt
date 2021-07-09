@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.themarto.chessclock.utils.DataUtil.Companion.getDefaultClocks
 
 @Database(entities = [ChessClock::class], version = 1, exportSchema = false)
 abstract class ChessClockDatabase: RoomDatabase() {
@@ -18,9 +19,14 @@ abstract class ChessClockDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(context.applicationContext,
                         ChessClockDatabase::class.java, "chess_clock_list").build()
                     INSTANCE = instance
+                    instance.prePopulateDatabase()
                 }
                 return instance
             }
         }
+    }
+
+    private fun prePopulateDatabase () {
+
     }
 }

@@ -12,6 +12,9 @@ interface ChessClockDao {
     @Query("SELECT * FROM chess_clock")
     fun getAllChessClocks(): LiveData<List<ChessClock>>
 
+    @Query("SELECT COUNT(*) FROM chess_clock")
+    fun count(): Int
+
     @Insert
     fun insert(chessClock: ChessClock)
 

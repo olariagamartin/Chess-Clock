@@ -15,7 +15,7 @@ class ChessUtils {
 
 class DataUtil {
     companion object {
-        fun getDefaultClocks (resources: Resources): List<ChessClock> {
+        fun getDefaultClocks (): List<ChessClock> {
             return arrayListOf(
                 ChessClock(firstPlayerTime = ONE_MINUTE, secondPlayerTime = ONE_MINUTE),
                 ChessClock(firstPlayerTime = 2*ONE_MINUTE, secondPlayerTime = 2*ONE_MINUTE),
