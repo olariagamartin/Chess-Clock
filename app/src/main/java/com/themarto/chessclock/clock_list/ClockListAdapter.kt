@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
-import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ_THUMBNAIL
-import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET_THUMBNAIL
-import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID_THUMBNAIL
+import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
+import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
+import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
 class ClockListAdapter() : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
@@ -51,16 +51,27 @@ class ClockListAdapter() : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
         }
 
         fun bind(clock: ChessClock) {
-            gameType.text = clock.gameType
             gameTimes.text = itemView.context.getString(R.string.clock_item_times,
                 clock.firstPlayerTime / ONE_MINUTE,
                 clock.secondPlayerTime / ONE_MINUTE)
-            clockThumbnail.setImageResource(when (clock.thumbnail) {
-                BULLET_THUMBNAIL -> R.drawable.ic_bullet_game
-                BLITZ_THUMBNAIL -> R.drawable.ic_blitz_game
-                RAPID_THUMBNAIL -> R.drawable.ic_rapid_game
-                else -> R.drawable.ic_classic_game
-            })
+            when (clock.gameType) {
+                BULLET -> {
+                    clockThumbnail.setImageResource(R.drawable.ic_bullet_game)
+                    gameType.text = itemView.resources.getString(R.string.bullet_type)
+                }
+                BLITZ -> {
+                    clockThumbnail.setImageResource(R.drawable.ic_blitz_game)
+                    gameType.text = itemView.resources.getString(R.string.blitz_type)
+                }
+                RAPID -> {
+                    clockThumbnail.setImageResource(R.drawable.ic_rapid_game)
+                    gameType.text = itemView.resources.getString(R.string.rapid_type)
+                }
+                else -> {
+                    clockThumbnail.setImageResource(R.drawable.ic_classic_game)
+                    gameType.text = itemView.resources.getString(R.string.classic_type)
+                }
+            }
         }
     }
 }
