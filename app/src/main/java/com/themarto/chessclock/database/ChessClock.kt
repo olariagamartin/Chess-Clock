@@ -3,6 +3,11 @@ package com.themarto.chessclock.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
+import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
+import com.themarto.chessclock.utils.ChessUtils.Companion.CLASSIC
+import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
+import kotlin.math.max
 
 @Entity(tableName = "chess_clock")
 data class ChessClock(
@@ -13,7 +18,13 @@ data class ChessClock(
     @ColumnInfo
     var secondPlayerTime: Long = 0L,
     @ColumnInfo
-    var thumbnail: Int = 0,
-    @ColumnInfo
-    var gameType: String = "none"
-)
+    var gameType: Int = 0
+) {
+    init {
+        val maxTime = max(firstPlayerTime, secondPlayerTime)
+        if (maxTime < BULLET) gameType = BULLET
+        else if (maxTime < BLITZ) gameType = BLITZ
+        else if (maxTime < RAPID) gameType = RAPID
+        else gameType = CLASSIC
+    }
+}
