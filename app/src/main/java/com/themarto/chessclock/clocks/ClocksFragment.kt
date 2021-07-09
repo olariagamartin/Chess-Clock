@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.themarto.chessclock.R
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1

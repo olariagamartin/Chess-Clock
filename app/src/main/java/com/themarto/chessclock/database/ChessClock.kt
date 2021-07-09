@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "chess_clock")
 data class ChessClock(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    var id: Long,
     @ColumnInfo
-    val firstPlayerTime: Long,
+    var firstPlayerTime: Long,
     @ColumnInfo
-    val secondPlayerTime: Long,
+    var secondPlayerTime: Long,
     @ColumnInfo
-    val thumbnail: Int,
+    var thumbnail: Int,
     @ColumnInfo
-    val gameType: String
+    var gameType: String
 )
