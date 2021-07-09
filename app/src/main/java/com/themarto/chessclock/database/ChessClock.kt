@@ -22,9 +22,11 @@ data class ChessClock(
 ) {
     init {
         val maxTime = max(firstPlayerTime, secondPlayerTime)
-        if (maxTime < BULLET) gameType = BULLET
-        else if (maxTime < BLITZ) gameType = BLITZ
-        else if (maxTime < RAPID) gameType = RAPID
-        else gameType = CLASSIC
+        gameType = when {
+            maxTime < BULLET -> BULLET
+            maxTime < BLITZ -> BLITZ
+            maxTime < RAPID -> RAPID
+            else -> CLASSIC
+        }
     }
 }
