@@ -7,6 +7,7 @@ import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
 import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
 import com.themarto.chessclock.utils.ChessUtils.Companion.CLASSIC
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
+import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 import kotlin.math.max
 
 @Entity(tableName = "chess_clock")
@@ -21,7 +22,7 @@ data class ChessClock(
     var gameType: Int = 0
 ) {
     init {
-        val maxTime = max(firstPlayerTime, secondPlayerTime)
+        val maxTime = max(firstPlayerTime, secondPlayerTime) / ONE_MINUTE
         gameType = when {
             maxTime < BULLET -> BULLET
             maxTime < BLITZ -> BLITZ
