@@ -16,8 +16,6 @@ import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
 class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
 
-    private lateinit var context: Context
-
     var data = listOf<ChessClock>()
         set(value) {
             field = value
@@ -25,7 +23,6 @@ class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        context = parent.context
         return ViewHolder.from(parent)
     }
 
@@ -71,6 +68,10 @@ class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
                     clockThumbnail.setImageResource(R.drawable.ic_classic_game)
                     gameType.text = itemView.resources.getString(R.string.classic_type)
                 }
+            }
+
+            itemView.setOnClickListener{
+
             }
         }
     }
