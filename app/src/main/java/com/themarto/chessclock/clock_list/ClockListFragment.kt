@@ -24,7 +24,7 @@ class ClockListFragment : Fragment() {
         val viewModelFactory = ClockListViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ClockListViewModel::class.java)
 
-        val adapter = ClockListAdapter()
+        val adapter = ClockListAdapter(requireActivity())
         viewModel.clocks.observe(viewLifecycleOwner) {
             adapter.data = it
         }
