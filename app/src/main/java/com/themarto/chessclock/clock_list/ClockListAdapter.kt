@@ -1,6 +1,8 @@
 package com.themarto.chessclock.clock_list
 
+import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +13,13 @@ import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
 import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
+import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
-class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
+class ClockListAdapter(private val activity: Activity) : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
+
+    private val preferences = activity.getPreferences(Context.MODE_PRIVATE)
 
     var data = listOf<ChessClock>()
         set(value) {
@@ -27,7 +32,7 @@ class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position], preferences)
     }
 
     override fun getItemCount(): Int {
@@ -47,7 +52,7 @@ class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
             }
         }
 
-        fun bind(clock: ChessClock) {
+        fun bind(clock: ChessClock, preferences: SharedPreferences) {
             gameTimes.text = itemView.context.getString(R.string.clock_item_times,
                 clock.firstPlayerTime / ONE_MINUTE,
                 clock.secondPlayerTime / ONE_MINUTE)
@@ -71,7 +76,7 @@ class ClockListAdapter : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
             }
 
             itemView.setOnClickListener{
-
+                preferences.edit().putLong(CURRENT_CLOCK_KEY, clock.id).apply()
             }
         }
     }

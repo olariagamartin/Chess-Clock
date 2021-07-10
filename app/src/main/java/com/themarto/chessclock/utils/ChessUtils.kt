@@ -10,6 +10,7 @@ class ChessUtils {
         const val BLITZ = 10
         const val RAPID = 60
         const val CLASSIC = 100
+        const val CURRENT_CLOCK_KEY = "CURRENT_CLOCK_KEY"
     }
 }
 
