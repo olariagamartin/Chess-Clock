@@ -1,17 +1,24 @@
 package com.themarto.chessclock.clocks
 
+import android.app.Application
 import android.text.format.DateUtils
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.themarto.chessclock.database.ChessClock
+import com.themarto.chessclock.database.ChessClockDatabase
 import com.themarto.chessclock.utils.MyCountDownTimer
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.NOT_STARTED
+import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_SECOND
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.PAUSED
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.RUNNING
+import kotlinx.coroutines.launch
 
-class ClocksViewModel() : ViewModel() {
+class ClocksViewModel(application: Application, private val clockId: Long) : ViewModel() {
+
+    private val database = ChessClockDatabase.getInstance(application, viewModelScope)
+        .chessClockDao
+
+    private var clock: ChessClock? = null
 
     companion object {
         const val TURN_1 = 1
@@ -59,33 +66,43 @@ class ClocksViewModel() : ViewModel() {
     }
 
     init {
+        initializeCurrentClock()
         _gamePaused.value = true
         _turn.value = NO_TURN
         initializeTimer1()
         initializeTimer2()
     }
 
+    private fun initializeCurrentClock() {
+        if (clockId != (-1).toLong()) {
+            viewModelScope.launch {
+                clock = database.get(clockId)
+                initializeTimer1()
+                initializeTimer2()
+            }
+        }
+    }
+
     private fun initializeTimer1() {
-        timer1 = object : MyCountDownTimer(ONE_MINUTE * 5, ONE_SECOND / 100) {
+        val firstPlayerTime = clock?.firstPlayerTime ?: ONE_MINUTE*5
+        timer1 = object : MyCountDownTimer(firstPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft1.value = millisUntilFinished
             }
 
-            override fun onFinishTimer() {
-
-            }
+            override fun onFinishTimer() { }
 
         }
     }
 
     private fun initializeTimer2() {
-        timer2 = object : MyCountDownTimer(ONE_MINUTE * 5, ONE_SECOND / 100) {
+        val secondPlayerTime = clock?.secondPlayerTime ?: ONE_MINUTE*5
+        timer2 = object : MyCountDownTimer(secondPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft2.value = millisUntilFinished
             }
 
-            override fun onFinishTimer() {
-            }
+            override fun onFinishTimer() { }
 
         }
     }

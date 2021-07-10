@@ -1,6 +1,7 @@
 package com.themarto.chessclock.clocks
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_2
 import com.themarto.chessclock.databinding.FragmentClocksBinding
+import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
 class ClocksFragment : Fragment() {
 
@@ -32,7 +34,10 @@ class ClocksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(ClocksViewModel::class.java)
+        val application = requireActivity().application
+        val clockId = requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(CURRENT_CLOCK_KEY, -1)
+        val factory = ClocksViewModelFactory(application, clockId)
+        viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
