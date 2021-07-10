@@ -38,6 +38,7 @@ class ClocksFragment : Fragment() {
         val clockId = requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(CURRENT_CLOCK_KEY, -1)
         val factory = ClocksViewModelFactory(application, clockId)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
+        viewModel.setCurrentClockId(clockId)
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {

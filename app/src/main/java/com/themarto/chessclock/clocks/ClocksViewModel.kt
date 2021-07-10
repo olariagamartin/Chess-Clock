@@ -13,7 +13,7 @@ import com.themarto.chessclock.utils.MyCountDownTimer.Companion.PAUSED
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.RUNNING
 import kotlinx.coroutines.launch
 
-class ClocksViewModel(application: Application, private val clockId: Long) : ViewModel() {
+class ClocksViewModel(application: Application, private var clockId: Long) : ViewModel() {
 
     private val database = ChessClockDatabase.getInstance(application, viewModelScope)
         .chessClockDao
@@ -71,6 +71,13 @@ class ClocksViewModel(application: Application, private val clockId: Long) : Vie
         _turn.value = NO_TURN
         initializeTimer1()
         initializeTimer2()
+    }
+
+    fun setCurrentClockId(id: Long){
+        if (timer1.state == NOT_STARTED && timer2.state == NOT_STARTED) {
+            clockId = id
+            initializeCurrentClock()
+        }
     }
 
     private fun initializeCurrentClock() {
