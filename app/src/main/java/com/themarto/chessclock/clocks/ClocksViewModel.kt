@@ -85,6 +85,7 @@ class ClocksViewModel(application: Application, private val clockId: Long) : Vie
 
     private fun initializeTimer1() {
         val firstPlayerTime = clock?.firstPlayerTime ?: ONE_MINUTE*5
+        _timeLeft1.value = firstPlayerTime
         timer1 = object : MyCountDownTimer(firstPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft1.value = millisUntilFinished
@@ -97,7 +98,8 @@ class ClocksViewModel(application: Application, private val clockId: Long) : Vie
 
     private fun initializeTimer2() {
         val secondPlayerTime = clock?.secondPlayerTime ?: ONE_MINUTE*5
-        timer2 = object : MyCountDownTimer(secondPlayerTime, ONE_SECOND / 100) {
+        _timeLeft2.value = secondPlayerTime
+            timer2 = object : MyCountDownTimer(secondPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft2.value = millisUntilFinished
             }
