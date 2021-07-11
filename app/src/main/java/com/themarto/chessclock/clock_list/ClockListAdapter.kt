@@ -81,10 +81,12 @@ class ClockListAdapter(var currentClockId: Long) : RecyclerView.Adapter<ClockLis
             }
 
             if (currentClockId == clock.id) {
+                //todo: change with card view
                 itemView.rootView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.black))
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
             } else {
+                //todo: change with card view
                 itemView.rootView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))

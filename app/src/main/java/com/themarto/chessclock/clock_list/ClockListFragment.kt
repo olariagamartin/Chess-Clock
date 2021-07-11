@@ -26,8 +26,10 @@ class ClockListFragment : Fragment() {
     ): View? {
         _binding = FragmentClockListBinding.inflate(inflater, container, false)
         val application = requireActivity().application
-        val viewModelFactory = ClockListViewModelFactory(application)
+
         preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
+        val viewModelFactory = ClockListViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ClockListViewModel::class.java)
 
         val currentClockId = preferences.getLong(CURRENT_CLOCK_KEY, -1)
@@ -37,6 +39,7 @@ class ClockListFragment : Fragment() {
             adapter.currentClockId = clockId
             adapter.notifyDataSetChanged()
         }
+
         viewModel.clocks.observe(viewLifecycleOwner) {
             adapter.data = it
         }
