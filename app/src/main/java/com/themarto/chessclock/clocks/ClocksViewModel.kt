@@ -69,7 +69,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         initializeCurrentClock()
         _gamePaused.value = true
         _turn.value = NO_TURN
-        initializeTimer1()
+        initializeTimer1() //todo: remove unnecessary code
         initializeTimer2()
     }
 

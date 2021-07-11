@@ -1,11 +1,6 @@
 package com.themarto.chessclock.clock_list
 
-import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -14,13 +9,12 @@ import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
 import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
-import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
-class ClockListAdapter(var currentClockId: Long) : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
-
-    private var onClickItem: (Long) -> Unit = { }
+class ClockListAdapter(var currentClockId: Long,
+                       private val clockItemListener: ClockItemListener)
+    : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
 
     var data = listOf<ChessClock>()
         set(value) {
@@ -28,36 +22,43 @@ class ClockListAdapter(var currentClockId: Long) : RecyclerView.Adapter<ClockLis
             notifyDataSetChanged()
         }
 
-    fun putOnClickItem(onClickItem: (Long) -> Unit) {
-        this.onClickItem = onClickItem
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(parent, clockItemListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position], currentClockId, onClickItem)
+        holder.bind(data[position], currentClockId)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val clockThumbnail: ImageView = itemView.findViewById(R.id.clock_item_thumbnail)
-        val gameType: TextView = itemView.findViewById(R.id.clock_item_game_type)
-        val gameTimes: TextView = itemView.findViewById(R.id.clock_item_game_times)
+    class ViewHolder(itemView: View, private val clockItemListener: ClockItemListener)
+        : RecyclerView.ViewHolder(itemView), View.OnCreateContextMenuListener {
+
+        private val clockThumbnail: ImageView = itemView.findViewById(R.id.clock_item_thumbnail)
+        private val gameType: TextView = itemView.findViewById(R.id.clock_item_game_type)
+        private val gameTimes: TextView = itemView.findViewById(R.id.clock_item_game_times)
+        private lateinit var chessClock: ChessClock
 
         companion object {
-            fun from (parent: ViewGroup): ViewHolder{
+            fun from (parent: ViewGroup, clockItemListener: ClockItemListener): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.chess_clock_item_list, parent, false)
-                return ViewHolder(view)
+                return ViewHolder(view, clockItemListener)
             }
         }
 
-        fun bind(clock: ChessClock, currentClockId: Long, onClickItem: (Long) -> Unit) {
+        init {
+            itemView.setOnClickListener{
+                clockItemListener.onClickItem(chessClock.id)
+            }
+            itemView.setOnCreateContextMenuListener(this)
+        }
+
+        fun bind(clock: ChessClock, currentClockId: Long) {
+            this.chessClock = clock
             gameTimes.text = itemView.context.getString(R.string.clock_item_times,
                 clock.firstPlayerTime / ONE_MINUTE,
                 clock.secondPlayerTime / ONE_MINUTE)
@@ -92,9 +93,31 @@ class ClockListAdapter(var currentClockId: Long) : RecyclerView.Adapter<ClockLis
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
             }
 
-            itemView.setOnClickListener{
-                onClickItem(clock.id)
+        }
+
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            val editItem = menu?.add("Edit") //todo: extract string
+            val deleteItem = menu?.add("Delete")
+
+            editItem?.setOnMenuItemClickListener {
+                clockItemListener.onEditItem(chessClock.id)
+                true
+            }
+
+            deleteItem?.setOnMenuItemClickListener {
+                clockItemListener.onRemoveItem(chessClock.id)
+                true
             }
         }
     }
+}
+
+interface ClockItemListener {
+    fun onClickItem(clockId: Long)
+    fun onEditItem(clockId: Long)
+    fun onRemoveItem(clockId: Long)
 }

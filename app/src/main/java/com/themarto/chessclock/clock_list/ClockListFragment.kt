@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.databinding.FragmentClockListBinding
-import com.themarto.chessclock.utils.ChessUtils
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
 class ClockListFragment : Fragment() {
@@ -25,6 +24,7 @@ class ClockListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentClockListBinding.inflate(inflater, container, false)
         val application = requireActivity().application
 
@@ -34,16 +34,20 @@ class ClockListFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(ClockListViewModel::class.java)
 
         val currentClockId = preferences.getLong(CURRENT_CLOCK_KEY, -1)
-        val adapter = ClockListAdapter(currentClockId)
-        adapter.putOnClickItem { clockId ->
-            preferences.edit().putLong(CURRENT_CLOCK_KEY, clockId).apply()
-            adapter.currentClockId = clockId
-            adapter.notifyDataSetChanged()
-        }
 
+        val adapter = ClockListAdapter(currentClockId, getClockItemListener())
+
+        // OBSERVERS...
         viewModel.clocks.observe(viewLifecycleOwner) {
             adapter.data = it
         }
+
+        viewModel.currentClockId.observe(viewLifecycleOwner) {
+            preferences.edit().putLong(CURRENT_CLOCK_KEY, it).apply()
+            adapter.currentClockId = it
+            adapter.notifyDataSetChanged()
+        }
+        //....
 
         binding.clockList.adapter = adapter
 
@@ -52,6 +56,23 @@ class ClockListFragment : Fragment() {
             findNavController().navigate(action)
         }
         return binding.root
+    }
+
+    private fun getClockItemListener (): ClockItemListener {
+        return object : ClockItemListener{
+            override fun onClickItem(clockId: Long) {
+                viewModel.setCurrentClockId(clockId)
+            }
+
+            override fun onEditItem(clockId: Long) {
+                Toast.makeText(context, "Edit Item", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onRemoveItem(clockId: Long) {
+                Toast.makeText(context, "Remove Item", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
     override fun onDestroy() {
