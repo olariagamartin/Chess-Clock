@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
@@ -17,9 +18,9 @@ import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
-class ClockListAdapter(private val activity: Activity) : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
+class ClockListAdapter(var currentClockId: Long) : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
 
-    private val preferences = activity.getPreferences(Context.MODE_PRIVATE)
+    private var onClickItem: (Long) -> Unit = { }
 
     var data = listOf<ChessClock>()
         set(value) {
@@ -27,12 +28,16 @@ class ClockListAdapter(private val activity: Activity) : RecyclerView.Adapter<Cl
             notifyDataSetChanged()
         }
 
+    fun putOnClickItem(onClickItem: (Long) -> Unit) {
+        this.onClickItem = onClickItem
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position], preferences)
+        holder.bind(data[position], currentClockId, onClickItem)
     }
 
     override fun getItemCount(): Int {
@@ -52,7 +57,7 @@ class ClockListAdapter(private val activity: Activity) : RecyclerView.Adapter<Cl
             }
         }
 
-        fun bind(clock: ChessClock, preferences: SharedPreferences) {
+        fun bind(clock: ChessClock, currentClockId: Long, onClickItem: (Long) -> Unit) {
             gameTimes.text = itemView.context.getString(R.string.clock_item_times,
                 clock.firstPlayerTime / ONE_MINUTE,
                 clock.secondPlayerTime / ONE_MINUTE)
@@ -75,8 +80,18 @@ class ClockListAdapter(private val activity: Activity) : RecyclerView.Adapter<Cl
                 }
             }
 
+            if (currentClockId == clock.id) {
+                itemView.rootView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.black))
+                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
+                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
+            } else {
+                itemView.rootView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
+                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
+                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
+            }
+
             itemView.setOnClickListener{
-                preferences.edit().putLong(CURRENT_CLOCK_KEY, clock.id).apply()
+                onClickItem(clock.id)
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.themarto.chessclock.clock_list
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,12 +10,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.themarto.chessclock.databinding.FragmentClockListBinding
+import com.themarto.chessclock.utils.ChessUtils
+import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
 class ClockListFragment : Fragment() {
 
     private var _binding: FragmentClockListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ClockListViewModel
+    private lateinit var preferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,9 +27,16 @@ class ClockListFragment : Fragment() {
         _binding = FragmentClockListBinding.inflate(inflater, container, false)
         val application = requireActivity().application
         val viewModelFactory = ClockListViewModelFactory(application)
+        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ClockListViewModel::class.java)
 
-        val adapter = ClockListAdapter(requireActivity())
+        val currentClockId = preferences.getLong(CURRENT_CLOCK_KEY, -1)
+        val adapter = ClockListAdapter(currentClockId)
+        adapter.putOnClickItem { clockId ->
+            preferences.edit().putLong(CURRENT_CLOCK_KEY, clockId).apply()
+            adapter.currentClockId = clockId
+            adapter.notifyDataSetChanged()
+        }
         viewModel.clocks.observe(viewLifecycleOwner) {
             adapter.data = it
         }
