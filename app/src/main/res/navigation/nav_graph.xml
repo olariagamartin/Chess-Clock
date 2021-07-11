@@ -18,5 +18,14 @@
         android:id="@+id/clockListFragment"
         android:name="com.themarto.chessclock.clock_list.ClockListFragment"
         android:label="fragment_clock_list"
-        tools:layout="@layout/fragment_clock_list" />
+        tools:layout="@layout/fragment_clock_list" >
+        <action
+            android:id="@+id/action_clockListFragment_to_createEditClockFragment"
+            app:destination="@id/createEditClockFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createEditClockFragment"
+        android:name="com.themarto.chessclock.CreateEditClockFragment"
+        android:label="fragment_create_edit_clock"
+        tools:layout="@layout/fragment_create_edit_clock" />
 </navigation>

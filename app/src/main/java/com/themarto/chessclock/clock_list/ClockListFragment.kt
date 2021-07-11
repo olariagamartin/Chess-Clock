@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.databinding.FragmentClockListBinding
 import com.themarto.chessclock.utils.ChessUtils
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
@@ -47,7 +48,8 @@ class ClockListFragment : Fragment() {
         binding.clockList.adapter = adapter
 
         binding.addClock.setOnClickListener{
-            Toast.makeText(context, "Add clock", Toast.LENGTH_SHORT).show()
+            val action = ClockListFragmentDirections.actionClockListFragmentToCreateEditClockFragment()
+            findNavController().navigate(action)
         }
         return binding.root
     }
