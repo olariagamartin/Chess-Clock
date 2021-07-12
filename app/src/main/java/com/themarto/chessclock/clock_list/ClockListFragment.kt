@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClockListBinding
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
@@ -52,10 +53,27 @@ class ClockListFragment : Fragment() {
 
         binding.clockList.adapter = adapter
 
+        // UI ACTIONS
+        binding.toolbar.setNavigationOnClickListener { 
+            findNavController().navigateUp()
+        }
+
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.sound_settings -> {
+                    Toast.makeText(context, "go to sound settings", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+
         binding.addClock.setOnClickListener{
             val action = ClockListFragmentDirections.actionClockListFragmentToCreateEditClockFragment()
             findNavController().navigate(action)
         }
+        //....
+
         return binding.root
     }
 
