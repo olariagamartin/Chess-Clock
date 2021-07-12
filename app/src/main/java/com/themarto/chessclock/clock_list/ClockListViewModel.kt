@@ -26,7 +26,13 @@ class ClockListViewModel(application: Application, clockId: Long) : ViewModel() 
         _currentClockId.value = id
     }
 
-    fun removeItem(id: Long) {
+    fun onRemoveClick(id: Long): Boolean {
+        if (clocks.value?.size!! < 2) return false
+        removeItem(id)
+        return true
+    }
+
+    private fun removeItem(id: Long) {
         viewModelScope.launch {
             database.deleteById(id)
             if (id == currentClockId.value) {

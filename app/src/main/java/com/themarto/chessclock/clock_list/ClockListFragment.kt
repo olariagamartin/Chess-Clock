@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.themarto.chessclock.databinding.FragmentClockListBinding
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
@@ -69,10 +70,18 @@ class ClockListFragment : Fragment() {
             }
 
             override fun onRemoveItem(clockId: Long) {
-                viewModel.removeItem(clockId)
+                val itemRemoved = viewModel.onRemoveClick(clockId)
+                if (!itemRemoved) {
+                   showSnackBarOneClock()
+                }
             }
 
         }
+    }
+
+    private fun showSnackBarOneClock() {
+        Snackbar.make(binding.root, "You must have at least one clock", Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     override fun onDestroy() {
