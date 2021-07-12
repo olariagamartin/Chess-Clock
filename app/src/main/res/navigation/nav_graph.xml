@@ -25,7 +25,16 @@
     </fragment>
     <fragment
         android:id="@+id/createEditClockFragment"
-        android:name="com.themarto.chessclock.CreateEditClockFragment"
+        android:name="com.themarto.chessclock.create_edit_clock.CreateEditClockFragment"
         android:label="fragment_create_edit_clock"
-        tools:layout="@layout/fragment_create_edit_clock" />
+        tools:layout="@layout/fragment_create_edit_clock" >
+        <argument
+            android:name="clockId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="edit_option"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>

@@ -66,7 +66,10 @@ class ClockListFragment : Fragment() {
             }
 
             override fun onEditItem(clockId: Long) {
-                Toast.makeText(context, "Edit Item", Toast.LENGTH_SHORT).show()
+                val action = ClockListFragmentDirections.actionClockListFragmentToCreateEditClockFragment()
+                action.clockId = clockId
+                action.editOption = true
+                findNavController().navigate(action)
             }
 
             override fun onRemoveItem(clockId: Long) {
