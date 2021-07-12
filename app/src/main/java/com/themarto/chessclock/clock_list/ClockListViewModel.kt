@@ -5,11 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.database.ChessClockDatabase
-import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
+import kotlinx.coroutines.launch
 
-class ClockListViewModel(application: Application): ViewModel() {
+class ClockListViewModel(application: Application, clockId: Long) : ViewModel() {
     private val database = ChessClockDatabase
         .getInstance(application, viewModelScope).chessClockDao
 
@@ -19,8 +18,22 @@ class ClockListViewModel(application: Application): ViewModel() {
     val currentClockId: LiveData<Long>
         get() = _currentClockId
 
+    init {
+        _currentClockId.value = clockId
+    }
+
     fun setCurrentClockId(id: Long) {
         _currentClockId.value = id
+    }
+
+    fun removeItem(id: Long) {
+        viewModelScope.launch {
+            database.deleteById(id)
+            if (id == currentClockId.value) {
+                val chessClock = database.getAny()
+                _currentClockId.value = chessClock.id
+            }
+        }
     }
 
 }

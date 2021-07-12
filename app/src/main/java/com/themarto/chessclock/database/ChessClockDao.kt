@@ -24,6 +24,12 @@ interface ChessClockDao {
     @Query("SELECT * FROM chess_clock WHERE id=:id")
     suspend fun get(id: Long): ChessClock
 
+    @Query("SELECT * FROM chess_clock ORDER BY id DESC LIMIT 1")
+    suspend fun getAny(): ChessClock
+
     @Delete
     suspend fun delete(clock: ChessClock)
+
+    @Query("DELETE FROM chess_clock WHERE id = :id")
+    suspend fun deleteById(id: Long);
 }
