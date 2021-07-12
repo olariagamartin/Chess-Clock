@@ -12,7 +12,12 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/settings_appbar_title"/>
+            app:title="@string/settings_appbar_title"
+            android:contentDescription="@string/settings_app_bar_description"
+            app:navigationContentDescription="@string/back_icon_description"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            app:menu="@menu/settings_app_bar_menu"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
