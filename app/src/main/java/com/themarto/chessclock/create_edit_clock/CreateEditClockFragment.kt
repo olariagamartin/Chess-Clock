@@ -29,6 +29,16 @@ class CreateEditClockFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(CreateEditViewModel::class.java)
 
+        // OBSERVERS
+        viewModel.firstPlayerTime.observe(viewLifecycleOwner) {
+            binding.playerOne.time.text = it
+        }
+
+        viewModel.secondPlayerTime.observe(viewLifecycleOwner) {
+            binding.playerTwo.time.text = it
+        }
+        //...
+
 
         return binding.root
     }
