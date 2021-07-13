@@ -14,10 +14,17 @@
     <string name="player_one_label">Player One</string>
     <string name="player_two_label">Player Two</string>
     <string name="same_times_switch">Same as Player One</string>
+    <string name="clock_list_appbar_title">Chess Clock</string>
+    <string name="clock_list_appbar_description">Clock list</string>
     <string name="settings_appbar_title">Settings</string>
     <string name="settings_app_bar_description">Settings app bar</string>
     <string name="back_icon_description">Back button</string>
     <string name="sound_settings_icon_description">Go to sound settings</string>
     <string name="sound_option_menu_title">Sound Settings</string>
+    <string name="sound_settings_title">Sound</string>
+    <string name="sound_settings_summary">After each move</string>
+    <string name="vibrate_settings_title">Vibrate</string>
+    <string name="low_time_warning_settings_title">Low time warning</string>
+    <string name="alert_time_title">Alert time</string>
 
 </resources>
