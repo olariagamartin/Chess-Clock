@@ -30,6 +30,9 @@ class CreateEditViewModel(
         DateUtils.formatElapsedTime(it.secondPlayerTime / ONE_SECOND)
     }
 
+    private var _closeFragment = MutableLiveData<Boolean>()
+    val closeFragment: LiveData<Boolean> get() = _closeFragment
+
     init {
         loadClock()
     }
@@ -46,5 +49,18 @@ class CreateEditViewModel(
 
     private fun getDefaultClock(): ChessClock {
         return ChessClock(firstPlayerTime = 5*ONE_MINUTE, secondPlayerTime = 5* ONE_MINUTE)
+    }
+
+    fun onNavigationClick() {
+        _closeFragment.value = true
+    }
+
+    fun onCloseDone() {
+        _closeFragment.value = false
+    }
+
+    fun onSaveOptionMenuClick() {
+        _closeFragment.value = true
+        // todo
     }
 }

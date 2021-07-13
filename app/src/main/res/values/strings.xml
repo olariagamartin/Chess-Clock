@@ -19,6 +19,7 @@
     <string name="settings_appbar_title">Settings</string>
     <string name="settings_app_bar_description">Settings app bar</string>
     <string name="back_icon_description">Back button</string>
+    <string name="close_icon_description">Close</string>
     <string name="sound_settings_icon_description">Go to sound settings</string>
     <string name="sound_option_menu_title">Sound Settings</string>
     <string name="sound_settings_title">Sound</string>
@@ -26,5 +27,8 @@
     <string name="vibrate_settings_title">Vibrate</string>
     <string name="low_time_warning_settings_title">Low time warning</string>
     <string name="alert_time_title">Alert time</string>
+    <string name="option_menu_save_title">Save</string>
+    <string name="app_bar_edit_title">Edit Clock</string>
+    <string name="app_bar_create_title">New Clock</string>
 
 </resources>
