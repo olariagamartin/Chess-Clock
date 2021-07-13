@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_clockListFragment_to_createEditClockFragment"
             app:destination="@id/createEditClockFragment" />
+        <action
+            android:id="@+id/action_clockListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEditClockFragment"

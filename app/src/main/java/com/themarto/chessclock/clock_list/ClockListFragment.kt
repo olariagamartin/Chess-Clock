@@ -61,7 +61,8 @@ class ClockListFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.sound_settings -> {
-                    Toast.makeText(context, "go to sound settings", Toast.LENGTH_SHORT).show()
+                    val action = ClockListFragmentDirections.actionClockListFragmentToSettingsFragment()
+                    findNavController().navigate(action)
                     true
                 }
                 else -> false
