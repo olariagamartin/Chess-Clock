@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
@@ -37,6 +38,7 @@ class ClockListAdapter(var currentClockId: Long,
     class ViewHolder(itemView: View, private val clockItemListener: ClockItemListener)
         : RecyclerView.ViewHolder(itemView), View.OnCreateContextMenuListener {
 
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.card_view)
         private val clockThumbnail: ImageView = itemView.findViewById(R.id.clock_item_thumbnail)
         private val gameType: TextView = itemView.findViewById(R.id.clock_item_game_type)
         private val gameTimes: TextView = itemView.findViewById(R.id.clock_item_game_times)
@@ -82,13 +84,11 @@ class ClockListAdapter(var currentClockId: Long,
             }
 
             if (currentClockId == clock.id) {
-                //todo: change with card view
-                itemView.rootView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.black))
+                cardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.black))
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
             } else {
-                //todo: change with card view
-                itemView.rootView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
+                cardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
             }
