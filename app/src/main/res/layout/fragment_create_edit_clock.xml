@@ -38,7 +38,7 @@
             android:id="@+id/player_one_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="24dp"
             app:layout_constraintTop_toBottomOf="@id/player_one_header">
             <include
                 android:id="@+id/player_one"
@@ -68,7 +68,7 @@
             android:id="@+id/player_two_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="24dp"
             app:layout_constraintTop_toBottomOf="@id/player_two_header">
             <include
                 android:id="@+id/player_two"
