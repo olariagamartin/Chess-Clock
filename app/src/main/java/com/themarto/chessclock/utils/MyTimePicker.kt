@@ -11,25 +11,75 @@ import androidx.fragment.app.DialogFragment
 import com.themarto.chessclock.R
 
 /**
- * @param onTimeSet what you want to do when click
- * on set time button. If include hour was set to false
- * that parameter will be always 0, you can ignore it
+ * Time Picker that shows a Dialog to select
+ * hours, minutes and seconds. You can choose
+ * to use only minutes and seconds by setting
+ * to false the property "includeHours".
  */
-class MyTimePicker(
-    private val maxHours: Int = 10,
-    private val maxMin: Int = 59,
-    private val maxSec: Int = 59,
-    private val onTimeSet: (hour: Int, minute: Int, second: Int) -> Unit
-) : DialogFragment() {
+class MyTimePicker() : DialogFragment() {
 
     private lateinit var timePickerLayout: View
     private lateinit var hourPicker: NumberPicker
     private lateinit var minPicker: NumberPicker
     private lateinit var secPicker: NumberPicker
 
-    private var initialHour: Int = 0
-    private var initialMinute: Int = 0
-    private var initialSeconds: Int = 0
+    private var onTimeSetOption:
+                (hour: Int, minute: Int, second: Int) -> Unit = {_, _, _ -> }
+    private var timeSetText: String = "Ok"
+
+    private var onCancelOption: () -> Unit = {}
+    private var cancelText: String = "Cancel"
+
+    /**
+     * Which value will appear a the start of
+     * the Dialog for the Hour picker.
+     * Default value is 0.
+     */
+    var initialHour: Int = 0
+    /**
+     * Which value will appear a the start of
+     * the Dialog for the Minute picker.
+     * Default value is 0.
+     */
+    var initialMinute: Int = 0
+    /**
+     * Which value will appear a the start of
+     * the Dialog for the Second picker.
+     * Default value is 0.
+     */
+    var initialSeconds: Int = 0
+
+    /**
+     * Max value for the Hour picker.
+     * Default value is 23.
+     */
+    var maxValueHour: Int = 23
+    /**
+     * Max value for the Minute picker.
+     * Default value is 59.
+     */
+    var maxValueMinute: Int = 59
+    /**
+     * Max value for the Second picker.
+     * Default value is 59.
+     */
+    var maxValueSeconds: Int = 59
+
+    /**
+     * Min value for the Hour picker.
+     * Default value is 0.
+     */
+    var minValueHour: Int = 0
+    /**
+     * Min value for the Minute picker.
+     * Default value is 0.
+     */
+    var minValueMinute: Int = 0
+    /**
+     * Min value for the Second picker.
+     * Default value is 0.
+     */
+    var minValueSecond: Int = 0
 
     /**
      * Default value is true.
@@ -55,56 +105,77 @@ class MyTimePicker(
             title?.let { title ->
                 builder.setTitle(title)
             }
-            builder.setPositiveButton("Ok",
-                DialogInterface.OnClickListener { dialog, id ->
-                    onTimeSet(hourPicker.value, minPicker.value, secPicker.value)
-                })
-                .setNegativeButton("Cancel",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
+            builder.setPositiveButton(timeSetText) { _, _ ->
+                var hour = hourPicker.value
+                if (!includeHours) hour = 0
+                onTimeSetOption(hour, minPicker.value, secPicker.value)
+            }
+                .setNegativeButton(cancelText) { _, _ ->
+                    onCancelOption
+                }
             // Create the AlertDialog object and return it
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
     /**
-     * Set the initial values for the Time Picker.
-     * If you don't use this method to specify the
-     * initial values, the initial values will be 0.
-     * @param hour initial value for hour
-     * @param minute initial value for minute
-     * @param second initial value for second
-     */
-    fun setInitialValues(hour: Int = 0, minute: Int = 0, second: Int = 0) {
-        initialHour = hour
-        initialMinute = minute
-        initialSeconds = second
-    }
-
-    /**
-     * @param title title for the Dialog
+     * Set the title displayed in the Dialog
      */
     fun setTitle(title: String) {
         this.title = title
     }
 
+    /**
+     * Set a listener to be invoked when the Set Time button of the dialog is pressed.
+     * If have set includeHours to false, the hour parameter here will be always 0.
+     * @param text text to display in the Set Time button.
+     */
+    fun setOnTimeSetOption (text: String, onTimeSet: (hour: Int, minute: Int, second: Int) -> Unit) {
+        onTimeSetOption = onTimeSet
+        timeSetText = text
+    }
+
+    /**
+     * Set a listener to be invoked when the Cancel button of the dialog is pressed.
+     * @param text text to display in the Cancel button.
+     */
+    fun setOnCancelOption (text: String, onCancelOption: () -> Unit) {
+        this.onCancelOption = onCancelOption
+        cancelText = text
+    }
+
     private fun setupTimePickerLayout() {
-        hourPicker = timePickerLayout.findViewById<NumberPicker>(R.id.hours)
-        minPicker = timePickerLayout.findViewById<NumberPicker>(R.id.minutes)
-        secPicker = timePickerLayout.findViewById<NumberPicker>(R.id.seconds)
+        bindViews()
+
+        setupMaxValues()
+        setupMinValues()
+        setupInitialValues()
 
         if (!includeHours) {
             timePickerLayout.findViewById<LinearLayout>(R.id.hours_container)
                 .visibility = View.GONE
-            initialHour = 0
         }
-        // Max values
-        hourPicker.maxValue = maxHours
-        minPicker.maxValue = maxMin
-        secPicker.maxValue = maxSec
+    }
 
-        // Initial values
+    private fun bindViews() {
+        hourPicker = timePickerLayout.findViewById<NumberPicker>(R.id.hours)
+        minPicker = timePickerLayout.findViewById<NumberPicker>(R.id.minutes)
+        secPicker = timePickerLayout.findViewById<NumberPicker>(R.id.seconds)
+    }
+
+    private fun setupMaxValues () {
+        hourPicker.maxValue = maxValueHour
+        minPicker.maxValue = maxValueMinute
+        secPicker.maxValue = maxValueSeconds
+    }
+
+    private fun setupMinValues () {
+        hourPicker.minValue = minValueHour
+        minPicker.minValue = minValueMinute
+        secPicker.minValue = minValueSecond
+    }
+
+    private fun setupInitialValues () {
         hourPicker.value = initialHour
         minPicker.value = initialMinute
         secPicker.value = initialSeconds

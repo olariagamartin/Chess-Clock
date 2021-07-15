@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.databinding.FragmentSettingsBinding
+import com.themarto.chessclock.utils.MyTimePicker
 
 class SettingsFragment : Fragment() {
 
@@ -58,7 +60,17 @@ class SettingsFragment : Fragment() {
                 .apply()
         }
 
-        // todo: add time selector to save on pref
+        binding.alertTimeSettingContainer.setOnClickListener {
+            val timePicker = MyTimePicker()
+            timePicker.includeHours = false
+            timePicker.setOnTimeSetOption("Ok") { _,m,s ->
+                // todo: send to view model
+                val timeText = "alert time $m:$s"
+                Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
+            }
+            timePicker.setTitle("Select time")
+            timePicker.show(parentFragmentManager, "time_picker")
+        }
         //...
 
         return binding.root
