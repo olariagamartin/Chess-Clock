@@ -71,9 +71,7 @@ class CreateEditClockFragment : Fragment() {
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
-                // todo: send to view model
-                val timeText = "player one time $h:$m:$s"
-                Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
+                viewModel.onFirstPlayerTimeSet(h, m, s)
             }
             timePicker.setTitle("Select time")
             timePicker.show(parentFragmentManager, "time_picker")
@@ -83,9 +81,7 @@ class CreateEditClockFragment : Fragment() {
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
-                // todo: send to view model
-                val timeText = "player two time $h:$m:$s"
-                Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
+                viewModel.onSecondPlayerTimeSet(h, m, s)
             }
             timePicker.setTitle("Select time")
             timePicker.show(parentFragmentManager, "time_picker")
@@ -102,6 +98,7 @@ class CreateEditClockFragment : Fragment() {
             timePicker.setTitle("Select time")
             timePicker.show(parentFragmentManager, "time_picker")
         }
+
         binding.playerTwo.increment.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.includeHours = false

@@ -63,4 +63,18 @@ class CreateEditViewModel(
         _closeFragment.value = true
         // todo
     }
+
+    fun onFirstPlayerTimeSet(hours: Int, minutes: Int, seconds: Int) {
+        val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE + hours * 60 * ONE_MINUTE
+        val clockUpdated = _chessClock.value
+        clockUpdated?.firstPlayerTime = timeMillis
+        _chessClock.value = clockUpdated
+    }
+
+    fun onSecondPlayerTimeSet(hours: Int, minutes: Int, seconds: Int) {
+        val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE + hours * 60 * ONE_MINUTE
+        val clockUpdated = _chessClock.value
+        clockUpdated?.secondPlayerTime = timeMillis
+        _chessClock.value = clockUpdated
+    }
 }
