@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentCreateEditClockBinding
+import com.themarto.chessclock.utils.MyTimePicker
 
 class CreateEditClockFragment : Fragment() {
 
@@ -65,6 +66,26 @@ class CreateEditClockFragment : Fragment() {
                 else -> false
             }
         })
+
+        binding.playerOne.time.setOnClickListener {
+            val timePicker = MyTimePicker {h, m, s ->
+                val timeSelected = "$h:$m:$s"
+                Toast.makeText(context, timeSelected, Toast.LENGTH_SHORT).show()
+            }
+            timePicker.setTitle("Select time")
+            timePicker.show(parentFragmentManager, "time_picker")
+        }
+
+        binding.playerTwo.time.setOnClickListener {
+            Toast.makeText(context, "Time picker", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.playerOne.increment.setOnClickListener {
+            Toast.makeText(context, "Time picker", Toast.LENGTH_SHORT).show()
+        }
+        binding.playerTwo.increment.setOnClickListener {
+            Toast.makeText(context, "Time picker", Toast.LENGTH_SHORT).show()
+        }
         //....
 
 
