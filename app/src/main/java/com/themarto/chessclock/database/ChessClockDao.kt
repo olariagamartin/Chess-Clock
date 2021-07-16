@@ -1,10 +1,7 @@
 package com.themarto.chessclock.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ChessClockDao {
@@ -26,6 +23,9 @@ interface ChessClockDao {
 
     @Query("SELECT * FROM chess_clock ORDER BY id DESC LIMIT 1")
     suspend fun getAny(): ChessClock
+
+    @Update
+    suspend fun update(chessClock: ChessClock)
 
     @Delete
     suspend fun delete(clock: ChessClock)

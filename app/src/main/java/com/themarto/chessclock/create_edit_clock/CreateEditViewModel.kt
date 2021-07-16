@@ -25,6 +25,7 @@ class CreateEditViewModel(
     val firstPlayerTime: LiveData<String> = Transformations.map(chessClock) {
         DateUtils.formatElapsedTime(it.firstPlayerTime / ONE_SECOND)
     }
+
     // todo: add increment
     val secondPlayerTime: LiveData<String> = Transformations.map(chessClock) {
         DateUtils.formatElapsedTime(it.secondPlayerTime / ONE_SECOND)
@@ -48,7 +49,7 @@ class CreateEditViewModel(
     }
 
     private fun getDefaultClock(): ChessClock {
-        return ChessClock(firstPlayerTime = 5*ONE_MINUTE, secondPlayerTime = 5* ONE_MINUTE)
+        return ChessClock(firstPlayerTime = 5 * ONE_MINUTE, secondPlayerTime = 5 * ONE_MINUTE)
     }
 
     fun onNavigationClick() {
@@ -60,8 +61,29 @@ class CreateEditViewModel(
     }
 
     fun onSaveOptionMenuClick() {
-        _closeFragment.value = true
-        // todo
+        if (editOption) {
+            viewModelScope.launch {
+                updateClock()
+                _closeFragment.value = true
+            }
+        } else {
+            viewModelScope.launch {
+                createClock()
+                _closeFragment.value = true
+            }
+        }
+    }
+
+    private suspend fun updateClock() {
+        chessClock.value?.let {
+            database.update(it)
+        }
+    }
+
+    private suspend fun createClock() {
+        chessClock.value?.let {
+            database.insert(it)
+        }
     }
 
     fun onFirstPlayerTimeSet(hours: Int, minutes: Int, seconds: Int) {
