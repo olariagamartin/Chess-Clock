@@ -25,67 +25,111 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <TextView
-            android:id="@+id/player_one_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/player_one_label"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/player_one_container"
+            android:id="@+id/time_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            app:layout_constraintTop_toBottomOf="@id/player_one_header">
-            <include
-                android:id="@+id/player_one"
-                layout="@layout/clock_time_increment" />
-        </LinearLayout>
+            android:layout_margin="24dp"
+            android:text="@string/time_label"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/player_one_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/player_one_label"
+            app:layout_constraintEnd_toEndOf="@+id/player_one_time"
+            app:layout_constraintStart_toStartOf="@+id/player_one_time"
+            app:layout_constraintTop_toBottomOf="@id/time_header" />
+
+        <TextView
+            android:id="@+id/player_two_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/player_two_label"
+            app:layout_constraintEnd_toEndOf="@+id/player_two_time"
+            app:layout_constraintStart_toStartOf="@+id/player_two_time"
+            app:layout_constraintTop_toBottomOf="@id/time_header" />
+
+        <TextView
+                android:id="@+id/player_one_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/cardview_shadow_start_color"
+            android:gravity="end"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_one_label"
+            tools:text="05:00"/>
+
+        <TextView
+            android:id="@+id/player_two_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/cardview_shadow_start_color"
+            android:gravity="end"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_two_label"
+            tools:text="05:00"/>
 
 
+        <TextView
+            android:id="@+id/increment_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/increment_label"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/increment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_shadow_start_color"
+            android:gravity="end"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@+id/increment_label"
+            app:layout_constraintEnd_toEndOf="@+id/player_two_time"
+            app:layout_constraintTop_toTopOf="@+id/increment_label"
+            tools:text="00:00" />
+        
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/black"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/player_one_container" />
-
-        <TextView
-            android:id="@+id/player_two_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="24dp"
-            android:text="@string/player_two_label"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-        <LinearLayout
-            android:id="@+id/player_two_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            app:layout_constraintTop_toBottomOf="@id/player_two_header">
-            <include
-                android:id="@+id/player_two"
-                layout="@layout/clock_time_increment" />
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/same_time_switch"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/same_time_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:switchPadding="16dp"
+            android:layout_marginTop="12dp"
             android:checked="true"
+            app:layout_constraintEnd_toEndOf="@+id/player_two_time"
             android:text="@string/same_times_switch"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/player_two_container" />
+            app:layout_constraintTop_toBottomOf="@+id/player_two_time"
+            app:switchPadding="8dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

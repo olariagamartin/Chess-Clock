@@ -36,11 +36,11 @@ class CreateEditClockFragment : Fragment() {
 
         // OBSERVERS
         viewModel.firstPlayerTime.observe(viewLifecycleOwner) {
-            binding.playerOne.time.text = it
+            binding.playerOneTime.text = it
         }
 
         viewModel.secondPlayerTime.observe(viewLifecycleOwner) {
-            binding.playerTwo.time.text = it
+            binding.playerTwoTime.text = it
         }
 
         viewModel.closeFragment.observe(viewLifecycleOwner) {
@@ -67,7 +67,7 @@ class CreateEditClockFragment : Fragment() {
             }
         })
 
-        binding.playerOne.time.setOnClickListener {
+        binding.playerOneTime.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
@@ -77,7 +77,7 @@ class CreateEditClockFragment : Fragment() {
             timePicker.show(parentFragmentManager, "time_picker")
         }
 
-        binding.playerTwo.time.setOnClickListener {
+        binding.playerTwoTime.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
@@ -87,31 +87,18 @@ class CreateEditClockFragment : Fragment() {
             timePicker.show(parentFragmentManager, "time_picker")
         }
 
-        binding.playerOne.increment.setOnClickListener {
+        binding.incrementTime.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.includeHours = false
             timePicker.setOnTimeSetOption("Ok") { _,m,s ->
                 // todo: send to view model
-                val timeText = "player one increment $m:$s"
-                Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
-            }
-            timePicker.setTitle("Select time")
-            timePicker.show(parentFragmentManager, "time_picker")
-        }
-
-        binding.playerTwo.increment.setOnClickListener {
-            val timePicker = MyTimePicker()
-            timePicker.includeHours = false
-            timePicker.setOnTimeSetOption("Ok") { _,m,s ->
-                // todo: send to view model
-                val timeText = "player two increment $m:$s"
+                val timeText = "increment $m:$s"
                 Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
             }
             timePicker.setTitle("Select time")
             timePicker.show(parentFragmentManager, "time_picker")
         }
         //....
-
 
         return binding.root
     }
