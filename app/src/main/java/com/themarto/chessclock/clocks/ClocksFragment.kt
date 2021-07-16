@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,7 +34,8 @@ class ClocksFragment : Fragment() {
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
         val application = requireActivity().application
-        val clockId = requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(CURRENT_CLOCK_KEY, -1)
+        val clockId = requireActivity()
+            .getPreferences(Context.MODE_PRIVATE).getLong(CURRENT_CLOCK_KEY, -1)
         val factory = ClocksViewModelFactory(application, clockId)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
         viewModel.setCurrentClockId(clockId)
@@ -104,11 +104,11 @@ class ClocksFragment : Fragment() {
             viewModel.onClickPause()
         }
 
-        binding.actionRestart.setOnClickListener{
+        binding.actionRestart.setOnClickListener {
             resetClocksAlertDialog()
         }
 
-        binding.actionGoToSettings.setOnClickListener{
+        binding.actionGoToSettings.setOnClickListener {
             viewModel.goToSettingsAction()
         }
         //...
@@ -136,7 +136,7 @@ class ClocksFragment : Fragment() {
         )
     }
 
-    private fun resetClocksAlertDialog(){ //todo: extract text
+    private fun resetClocksAlertDialog() { //todo: extract text
         val restartBuilder = AlertDialog.Builder(requireContext())
         restartBuilder.apply {
             setTitle("Reset Timer?")
@@ -149,7 +149,7 @@ class ClocksFragment : Fragment() {
         }.create().show()
     }
 
-    private fun resetTimer(){
+    private fun resetTimer() {
         val navController: NavController = requireActivity().findNavController(R.id.navHostFragment)
         navController.run {
             popBackStack()
