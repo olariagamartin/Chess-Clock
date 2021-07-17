@@ -99,4 +99,28 @@ class CreateEditViewModel(
         clockUpdated?.secondPlayerTime = timeMillis
         _chessClock.value = clockUpdated
     }
+
+    fun getFirstPlayerTimeSet(): Triple<Int, Int, Int> {
+        var timeSet = Triple(0, 0, 0)
+        chessClock.value?.run {
+            val hours = (firstPlayerTime / (ONE_MINUTE * 60)).toInt()
+            val minutes = ((firstPlayerTime % (ONE_MINUTE * 60)) / ONE_MINUTE).toInt()
+            val rest = (firstPlayerTime % (ONE_MINUTE * 60)) % ONE_MINUTE
+            val seconds = (rest / ONE_SECOND).toInt()
+            timeSet = Triple(hours, minutes, seconds)
+        }
+        return timeSet
+    }
+
+    fun getSecondPlayerTimeSet(): Triple<Int, Int, Int> {
+        var timeSet = Triple(0, 0, 0)
+        chessClock.value?.run {
+            val hours = (secondPlayerTime / (ONE_MINUTE * 60)).toInt()
+            val minutes = ((secondPlayerTime % (ONE_MINUTE * 60)) / ONE_MINUTE).toInt()
+            val rest = (secondPlayerTime % (ONE_MINUTE * 60)) % ONE_MINUTE
+            val seconds = (rest / ONE_SECOND).toInt()
+            timeSet = Triple(hours, minutes, seconds)
+        }
+        return timeSet
+    }
 }

@@ -60,7 +60,6 @@ class CreateEditClockFragment : Fragment() {
             when (item.itemId) {
                 R.id.save_option_menu -> {
                     viewModel.onSaveOptionMenuClick()
-                    Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -68,8 +67,13 @@ class CreateEditClockFragment : Fragment() {
         })
 
         binding.playerOneTime.setOnClickListener {
+            // todo: extract method
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
+            val timeSet = viewModel.getFirstPlayerTimeSet()
+            timePicker.initialHour = timeSet.first
+            timePicker.initialMinute = timeSet.second
+            timePicker.initialSeconds = timeSet.third
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
                 viewModel.onFirstPlayerTimeSet(h, m, s)
             }
@@ -80,6 +84,10 @@ class CreateEditClockFragment : Fragment() {
         binding.playerTwoTime.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
+            val timeSet = viewModel.getSecondPlayerTimeSet()
+            timePicker.initialHour = timeSet.first
+            timePicker.initialMinute = timeSet.second
+            timePicker.initialSeconds = timeSet.third
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
                 viewModel.onSecondPlayerTimeSet(h, m, s)
             }
