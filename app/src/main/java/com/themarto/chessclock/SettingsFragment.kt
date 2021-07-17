@@ -76,6 +76,7 @@ class SettingsFragment : Fragment() {
             // todo: extract method
             val timePicker = MyTimePicker()
             timePicker.includeHours = false
+            timePicker.setInitialTimeMillis(pref.getLong(ALERT_TIME_KEY, 0))
             timePicker.setOnTimeSetOption("Ok") { _,m,s ->
                 val alertTimeLong = (m * ONE_MINUTE + s * ONE_SECOND)
                 pref.edit().putLong(ALERT_TIME_KEY, alertTimeLong).apply()

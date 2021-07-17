@@ -123,6 +123,7 @@ class CreateEditViewModel(
      * minutes and seconds of the second player time
      */
     fun getSecondPlayerTimeSet(): Triple<Int, Int, Int> {
+        // todo: use time picker method
         var timeSet = Triple(0, 0, 0)
         chessClock.value?.run {
             val hours = (secondPlayerTime / (ONE_MINUTE * 60)).toInt()
