@@ -100,6 +100,11 @@ class CreateEditViewModel(
         _chessClock.value = clockUpdated
     }
 
+    /**
+     * Return a triple where the first, second
+     * and third value corresponds to the hours,
+     * minutes and seconds of the first player time
+     */
     fun getFirstPlayerTimeSet(): Triple<Int, Int, Int> {
         var timeSet = Triple(0, 0, 0)
         chessClock.value?.run {
@@ -112,6 +117,11 @@ class CreateEditViewModel(
         return timeSet
     }
 
+    /**
+     * Return a triple where the first, second
+     * and third value corresponds to the hours,
+     * minutes and seconds of the second player time
+     */
     fun getSecondPlayerTimeSet(): Triple<Int, Int, Int> {
         var timeSet = Triple(0, 0, 0)
         chessClock.value?.run {
