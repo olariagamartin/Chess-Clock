@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.databinding.FragmentSettingsBinding
+import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
+import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_SECOND
 import com.themarto.chessclock.utils.MyTimePicker
 
 class SettingsFragment : Fragment() {
@@ -25,6 +26,17 @@ class SettingsFragment : Fragment() {
         const val VIBRATE_KEY = "vibrate"
         const val LOW_TIME_WARNING_KEY = "low_time_warning"
         const val ALERT_TIME_KEY = "alert_time"
+    }
+
+    private val prefListener = SharedPreferences.OnSharedPreferenceChangeListener {
+            sharedPreferences, key ->
+        when (key) {
+            ALERT_TIME_KEY -> {
+                val alertTime = sharedPreferences.getLong(ALERT_TIME_KEY, 0) / ONE_SECOND
+                val alertTimeText = DateUtils.formatElapsedTime(alertTime)
+                binding.alertTimeSummary.text = alertTimeText
+            }
+        }
     }
 
     override fun onCreateView(
@@ -61,12 +73,12 @@ class SettingsFragment : Fragment() {
         }
 
         binding.alertTimeSettingContainer.setOnClickListener {
+            // todo: extract method
             val timePicker = MyTimePicker()
             timePicker.includeHours = false
             timePicker.setOnTimeSetOption("Ok") { _,m,s ->
-                // todo: send to view model
-                val timeText = "alert time $m:$s"
-                Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
+                val alertTimeLong = (m * ONE_MINUTE + s * ONE_SECOND)
+                pref.edit().putLong(ALERT_TIME_KEY, alertTimeLong).apply()
             }
             timePicker.setTitle("Select time")
             timePicker.show(parentFragmentManager, "time_picker")
@@ -86,9 +98,19 @@ class SettingsFragment : Fragment() {
         val lowTimeWarning = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
         binding.lowTimeWarningSwitch.isChecked = lowTimeWarning
 
-        val alertTime = pref.getLong(ALERT_TIME_KEY, 0)
+        val alertTime = pref.getLong(ALERT_TIME_KEY, 0) / ONE_SECOND
         val alertTimeText = DateUtils.formatElapsedTime(alertTime)
         binding.alertTimeSummary.text = alertTimeText
+    }
+
+    override fun onResume() {
+        super.onResume()
+        pref.registerOnSharedPreferenceChangeListener(prefListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pref.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
     override fun onDestroy() {
