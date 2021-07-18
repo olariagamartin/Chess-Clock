@@ -5,7 +5,6 @@ import android.text.format.DateUtils
 import androidx.lifecycle.*
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.database.ChessClockDatabase
-import com.themarto.chessclock.utils.ChessUtils
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_SECOND
 import kotlinx.coroutines.launch

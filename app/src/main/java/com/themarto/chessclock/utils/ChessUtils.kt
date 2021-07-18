@@ -1,6 +1,5 @@
 package com.themarto.chessclock.utils
 
-import android.content.res.Resources
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 

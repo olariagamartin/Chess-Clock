@@ -19,7 +19,9 @@ data class ChessClock(
     @ColumnInfo
     var secondPlayerTime: Long = 0L,
     @ColumnInfo
-    var gameType: Int = 0
+    var gameType: Int = 0,
+    @ColumnInfo
+    var increment: Long = 0
 ) {
     init {
         val maxTime = max(firstPlayerTime, secondPlayerTime) / ONE_MINUTE
