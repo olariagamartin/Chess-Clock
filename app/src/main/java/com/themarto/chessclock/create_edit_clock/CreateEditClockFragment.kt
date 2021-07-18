@@ -74,10 +74,9 @@ class CreateEditClockFragment : Fragment() {
             // todo: extract method
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
-            val timeSet = viewModel.getFirstPlayerTimeSet()
-            timePicker.initialHour = timeSet.first
-            timePicker.initialMinute = timeSet.second
-            timePicker.initialSeconds = timeSet.third
+            viewModel.chessClock.value?.let { chessClock ->
+                timePicker.setInitialTimeMillis(chessClock.firstPlayerTime)
+            }
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
                 viewModel.onFirstPlayerTimeSet(h, m, s)
             }
@@ -88,10 +87,9 @@ class CreateEditClockFragment : Fragment() {
         binding.playerTwoTime.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.maxValueHour = 10
-            val timeSet = viewModel.getSecondPlayerTimeSet()
-            timePicker.initialHour = timeSet.first
-            timePicker.initialMinute = timeSet.second
-            timePicker.initialSeconds = timeSet.third
+            viewModel.chessClock.value?.let { chessClock ->
+                timePicker.setInitialTimeMillis(chessClock.secondPlayerTime)
+            }
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
                 viewModel.onSecondPlayerTimeSet(h, m, s)
             }
