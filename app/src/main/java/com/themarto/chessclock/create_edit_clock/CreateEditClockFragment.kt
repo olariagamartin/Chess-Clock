@@ -43,6 +43,10 @@ class CreateEditClockFragment : Fragment() {
             binding.playerTwoTime.text = it
         }
 
+        viewModel.incrementTime.observe(viewLifecycleOwner) {
+            binding.incrementTime.text = it
+        }
+
         viewModel.closeFragment.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigateUp()
@@ -77,7 +81,7 @@ class CreateEditClockFragment : Fragment() {
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
                 viewModel.onFirstPlayerTimeSet(h, m, s)
             }
-            timePicker.setTitle("Select time")
+            timePicker.setTitle("Select time") // todo: use string resources
             timePicker.show(parentFragmentManager, "time_picker")
         }
 
@@ -91,19 +95,20 @@ class CreateEditClockFragment : Fragment() {
             timePicker.setOnTimeSetOption("Ok") { h,m,s ->
                 viewModel.onSecondPlayerTimeSet(h, m, s)
             }
-            timePicker.setTitle("Select time")
+            timePicker.setTitle("Select time") // todo: use string resources
             timePicker.show(parentFragmentManager, "time_picker")
         }
 
         binding.incrementTime.setOnClickListener {
             val timePicker = MyTimePicker()
             timePicker.includeHours = false
-            timePicker.setOnTimeSetOption("Ok") { _,m,s ->
-                // todo: send to view model
-                val timeText = "increment $m:$s"
-                Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show()
+            viewModel.chessClock.value?.let { chessClock ->
+                timePicker.setInitialTimeMillis(chessClock.increment)
             }
-            timePicker.setTitle("Select time")
+            timePicker.setOnTimeSetOption("Ok") { _,m,s ->
+                viewModel.onIncrementTimeSet(m, s)
+            }
+            timePicker.setTitle("Select time") // todo: use string resources
             timePicker.show(parentFragmentManager, "time_picker")
         }
         //....

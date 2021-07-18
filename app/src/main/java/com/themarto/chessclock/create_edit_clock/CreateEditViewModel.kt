@@ -19,15 +19,18 @@ class CreateEditViewModel(
         .chessClockDao
 
     private val _chessClock = MutableLiveData<ChessClock>()
-    private val chessClock: LiveData<ChessClock> get() = _chessClock
+    val chessClock: LiveData<ChessClock> get() = _chessClock
 
     val firstPlayerTime: LiveData<String> = Transformations.map(chessClock) {
         DateUtils.formatElapsedTime(it.firstPlayerTime / ONE_SECOND)
     }
 
-    // todo: add increment
     val secondPlayerTime: LiveData<String> = Transformations.map(chessClock) {
         DateUtils.formatElapsedTime(it.secondPlayerTime / ONE_SECOND)
+    }
+
+    val incrementTime: LiveData<String> = Transformations.map(chessClock) {
+        DateUtils.formatElapsedTime(it.increment / ONE_SECOND)
     }
 
     private var _closeFragment = MutableLiveData<Boolean>()
@@ -99,12 +102,20 @@ class CreateEditViewModel(
         _chessClock.value = clockUpdated
     }
 
+    fun onIncrementTimeSet (minutes: Int, seconds: Int) {
+        val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE
+        val clockUpdated = _chessClock.value
+        clockUpdated?.increment = timeMillis
+        _chessClock.value = clockUpdated
+    }
+
     /**
      * Return a triple where the first, second
      * and third value corresponds to the hours,
      * minutes and seconds of the first player time
      */
     fun getFirstPlayerTimeSet(): Triple<Int, Int, Int> {
+        // todo: use time picker method
         var timeSet = Triple(0, 0, 0)
         chessClock.value?.run {
             val hours = (firstPlayerTime / (ONE_MINUTE * 60)).toInt()
