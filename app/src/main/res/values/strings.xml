@@ -30,5 +30,7 @@
     <string name="option_menu_save_title">Save</string>
     <string name="app_bar_edit_title">Edit Clock</string>
     <string name="app_bar_create_title">New Clock</string>
+    <string name="no_increment_clock">No increment</string>
+    <string name="increment_clock">Increment %1$s</string>
 
 </resources>

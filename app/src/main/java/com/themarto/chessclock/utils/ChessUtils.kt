@@ -1,7 +1,10 @@
 package com.themarto.chessclock.utils
 
+import android.content.res.Resources
+import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
+import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_SECOND
 
 class ChessUtils {
     companion object {
@@ -10,6 +13,34 @@ class ChessUtils {
         const val RAPID = 60
         const val CLASSIC = 100
         const val CURRENT_CLOCK_KEY = "CURRENT_CLOCK_KEY"
+
+        /**
+         * Receives two times for first and second player, and an increment.
+         * Return a String formatted as:
+         * "'firstPlayerTime' vs 'secondPlayerTime' | 'increment'"
+         * All parameter have to be in milliseconds
+         */
+        fun getTimesText(resources: Resources, firstPlayerTime: Long, secondPlayerTime: Long, increment: Long): String {
+            val firstText = getTimeFormatted(firstPlayerTime)
+            val secondText = getTimeFormatted(secondPlayerTime)
+            var incrementText = resources.getString(R.string.no_increment_clock)
+            if (increment > 0 ) {
+                val incrementTime = getTimeFormatted(increment)
+                incrementText = resources.getString(R.string.increment_clock, incrementTime)
+            }
+            return "$firstText vs $secondText | $incrementText"
+        }
+
+        fun getTimeFormatted (time: Long): String {
+            val hour = time / (ONE_MINUTE * 60)
+            val minute = (time % (ONE_MINUTE * 60)) / ONE_MINUTE
+            val second = ((time % (ONE_MINUTE * 60)) % ONE_MINUTE) / ONE_SECOND
+            var timeFormatted = ""
+            if (hour > 0) timeFormatted = "${hour}h"
+            if (minute > 0) timeFormatted += "${minute}m"
+            if (second > 0) timeFormatted += "${second}s"
+            return timeFormatted
+        }
     }
 }
 

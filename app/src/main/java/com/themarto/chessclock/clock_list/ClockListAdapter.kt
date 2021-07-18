@@ -1,5 +1,6 @@
 package com.themarto.chessclock.clock_list
 
+import android.text.format.DateUtils
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -8,14 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.themarto.chessclock.R
 import com.themarto.chessclock.database.ChessClock
+import com.themarto.chessclock.utils.ChessUtils
 import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
 import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
-class ClockListAdapter(var currentClockId: Long,
-                       private val clockItemListener: ClockItemListener)
-    : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
+class ClockListAdapter(
+    var currentClockId: Long,
+    private val clockItemListener: ClockItemListener
+) : RecyclerView.Adapter<ClockListAdapter.ViewHolder>() {
 
     var data = listOf<ChessClock>()
         set(value) {
@@ -35,8 +38,8 @@ class ClockListAdapter(var currentClockId: Long,
         return data.size
     }
 
-    class ViewHolder(itemView: View, private val clockItemListener: ClockItemListener)
-        : RecyclerView.ViewHolder(itemView), View.OnCreateContextMenuListener {
+    class ViewHolder(itemView: View, private val clockItemListener: ClockItemListener) :
+        RecyclerView.ViewHolder(itemView), View.OnCreateContextMenuListener {
 
         private val cardView: MaterialCardView = itemView.findViewById(R.id.card_view)
         private val clockThumbnail: ImageView = itemView.findViewById(R.id.clock_item_thumbnail)
@@ -45,7 +48,7 @@ class ClockListAdapter(var currentClockId: Long,
         private lateinit var chessClock: ChessClock
 
         companion object {
-            fun from (parent: ViewGroup, clockItemListener: ClockItemListener): ViewHolder{
+            fun from(parent: ViewGroup, clockItemListener: ClockItemListener): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.chess_clock_item_list, parent, false)
                 return ViewHolder(view, clockItemListener)
@@ -53,7 +56,7 @@ class ClockListAdapter(var currentClockId: Long,
         }
 
         init {
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 clockItemListener.onClickItem(chessClock.id)
             }
             itemView.setOnCreateContextMenuListener(this)
@@ -61,9 +64,12 @@ class ClockListAdapter(var currentClockId: Long,
 
         fun bind(clock: ChessClock, currentClockId: Long) {
             this.chessClock = clock
-            gameTimes.text = itemView.context.getString(R.string.clock_item_times,
-                clock.firstPlayerTime / ONE_MINUTE,
-                clock.secondPlayerTime / ONE_MINUTE)
+            gameTimes.text = ChessUtils.getTimesText(
+                itemView.resources,
+                chessClock.firstPlayerTime,
+                chessClock.secondPlayerTime,
+                chessClock.increment
+            )
             when (clock.gameType) {
                 BULLET -> {
                     clockThumbnail.setImageResource(R.drawable.ic_bullet_game)
@@ -84,11 +90,21 @@ class ClockListAdapter(var currentClockId: Long,
             }
 
             if (currentClockId == clock.id) {
-                cardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.black))
+                cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.black
+                    )
+                )
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
             } else {
-                cardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
+                cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.white
+                    )
+                )
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
             }
