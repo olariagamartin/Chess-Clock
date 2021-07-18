@@ -117,6 +117,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     }
 
     fun onClickClock1() {
+        // todo: extract methods
         when (timer1.state) {
             NOT_STARTED -> {
                 timer2.startTimer()
@@ -128,6 +129,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timer1.pauseTimer()
                 timer2.resumeTimer()
                 _turn.value = TURN_2
+                timer1.incrementTime(clock!!.increment)
+                _timeLeft1.value = _timeLeft1.value?.plus(clock!!.increment)
             }
             PAUSED -> {
                 if (turn.value == TURN_1) {
@@ -150,6 +153,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timer2.pauseTimer()
                 timer1.resumeTimer()
                 _turn.value = TURN_1
+                timer2.incrementTime(clock!!.increment)
+                _timeLeft2.value = _timeLeft2.value?.plus(clock!!.increment)
             }
             PAUSED -> {
                 if (turn.value == TURN_2) {

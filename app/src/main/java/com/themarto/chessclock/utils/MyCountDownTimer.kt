@@ -2,7 +2,7 @@ package com.themarto.chessclock.utils
 
 import android.os.CountDownTimer
 
-abstract class MyCountDownTimer(millisInFuture: Long, private val countDownInterval: Long) {
+abstract class MyCountDownTimer(millisInFuture: Long, private var countDownInterval: Long) {
 
     companion object{
         const val NOT_STARTED = 0
@@ -51,6 +51,10 @@ abstract class MyCountDownTimer(millisInFuture: Long, private val countDownInter
     fun resumeTimer(){
         timer = initializeTimer(timeLeft, countDownInterval).start()
         state = RUNNING
+    }
+
+    fun incrementTime(increment: Long) {
+        timeLeft += increment
     }
 
     fun cancelTimer(){
