@@ -32,5 +32,6 @@
     <string name="app_bar_create_title">New Clock</string>
     <string name="no_increment_clock">No increment</string>
     <string name="increment_clock">Increment %1$s</string>
+    <string name="alert_time_icon_description">Alert time icon</string>
 
 </resources>
