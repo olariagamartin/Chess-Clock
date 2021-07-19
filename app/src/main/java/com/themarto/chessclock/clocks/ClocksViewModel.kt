@@ -36,6 +36,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val timeLeftString1 = Transformations.map(timeLeft1) {
         DateUtils.formatElapsedTime(it / ONE_SECOND)
     }
+    private val _playerOneMoves = MutableLiveData<Int>()
+    val playerOneMoves: LiveData<Int> get() = _playerOneMoves
 
     // Timer 2
     private lateinit var timer2: MyCountDownTimer
@@ -44,6 +46,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val timeLeftString2 = Transformations.map(timeLeft2) {
         DateUtils.formatElapsedTime(it / ONE_SECOND)
     }
+    private val _playerTwoMoves = MutableLiveData<Int>()
+    val playerTwoMoves: LiveData<Int> get() = _playerTwoMoves
 
     private val _updateHintText = MutableLiveData<Boolean>()
     val updateHintText: LiveData<Boolean> get() = _updateHintText
@@ -69,6 +73,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         initializeCurrentClock()
         _gamePaused.value = true
         _turn.value = NO_TURN
+        _playerOneMoves.value = 0
+        _playerTwoMoves.value = 0
         initializeTimer1() //todo: remove unnecessary code
         initializeTimer2()
     }
@@ -133,6 +139,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                     timer1.incrementTime(it.increment)
                     _timeLeft1.value = _timeLeft1.value?.plus(it.increment)
                 }
+                _playerOneMoves.value = _playerOneMoves.value?.plus(1)
             }
             PAUSED -> {
                 if (turn.value == TURN_1) {
@@ -159,6 +166,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                     timer2.incrementTime(it.increment)
                     _timeLeft2.value = _timeLeft2.value?.plus(it.increment)
                 }
+                _playerTwoMoves.value = _playerTwoMoves.value?.plus(1)
             }
             PAUSED -> {
                 if (turn.value == TURN_2) {

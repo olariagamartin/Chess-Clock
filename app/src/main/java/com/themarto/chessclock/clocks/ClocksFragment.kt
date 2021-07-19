@@ -87,6 +87,14 @@ class ClocksFragment : Fragment() {
                 binding.clock2.textViewHint.visibility = View.INVISIBLE
             }
         }
+
+        viewModel.playerOneMoves.observe(viewLifecycleOwner) {
+            binding.clock1.textMovementsCount.text = it.toString()
+        }
+
+        viewModel.playerTwoMoves.observe(viewLifecycleOwner) {
+            binding.clock2.textMovementsCount.text = it.toString()
+        }
         //...
 
         setClock1Theme()
