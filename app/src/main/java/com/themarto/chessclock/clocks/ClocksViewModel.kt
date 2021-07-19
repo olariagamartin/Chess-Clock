@@ -38,6 +38,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     }
     private val _playerOneMoves = MutableLiveData<Int>()
     val playerOneMoves: LiveData<Int> get() = _playerOneMoves
+    private val _showAlertTimeOne = MutableLiveData<Boolean>()
+    val showAlertTimeOne: LiveData<Boolean> get() = _showAlertTimeOne
 
     // Timer 2
     private lateinit var timer2: MyCountDownTimer
@@ -48,6 +50,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     }
     private val _playerTwoMoves = MutableLiveData<Int>()
     val playerTwoMoves: LiveData<Int> get() = _playerTwoMoves
+    private val _showAlertTimeTwo = MutableLiveData<Boolean>()
+    val showAlertTimeTwo: LiveData<Boolean> get() = _showAlertTimeTwo
 
     private val _updateHintText = MutableLiveData<Boolean>()
     val updateHintText: LiveData<Boolean> get() = _updateHintText
@@ -69,13 +73,20 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         }
     }
 
+    var timeAlert = 0L
+
+    private var timeAlertCheck1: (Long) -> Unit = {}
+    private var timeAlertCheck2: (Long) -> Unit = {}
+
     init {
         initializeCurrentClock()
         _gamePaused.value = true
         _turn.value = NO_TURN
         _playerOneMoves.value = 0
         _playerTwoMoves.value = 0
-        initializeTimer1() //todo: remove unnecessary code
+        _showAlertTimeOne.value = false
+        _showAlertTimeTwo.value = false
+        initializeTimer1() //todo: move to initializeCurrentClock
         initializeTimer2()
     }
 
@@ -92,6 +103,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 clock = database.get(clockId)
                 initializeTimer1()
                 initializeTimer2()
+                setAlertTimeChecks()
             }
         }
     }
@@ -102,6 +114,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         timer1 = object : MyCountDownTimer(firstPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft1.value = millisUntilFinished
+                timeAlertCheck1 (millisUntilFinished)
             }
 
             override fun onFinishTimer() { }
@@ -115,6 +128,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             timer2 = object : MyCountDownTimer(secondPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft2.value = millisUntilFinished
+                timeAlertCheck2 (millisUntilFinished)
             }
 
             override fun onFinishTimer() { }
@@ -140,6 +154,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                     _timeLeft1.value = _timeLeft1.value?.plus(it.increment)
                 }
                 _playerOneMoves.value = _playerOneMoves.value?.plus(1)
+                timeAlertCheck1(timeLeft1.value!!)
             }
             PAUSED -> {
                 if (turn.value == TURN_1) {
@@ -167,6 +182,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                     _timeLeft2.value = _timeLeft2.value?.plus(it.increment)
                 }
                 _playerTwoMoves.value = _playerTwoMoves.value?.plus(1)
+                timeAlertCheck2(timeLeft2.value!!)
             }
             PAUSED -> {
                 if (turn.value == TURN_2) {
@@ -188,6 +204,29 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     fun onClickPause() {
         pauseTimers()
         _gamePaused.value = true
+    }
+
+    private fun setAlertTimeChecks () {
+        if (timeAlert > 0) {
+            if (timeAlert < clock?.firstPlayerTime ?: ONE_MINUTE * 5) {
+                timeAlertCheck1 = {
+                    if (it < timeAlert && showAlertTimeOne.value == false) {
+                        _showAlertTimeOne.value = true
+                    } else if (it > timeAlert && showAlertTimeOne.value == true) {
+                        _showAlertTimeOne.value = false
+                    }
+                }
+            }
+            if (timeAlert < clock?.secondPlayerTime ?: ONE_MINUTE * 5) {
+                timeAlertCheck2 = {
+                    if (it < timeAlert && showAlertTimeTwo.value == false) {
+                        _showAlertTimeTwo.value = true
+                    } else if (it > timeAlert && showAlertTimeTwo.value == true) {
+                        _showAlertTimeTwo.value = false
+                    }
+                }
+            }
+        }
     }
 
     private fun pauseTimers() {

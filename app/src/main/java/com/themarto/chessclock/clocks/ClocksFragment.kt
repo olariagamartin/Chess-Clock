@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.themarto.chessclock.R
+import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_2
@@ -33,12 +33,15 @@ class ClocksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
+        val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val application = requireActivity().application
-        val clockId = requireActivity()
-            .getPreferences(Context.MODE_PRIVATE).getLong(CURRENT_CLOCK_KEY, -1)
+        val clockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
+        val lowTimeWarning = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
+        val alertTime = pref.getLong(ALERT_TIME_KEY, 0)
         val factory = ClocksViewModelFactory(application, clockId)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
         viewModel.setCurrentClockId(clockId)
+        if (lowTimeWarning) viewModel.timeAlert = alertTime
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
@@ -94,6 +97,22 @@ class ClocksFragment : Fragment() {
 
         viewModel.playerTwoMoves.observe(viewLifecycleOwner) {
             binding.clock2.textMovementsCount.text = it.toString()
+        }
+
+        viewModel.showAlertTimeOne.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.clock1.alertTimeIcon.visibility = View.VISIBLE
+            } else {
+                binding.clock1.alertTimeIcon.visibility = View.INVISIBLE
+            }
+        }
+
+        viewModel.showAlertTimeTwo.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.clock2.alertTimeIcon.visibility = View.VISIBLE
+            } else {
+                binding.clock2.alertTimeIcon.visibility = View.INVISIBLE
+            }
         }
         //...
 
