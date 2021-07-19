@@ -129,8 +129,10 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timer1.pauseTimer()
                 timer2.resumeTimer()
                 _turn.value = TURN_2
-                timer1.incrementTime(clock!!.increment)
-                _timeLeft1.value = _timeLeft1.value?.plus(clock!!.increment)
+                clock?.let {
+                    timer1.incrementTime(it.increment)
+                    _timeLeft1.value = _timeLeft1.value?.plus(it.increment)
+                }
             }
             PAUSED -> {
                 if (turn.value == TURN_1) {
@@ -153,8 +155,10 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timer2.pauseTimer()
                 timer1.resumeTimer()
                 _turn.value = TURN_1
-                timer2.incrementTime(clock!!.increment)
-                _timeLeft2.value = _timeLeft2.value?.plus(clock!!.increment)
+                clock?.let {
+                    timer2.incrementTime(it.increment)
+                    _timeLeft2.value = _timeLeft2.value?.plus(it.increment)
+                }
             }
             PAUSED -> {
                 if (turn.value == TURN_2) {
