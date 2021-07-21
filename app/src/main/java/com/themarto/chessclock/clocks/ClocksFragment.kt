@@ -3,6 +3,7 @@ package com.themarto.chessclock.clocks
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,12 +28,14 @@ class ClocksFragment : Fragment() {
     private var _binding: FragmentClocksBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ClocksViewModel
+    private lateinit var clockSound: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
+        clockSound = MediaPlayer.create(requireContext(), R.raw.chess_clock_sound)
         val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val application = requireActivity().application
         val clockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
@@ -136,6 +139,10 @@ class ClocksFragment : Fragment() {
             binding.clock2Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
         }
+
+        viewModel.playClockSound.observe(viewLifecycleOwner) {
+            playClockSound()
+        }
         //...
 
         setClock1Theme()
@@ -183,6 +190,14 @@ class ClocksFragment : Fragment() {
                 R.color.white
             )
         )
+    }
+
+    private fun playClockSound() {
+        if (clockSound.isPlaying) {
+            clockSound.pause()
+            clockSound.seekTo(0)
+        }
+        clockSound.start()
     }
 
     private fun resetClocksAlertDialog() { //todo: extract text

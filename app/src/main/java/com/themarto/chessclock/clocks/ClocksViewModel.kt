@@ -83,6 +83,9 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     private val _turn = MutableLiveData<Int>()
     private val turn: LiveData<Int> get() = _turn
 
+    private val _playClockSound = MutableLiveData<Boolean>()
+    val playClockSound: LiveData<Boolean> get() = _playClockSound
+
     val guidelinePercentage = Transformations.map(turn) {
         when (turn.value) {
             TURN_1 -> PERCENT_66
@@ -188,6 +191,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             RUNNING -> {
                 timer1.pauseTimer()
                 timer2.resumeTimer()
+                _playClockSound.value = true
                 _turn.value = TURN_2
                 clock?.let {
                     timer1.incrementTime(it.increment)
@@ -220,6 +224,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             RUNNING -> {
                 timer2.pauseTimer()
                 timer1.resumeTimer()
+                _playClockSound.value = true
                 _turn.value = TURN_1
                 clock?.let {
                     timer2.incrementTime(it.increment)
