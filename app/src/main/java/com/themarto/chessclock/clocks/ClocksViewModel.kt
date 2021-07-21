@@ -97,6 +97,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     // todo-waring: timeAlertChecks doesn't update after a change preference
     var timeAlert = 0L
 
+    var soundAfterMove: Boolean = false
+
     private var timeAlertCheck1: (Long) -> Unit = {}
     private var timeAlertCheck2: (Long) -> Unit = {}
 
@@ -191,7 +193,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             RUNNING -> {
                 timer1.pauseTimer()
                 timer2.resumeTimer()
-                _playClockSound.value = true
+                if (soundAfterMove) _playClockSound.value = true
                 _turn.value = TURN_2
                 clock?.let {
                     timer1.incrementTime(it.increment)
@@ -224,7 +226,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             RUNNING -> {
                 timer2.pauseTimer()
                 timer1.resumeTimer()
-                _playClockSound.value = true
+                if (soundAfterMove) _playClockSound.value = true
                 _turn.value = TURN_1
                 clock?.let {
                     timer2.incrementTime(it.increment)
@@ -250,6 +252,10 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
 
     fun onSettingsNavigated() {
         _navigateToSettins.value = false
+    }
+
+    fun donePlayingClockSound() {
+        _playClockSound.value = false
     }
 
     fun onClickPause() {

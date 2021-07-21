@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.R
 import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_2
@@ -44,6 +45,7 @@ class ClocksFragment : Fragment() {
         val factory = ClocksViewModelFactory(application, clockId)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
         viewModel.setCurrentClockId(clockId)
+        viewModel.soundAfterMove = pref.getBoolean(SOUND_AFTER_MOVE_KEY, false)
         if (lowTimeWarning) viewModel.timeAlert = alertTime
 
         // Observers...
@@ -141,7 +143,10 @@ class ClocksFragment : Fragment() {
         }
 
         viewModel.playClockSound.observe(viewLifecycleOwner) {
-            playClockSound()
+            if (it == true) {
+                playClockSound()
+                viewModel.donePlayingClockSound()
+            }
         }
         //...
 
