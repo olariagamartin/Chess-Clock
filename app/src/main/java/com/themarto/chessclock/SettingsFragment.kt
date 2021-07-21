@@ -56,19 +56,28 @@ class SettingsFragment : Fragment() {
 
         binding.soundSettingContainer.setOnClickListener {
             binding.soundSwitch.isChecked = !binding.soundSwitch.isChecked
-            pref.edit().putBoolean(SOUND_AFTER_MOVE_KEY, binding.soundSwitch.isChecked)
+        }
+
+        binding.soundSwitch.setOnCheckedChangeListener { _, isChecked ->
+            pref.edit().putBoolean(SOUND_AFTER_MOVE_KEY, isChecked)
                 .apply()
         }
 
         binding.vibrateSettingContainer.setOnClickListener {
             binding.vibrateSwitch.isChecked = !binding.vibrateSwitch.isChecked
-            pref.edit().putBoolean(VIBRATE_KEY, binding.vibrateSwitch.isChecked)
+        }
+
+        binding.vibrateSwitch.setOnCheckedChangeListener { _, isChecked ->
+            pref.edit().putBoolean(VIBRATE_KEY, isChecked)
                 .apply()
         }
 
         binding.lowTimeWarningSettingContainer.setOnClickListener {
             binding.lowTimeWarningSwitch.isChecked = !binding.lowTimeWarningSwitch.isChecked
-            pref.edit().putBoolean(LOW_TIME_WARNING_KEY, binding.lowTimeWarningSwitch.isChecked)
+        }
+
+        binding.lowTimeWarningSwitch.setOnCheckedChangeListener { _, isChecked ->
+            pref.edit().putBoolean(LOW_TIME_WARNING_KEY, isChecked)
                 .apply()
         }
 
