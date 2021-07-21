@@ -114,6 +114,20 @@ class ClocksFragment : Fragment() {
                 binding.clock2.alertTimeIcon.visibility = View.INVISIBLE
             }
         }
+
+        viewModel.timeUpPlayerOne.observe(viewLifecycleOwner) {
+            binding.clock1.root.isClickable = false
+            binding.clock2.root.isClickable = false
+            binding.clock1Container.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
+        }
+
+        viewModel.timeUpPlayerTwo.observe(viewLifecycleOwner) {
+            binding.clock1.root.isClickable = false
+            binding.clock2.root.isClickable = false
+            binding.clock2Container.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
+        }
         //...
 
         setClock1Theme()

@@ -31,6 +31,22 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
+    <LinearLayout
+        android:id="@+id/clock2_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline">
+        <include
+            android:id="@+id/clock2"
+            layout="@layout/clock" />
+    </LinearLayout>
+
     <ImageButton
         android:id="@+id/actionGoToSettings"
         android:layout_width="wrap_content"
@@ -63,20 +79,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-    <LinearLayout
-        android:id="@+id/clock2_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:paddingTop="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline">
-        <include
-            android:id="@+id/clock2"
-            layout="@layout/clock" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

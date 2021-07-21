@@ -40,6 +40,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val playerOneMoves: LiveData<Int> get() = _playerOneMoves
     private val _showAlertTimeOne = MutableLiveData<Boolean>()
     val showAlertTimeOne: LiveData<Boolean> get() = _showAlertTimeOne
+    private val _timeUpPlayerOne = MutableLiveData<Boolean>()
+    val timeUpPlayerOne: LiveData<Boolean> get() = _timeUpPlayerOne
 
     // Timer 2
     private lateinit var timer2: MyCountDownTimer
@@ -52,6 +54,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val playerTwoMoves: LiveData<Int> get() = _playerTwoMoves
     private val _showAlertTimeTwo = MutableLiveData<Boolean>()
     val showAlertTimeTwo: LiveData<Boolean> get() = _showAlertTimeTwo
+    private val _timeUpPlayerTwo = MutableLiveData<Boolean>()
+    val timeUpPlayerTwo: LiveData<Boolean> get() = _timeUpPlayerTwo
 
     private val _updateHintText = MutableLiveData<Boolean>()
     val updateHintText: LiveData<Boolean> get() = _updateHintText
@@ -117,7 +121,9 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timeAlertCheck1 (millisUntilFinished)
             }
 
-            override fun onFinishTimer() { }
+            override fun onFinishTimer() {
+                timeUpPlayerOne()
+            }
 
         }
     }
@@ -131,9 +137,21 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timeAlertCheck2 (millisUntilFinished)
             }
 
-            override fun onFinishTimer() { }
+            override fun onFinishTimer() {
+                timeUpPlayerTwo()
+            }
 
         }
+    }
+
+    private fun timeUpPlayerOne() {
+        _timeUpPlayerOne.value = true
+        _gamePaused.value = true
+    }
+
+    private fun timeUpPlayerTwo() {
+        _timeUpPlayerTwo.value = true
+        _gamePaused.value = true
     }
 
     fun onClickClock1() {
