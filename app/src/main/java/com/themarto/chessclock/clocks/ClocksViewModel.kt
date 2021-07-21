@@ -42,6 +42,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val showAlertTimeOne: LiveData<Boolean> get() = _showAlertTimeOne
     private val _timeUpPlayerOne = MutableLiveData<Boolean>()
     val timeUpPlayerOne: LiveData<Boolean> get() = _timeUpPlayerOne
+    private val _showHintOne = MutableLiveData<Boolean>()
+    val showHintOne: LiveData<Boolean> get() = _showHintOne
 
     // Timer 2
     private lateinit var timer2: MyCountDownTimer
@@ -56,6 +58,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val showAlertTimeTwo: LiveData<Boolean> get() = _showAlertTimeTwo
     private val _timeUpPlayerTwo = MutableLiveData<Boolean>()
     val timeUpPlayerTwo: LiveData<Boolean> get() = _timeUpPlayerTwo
+    private val _showHintTwo = MutableLiveData<Boolean>()
+    val showHintTwo: LiveData<Boolean> get() = _showHintTwo
 
     private val _updateHintText = MutableLiveData<Boolean>()
     val updateHintText: LiveData<Boolean> get() = _updateHintText
@@ -67,7 +71,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     val navigateToSettings: LiveData<Boolean> get() = _navigateToSettins
 
     private val _turn = MutableLiveData<Int>()
-    val turn: LiveData<Int> get() = _turn
+    private val turn: LiveData<Int> get() = _turn
 
     val guidelinePercentage = Transformations.map(turn) {
         when (turn.value) {
@@ -88,7 +92,9 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         _turn.value = NO_TURN
         _playerOneMoves.value = 0
         _playerTwoMoves.value = 0
-        _showAlertTimeOne.value = false
+        _showHintOne.value = true
+        _showHintTwo.value = true
+        _showAlertTimeOne.value = false // todo: remove unnecessary initialization
         _showAlertTimeTwo.value = false
         initializeTimer1() //todo: move to initializeCurrentClock
         initializeTimer2()
@@ -162,6 +168,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 if (turn.value == NO_TURN) _updateHintText.value = true
                 _turn.value = TURN_2
                 _gamePaused.value = false
+                _showHintOne.value = false
+                _showHintTwo.value = false
             }
             RUNNING -> {
                 timer1.pauseTimer()
@@ -178,6 +186,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 if (turn.value == TURN_1) {
                     timer1.resumeTimer()
                     _gamePaused.value = false
+                    _showHintOne.value = false
+                    _showHintTwo.value = false
                 }
             }
         }
@@ -190,6 +200,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 if (turn.value == NO_TURN) _updateHintText.value = true
                 _turn.value = TURN_1
                 _gamePaused.value = false
+                _showHintOne.value = false
+                _showHintTwo.value = false
             }
             RUNNING -> {
                 timer2.pauseTimer()
@@ -206,6 +218,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 if (turn.value == TURN_2) {
                     timer2.resumeTimer()
                     _gamePaused.value = false
+                    _showHintOne.value = false
+                    _showHintTwo.value = false
                 }
             }
         }
@@ -222,6 +236,14 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     fun onClickPause() {
         pauseTimers()
         _gamePaused.value = true
+        when (turn.value) {
+            TURN_1 -> _showHintOne.value = true
+            TURN_2 -> _showHintTwo.value = true
+            NO_TURN -> {
+                _showHintOne.value = true
+                _showHintTwo.value = true
+            }
+        }
     }
 
     private fun setAlertTimeChecks () {

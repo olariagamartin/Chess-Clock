@@ -69,25 +69,31 @@ class ClocksFragment : Fragment() {
             binding.clock2.textViewHint.text = "Tap to resume"
         }
 
+        viewModel.showHintOne.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.clock1.textViewHint.visibility = View.VISIBLE
+            } else {
+                binding.clock1.textViewHint.visibility = View.INVISIBLE
+            }
+        }
+
+        viewModel.showHintTwo.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.clock2.textViewHint.visibility = View.VISIBLE
+            } else {
+                binding.clock2.textViewHint.visibility = View.INVISIBLE
+            }
+        }
+
         viewModel.gamePaused.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.actionPause.visibility = View.INVISIBLE
                 binding.actionGoToSettings.visibility = View.VISIBLE
                 binding.actionRestart.visibility = View.VISIBLE
-                when (viewModel.turn.value) {
-                    TURN_1 -> binding.clock1.textViewHint.visibility = View.VISIBLE
-                    TURN_2 -> binding.clock2.textViewHint.visibility = View.VISIBLE
-                    NO_TURN -> {
-                        binding.clock1.textViewHint.visibility = View.VISIBLE
-                        binding.clock2.textViewHint.visibility = View.VISIBLE
-                    }
-                }
             } else {
                 binding.actionGoToSettings.visibility = View.INVISIBLE
                 binding.actionRestart.visibility = View.INVISIBLE
                 binding.actionPause.visibility = View.VISIBLE
-                binding.clock1.textViewHint.visibility = View.INVISIBLE
-                binding.clock2.textViewHint.visibility = View.INVISIBLE
             }
         }
 
@@ -118,6 +124,7 @@ class ClocksFragment : Fragment() {
         viewModel.timeUpPlayerOne.observe(viewLifecycleOwner) {
             binding.clock1.root.isClickable = false
             binding.clock2.root.isClickable = false
+            // todo: change red color
             binding.clock1Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
         }
@@ -125,6 +132,7 @@ class ClocksFragment : Fragment() {
         viewModel.timeUpPlayerTwo.observe(viewLifecycleOwner) {
             binding.clock1.root.isClickable = false
             binding.clock2.root.isClickable = false
+            // todo: change red color
             binding.clock2Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
         }
