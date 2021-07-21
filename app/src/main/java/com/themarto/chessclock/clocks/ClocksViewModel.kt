@@ -91,6 +91,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         }
     }
 
+    // todo-waring: timeAlertChecks doesn't update after a change preference
     var timeAlert = 0L
 
     private var timeAlertCheck1: (Long) -> Unit = {}
@@ -110,11 +111,12 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
         initializeTimer2()
     }
 
-    fun setCurrentClockId(id: Long){
+    // todo: check method
+    fun setCurrentClockId(id: Long) {
         if (timer1.state == NOT_STARTED && timer2.state == NOT_STARTED) {
             clockId = id
             initializeCurrentClock()
-        }
+        }//todo: add else to show that the clock selected was updated
     }
 
     private fun initializeCurrentClock() {
