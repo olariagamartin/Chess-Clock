@@ -34,7 +34,12 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     private val _timeLeft1 = MutableLiveData<Long>()
     private val timeLeft1: LiveData<Long> get() = _timeLeft1
     val timeLeftString1 = Transformations.map(timeLeft1) {
-        DateUtils.formatElapsedTime(it / ONE_SECOND)
+        /* elapsedSeconds passed this way allows to set times like
+            14sec, 56millis (which it's shown as 00:14) to be 15sec,55millis
+            (which it's shown as 00:15). So when the time is 0sec, n-millis, it will
+            show 00:01 until the time is 0sec 0millis when it'll be 00:00 (time up)
+         */
+        DateUtils.formatElapsedTime(((it + ONE_SECOND - 1) / ONE_SECOND))
     }
     private val _playerOneMoves = MutableLiveData<Int>()
     val playerOneMoves: LiveData<Int> get() = _playerOneMoves
@@ -50,7 +55,12 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     private val _timeLeft2 = MutableLiveData<Long>()
     private val timeLeft2: LiveData<Long> get() = _timeLeft2
     val timeLeftString2 = Transformations.map(timeLeft2) {
-        DateUtils.formatElapsedTime(it / ONE_SECOND)
+        /* elapsedSeconds passed this way allows to set times like
+            14sec, 56millis (which it's shown as 00:14) to be 15sec,55millis
+            (which it's shown as 00:15). So when the time is 0sec, n-millis, it will
+            show 00:01 until the time is 0sec 0millis when it'll be 00:00 (time up)
+         */
+        DateUtils.formatElapsedTime(((it + ONE_SECOND - 1) / ONE_SECOND))
     }
     private val _playerTwoMoves = MutableLiveData<Int>()
     val playerTwoMoves: LiveData<Int> get() = _playerTwoMoves
@@ -128,6 +138,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             }
 
             override fun onFinishTimer() {
+                _timeLeft1.value = 0
                 timeUpPlayerOne()
             }
 
@@ -144,6 +155,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             }
 
             override fun onFinishTimer() {
+                _timeLeft2.value = 0
                 timeUpPlayerTwo()
             }
 
