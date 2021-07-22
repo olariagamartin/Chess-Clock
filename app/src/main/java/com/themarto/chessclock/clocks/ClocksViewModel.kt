@@ -1,8 +1,13 @@
 package com.themarto.chessclock.clocks
 
 import android.app.Application
+import android.content.Context
 import android.text.format.DateUtils
 import androidx.lifecycle.*
+import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
+import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.VIBRATE_KEY
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.database.ChessClockDatabase
 import com.themarto.chessclock.utils.MyCountDownTimer
@@ -17,6 +22,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
 
     private val database = ChessClockDatabase.getInstance(application, viewModelScope)
         .chessClockDao
+
+    private val pref = application.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     private var clock: ChessClock? = null
 
@@ -95,12 +102,13 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     }
 
     // todo-waring: timeAlertChecks doesn't update after a change preference
-    var timeAlert = 0L
-
-    var soundAfterMove: Boolean = false
+    private var timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
 
     private var timeAlertCheck1: (Long) -> Unit = {}
     private var timeAlertCheck2: (Long) -> Unit = {}
+
+    private val _vibrate = MutableLiveData<Boolean>()
+    val vibrate: LiveData<Boolean> get() = _vibrate
 
     init {
         initializeCurrentClock()
@@ -172,11 +180,13 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     private fun timeUpPlayerOne() {
         _timeUpPlayerOne.value = true
         _gamePaused.value = true
+        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
     }
 
     private fun timeUpPlayerTwo() {
         _timeUpPlayerTwo.value = true
         _gamePaused.value = true
+        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
     }
 
     fun onClickClock1() {
@@ -193,13 +203,14 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             RUNNING -> {
                 timer1.pauseTimer()
                 timer2.resumeTimer()
-                if (soundAfterMove) _playClockSound.value = true
+                if (pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)) _playClockSound.value = true
                 _turn.value = TURN_2
                 clock?.let {
                     timer1.incrementTime(it.increment)
                     _timeLeft1.value = _timeLeft1.value?.plus(it.increment)
                 }
                 _playerOneMoves.value = _playerOneMoves.value?.plus(1)
+                // check after increment todo: move to let
                 timeAlertCheck1(timeLeft1.value!!)
             }
             PAUSED -> {
@@ -226,13 +237,14 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
             RUNNING -> {
                 timer2.pauseTimer()
                 timer1.resumeTimer()
-                if (soundAfterMove) _playClockSound.value = true
+                if (pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)) _playClockSound.value = true
                 _turn.value = TURN_1
                 clock?.let {
                     timer2.incrementTime(it.increment)
                     _timeLeft2.value = _timeLeft2.value?.plus(it.increment)
                 }
                 _playerTwoMoves.value = _playerTwoMoves.value?.plus(1)
+                // check after increment todo: move to let
                 timeAlertCheck2(timeLeft2.value!!)
             }
             PAUSED -> {
@@ -277,6 +289,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timeAlertCheck1 = {
                     if (it < timeAlert && showAlertTimeOne.value == false) {
                         _showAlertTimeOne.value = true
+                        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
                     } else if (it > timeAlert && showAlertTimeOne.value == true) {
                         _showAlertTimeOne.value = false
                     }
@@ -286,6 +299,7 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
                 timeAlertCheck2 = {
                     if (it < timeAlert && showAlertTimeTwo.value == false) {
                         _showAlertTimeTwo.value = true
+                        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
                     } else if (it > timeAlert && showAlertTimeTwo.value == true) {
                         _showAlertTimeTwo.value = false
                     }

@@ -44,13 +44,9 @@ class ClocksFragment : Fragment() {
         val pref = requireActivity().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         val application = requireActivity().application
         val clockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
-        val lowTimeWarning = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
-        val alertTime = pref.getLong(ALERT_TIME_KEY, 0)
         val factory = ClocksViewModelFactory(application, clockId)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
         viewModel.setCurrentClockId(clockId)
-        viewModel.soundAfterMove = pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)
-        if (lowTimeWarning) viewModel.timeAlert = alertTime
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
@@ -117,7 +113,6 @@ class ClocksFragment : Fragment() {
         viewModel.showAlertTimeOne.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.clock1.alertTimeIcon.visibility = View.VISIBLE
-                makeVibrate()
             } else {
                 binding.clock1.alertTimeIcon.visibility = View.INVISIBLE
             }
@@ -126,7 +121,6 @@ class ClocksFragment : Fragment() {
         viewModel.showAlertTimeTwo.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.clock2.alertTimeIcon.visibility = View.VISIBLE
-                makeVibrate()
             } else {
                 binding.clock2.alertTimeIcon.visibility = View.INVISIBLE
             }
@@ -138,7 +132,6 @@ class ClocksFragment : Fragment() {
             // todo: change red color
             binding.clock1Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
-            makeVibrate()
         }
 
         viewModel.timeUpPlayerTwo.observe(viewLifecycleOwner) {
@@ -147,7 +140,6 @@ class ClocksFragment : Fragment() {
             // todo: change red color
             binding.clock2Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
-            makeVibrate()
         }
 
         viewModel.playClockSound.observe(viewLifecycleOwner) {
@@ -155,6 +147,10 @@ class ClocksFragment : Fragment() {
                 playClockSound()
                 viewModel.donePlayingClockSound()
             }
+        }
+
+        viewModel.vibrate.observe(viewLifecycleOwner) {
+            if (it == true) makeVibrate()
         }
         //...
 
