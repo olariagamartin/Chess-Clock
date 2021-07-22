@@ -41,12 +41,9 @@ class ClocksFragment : Fragment() {
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
         clockSound = MediaPlayer.create(requireContext(), R.raw.chess_clock_sound)
-        val pref = requireActivity().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         val application = requireActivity().application
-        val clockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
-        val factory = ClocksViewModelFactory(application, clockId)
+        val factory = ClocksViewModelFactory(application)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
-        viewModel.setCurrentClockId(clockId)
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
@@ -178,6 +175,11 @@ class ClocksFragment : Fragment() {
         }
         //...
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.setCurrentClockId()
     }
 
     private fun setClock1Theme() {

@@ -10,6 +10,7 @@ import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.VIBRATE_KEY
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.database.ChessClockDatabase
+import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 import com.themarto.chessclock.utils.MyCountDownTimer
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.NOT_STARTED
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
@@ -18,7 +19,7 @@ import com.themarto.chessclock.utils.MyCountDownTimer.Companion.PAUSED
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.RUNNING
 import kotlinx.coroutines.launch
 
-class ClocksViewModel(application: Application, private var clockId: Long) : ViewModel() {
+class ClocksViewModel(application: Application) : ViewModel() {
 
     private val database = ChessClockDatabase.getInstance(application, viewModelScope)
         .chessClockDao
@@ -26,6 +27,8 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     private val pref = application.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     private var clock: ChessClock? = null
+
+    private var clockId: Long = pref.getLong(CURRENT_CLOCK_KEY, -1)
 
     companion object {
         const val TURN_1 = 1
@@ -125,11 +128,14 @@ class ClocksViewModel(application: Application, private var clockId: Long) : Vie
     }
 
     // todo: check method
-    fun setCurrentClockId(id: Long) {
-        if (timer1.state == NOT_STARTED && timer2.state == NOT_STARTED) {
-            clockId = id
-            initializeCurrentClock()
-        }//todo: add else to show that the clock selected was updated
+    fun setCurrentClockId() {
+        val currentClockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
+        if (currentClockId != clockId) {
+            clockId = currentClockId
+            if (timer1.state == NOT_STARTED && timer2.state == NOT_STARTED) {
+                initializeCurrentClock()
+            }//todo: add else to show that the clock selected was updated
+        }
     }
 
     private fun initializeCurrentClock() {
