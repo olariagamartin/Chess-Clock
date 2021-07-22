@@ -48,7 +48,7 @@ class ClocksFragment : Fragment() {
         val factory = ClocksViewModelFactory(application, clockId)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
         viewModel.setCurrentClockId(clockId)
-        viewModel.soundAfterMove = pref.getBoolean(SOUND_AFTER_MOVE_KEY, false)
+        viewModel.soundAfterMove = pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)
         if (lowTimeWarning) viewModel.timeAlert = alertTime
 
         // Observers...
