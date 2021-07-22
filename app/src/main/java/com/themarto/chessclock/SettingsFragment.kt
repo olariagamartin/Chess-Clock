@@ -22,6 +22,7 @@ class SettingsFragment : Fragment() {
     private lateinit var pref: SharedPreferences
 
     companion object {
+        const val PREFERENCES_NAME = "com.themarto.chessclock.PREF_NAME"
         const val SOUND_AFTER_MOVE_KEY = "sound_after_move"
         const val VIBRATE_KEY = "vibrate"
         const val LOW_TIME_WARNING_KEY = "low_time_warning"
@@ -45,7 +46,7 @@ class SettingsFragment : Fragment() {
     ): View? {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        pref = requireActivity().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
         loadData()
 

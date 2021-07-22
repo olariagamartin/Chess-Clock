@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.themarto.chessclock.R
+import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
 import com.themarto.chessclock.databinding.FragmentClockListBinding
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
@@ -31,7 +32,7 @@ class ClockListFragment : Fragment() {
         _binding = FragmentClockListBinding.inflate(inflater, container, false)
         val application = requireActivity().application
 
-        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        preferences = requireActivity().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
         val currentClockId = preferences.getLong(CURRENT_CLOCK_KEY, -1)
 

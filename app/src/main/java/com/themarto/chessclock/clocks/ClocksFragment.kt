@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.R
 import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
 import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
 import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
@@ -40,7 +41,7 @@ class ClocksFragment : Fragment() {
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
         clockSound = MediaPlayer.create(requireContext(), R.raw.chess_clock_sound)
-        val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val pref = requireActivity().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         val application = requireActivity().application
         val clockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
         val lowTimeWarning = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
@@ -116,6 +117,7 @@ class ClocksFragment : Fragment() {
         viewModel.showAlertTimeOne.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.clock1.alertTimeIcon.visibility = View.VISIBLE
+                makeVibrate()
             } else {
                 binding.clock1.alertTimeIcon.visibility = View.INVISIBLE
             }
@@ -124,6 +126,7 @@ class ClocksFragment : Fragment() {
         viewModel.showAlertTimeTwo.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.clock2.alertTimeIcon.visibility = View.VISIBLE
+                makeVibrate()
             } else {
                 binding.clock2.alertTimeIcon.visibility = View.INVISIBLE
             }
