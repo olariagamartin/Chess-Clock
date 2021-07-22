@@ -4,7 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -132,6 +135,7 @@ class ClocksFragment : Fragment() {
             // todo: change red color
             binding.clock1Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
+            makeVibrate()
         }
 
         viewModel.timeUpPlayerTwo.observe(viewLifecycleOwner) {
@@ -140,6 +144,7 @@ class ClocksFragment : Fragment() {
             // todo: change red color
             binding.clock2Container.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
+            makeVibrate()
         }
 
         viewModel.playClockSound.observe(viewLifecycleOwner) {
@@ -203,6 +208,17 @@ class ClocksFragment : Fragment() {
             clockSound.seekTo(0)
         }
         clockSound.start()
+    }
+
+    // todo: test on different API's
+    private fun makeVibrate () {
+        val vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.cancel() // cancel any other current vibration
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(500)
+        }
     }
 
     private fun resetClocksAlertDialog() { //todo: extract text
