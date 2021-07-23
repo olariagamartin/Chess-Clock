@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface ChessClockDao {
 
-    @Query("SELECT * FROM chess_clock")
+    @Query("SELECT * FROM chess_clock ORDER BY firstPlayerTime ASC")
     fun getAllChessClocks(): LiveData<List<ChessClock>>
 
     @Query("SELECT COUNT(*) FROM chess_clock")
