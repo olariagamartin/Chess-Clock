@@ -93,20 +93,20 @@ class ClockListAdapter(
                 cardView.setCardBackgroundColor(
                     ContextCompat.getColor(
                         itemView.context,
-                        R.color.black
+                        R.color.grey_800
                     )
                 )
-                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
-                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
+                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_50))
+                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_50))
             } else {
                 cardView.setCardBackgroundColor(
                     ContextCompat.getColor(
                         itemView.context,
-                        R.color.white
+                        R.color.grey_100
                     )
                 )
-                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
-                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
+                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_800))
+                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_800))
             }
 
         }
