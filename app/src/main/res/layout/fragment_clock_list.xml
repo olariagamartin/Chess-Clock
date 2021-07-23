@@ -33,9 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/grey_800"
         app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
-        android:src="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@color/white"
         android:layout_gravity="bottom|end"
         android:contentDescription="@string/add_clock_description" />
 
