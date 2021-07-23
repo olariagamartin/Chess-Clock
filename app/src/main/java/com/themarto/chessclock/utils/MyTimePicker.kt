@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.themarto.chessclock.R
 
 /**
@@ -93,7 +94,7 @@ class MyTimePicker() : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(it)
+            val builder = MaterialAlertDialogBuilder(it)
 
             timePickerLayout = requireActivity()
                 .layoutInflater.inflate(R.layout.time_picker_content, null)

@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.themarto.chessclock.R
 import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
@@ -223,9 +224,9 @@ class ClocksFragment : Fragment() {
     }
 
     private fun resetClocksAlertDialog() { //todo: extract text
-        val restartBuilder = AlertDialog.Builder(requireContext())
+        val restartBuilder = MaterialAlertDialogBuilder(requireContext())
         restartBuilder.apply {
-            setTitle("Reset Timer?")
+            setTitle("Reset Timer?") // todo: extract string
             setPositiveButton("Reset", DialogInterface.OnClickListener { dialog, which ->
                 resetTimer()
             })
