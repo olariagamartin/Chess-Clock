@@ -43,6 +43,10 @@ class CreateEditClockFragment : Fragment() {
             binding.playerTwoTime.text = it
         }
 
+        viewModel.sameValueSwitch.observe(viewLifecycleOwner) {
+            binding.sameTimeSwitch.isChecked = it
+        }
+
         viewModel.incrementTime.observe(viewLifecycleOwner) {
             binding.incrementTime.text = it
         }
@@ -95,6 +99,10 @@ class CreateEditClockFragment : Fragment() {
             }
             timePicker.setTitle("Select time") // todo: use string resources
             timePicker.show(parentFragmentManager, "time_picker")
+        }
+
+        binding.sameTimeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onSameValueSwitchChange(isChecked)
         }
 
         binding.incrementTime.setOnClickListener {

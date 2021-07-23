@@ -33,6 +33,11 @@ class CreateEditViewModel(
         DateUtils.formatElapsedTime(it.increment / ONE_SECOND)
     }
 
+    private var sameValueChecked = true
+
+    private val _sameValueSwitch = MutableLiveData<Boolean>()
+    val sameValueSwitch: LiveData<Boolean> get() = _sameValueSwitch
+
     private var _closeFragment = MutableLiveData<Boolean>()
     val closeFragment: LiveData<Boolean> get() = _closeFragment
 
@@ -92,6 +97,9 @@ class CreateEditViewModel(
         val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE + hours * 60 * ONE_MINUTE
         val clockUpdated = _chessClock.value
         clockUpdated?.firstPlayerTime = timeMillis
+        if (sameValueChecked) {
+            clockUpdated?.secondPlayerTime = timeMillis
+        }
         _chessClock.value = clockUpdated
     }
 
@@ -99,7 +107,19 @@ class CreateEditViewModel(
         val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE + hours * 60 * ONE_MINUTE
         val clockUpdated = _chessClock.value
         clockUpdated?.secondPlayerTime = timeMillis
+        if(clockUpdated?.firstPlayerTime != timeMillis) {
+            _sameValueSwitch.value = false
+        }
         _chessClock.value = clockUpdated
+    }
+
+    fun onSameValueSwitchChange (checked: Boolean) {
+        sameValueChecked = checked
+        if (sameValueChecked) {
+            val clockUpdated = _chessClock.value
+            clockUpdated?.secondPlayerTime = clockUpdated?.firstPlayerTime!!
+            _chessClock.value = clockUpdated
+        }
     }
 
     fun onIncrementTimeSet (minutes: Int, seconds: Int) {
