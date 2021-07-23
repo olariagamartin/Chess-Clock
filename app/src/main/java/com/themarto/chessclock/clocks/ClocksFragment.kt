@@ -187,19 +187,19 @@ class ClocksFragment : Fragment() {
         binding.clock1.textViewClock.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                R.color.white
+                R.color.grey_100
             )
         )
         binding.clock1.textViewHint.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                R.color.white
+                R.color.grey_100
             )
         )
         binding.clock1.textMovementsCount.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                R.color.white
+                R.color.grey_100
             )
         )
     }

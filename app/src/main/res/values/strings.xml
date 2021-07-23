@@ -33,5 +33,7 @@
     <string name="no_increment_clock">No increment</string>
     <string name="increment_clock">Increment %1$s</string>
     <string name="alert_time_icon_description">Alert time icon</string>
+    <string name="tap_to_start_hint">Tap to start</string>
+    <string name="initial_moves_text">0</string>
 
 </resources>
