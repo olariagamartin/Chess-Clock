@@ -10,7 +10,6 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- No Status bar -->
         <item name="android:windowFullscreen">true</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
 
         <item name="materialAlertDialogTheme">@style/AlertDialogCustom</item>
