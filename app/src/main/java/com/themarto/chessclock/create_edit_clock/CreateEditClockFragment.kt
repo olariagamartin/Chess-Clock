@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -81,10 +80,10 @@ class CreateEditClockFragment : Fragment() {
             viewModel.chessClock.value?.let { chessClock ->
                 timePicker.setInitialTimeMillis(chessClock.firstPlayerTime)
             }
-            timePicker.setOnTimeSetOption("Ok") { h,m,s ->
+            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { h,m,s ->
                 viewModel.onFirstPlayerTimeSet(h, m, s)
             }
-            timePicker.setTitle("Select time") // todo: use string resources
+            timePicker.setTitle(getString(R.string.timer_picker_title))
             timePicker.show(parentFragmentManager, "time_picker")
         }
 
@@ -94,10 +93,10 @@ class CreateEditClockFragment : Fragment() {
             viewModel.chessClock.value?.let { chessClock ->
                 timePicker.setInitialTimeMillis(chessClock.secondPlayerTime)
             }
-            timePicker.setOnTimeSetOption("Ok") { h,m,s ->
+            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { h,m,s ->
                 viewModel.onSecondPlayerTimeSet(h, m, s)
             }
-            timePicker.setTitle("Select time") // todo: use string resources
+            timePicker.setTitle(getString(R.string.timer_picker_title))
             timePicker.show(parentFragmentManager, "time_picker")
         }
 
@@ -111,10 +110,10 @@ class CreateEditClockFragment : Fragment() {
             viewModel.chessClock.value?.let { chessClock ->
                 timePicker.setInitialTimeMillis(chessClock.increment)
             }
-            timePicker.setOnTimeSetOption("Ok") { _,m,s ->
+            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
                 viewModel.onIncrementTimeSet(m, s)
             }
-            timePicker.setTitle("Select time") // todo: use string resources
+            timePicker.setTitle(getString(R.string.timer_picker_title))
             timePicker.show(parentFragmentManager, "time_picker")
         }
         //....

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.databinding.FragmentSettingsBinding
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
@@ -87,11 +86,11 @@ class SettingsFragment : Fragment() {
             val timePicker = MyTimePicker()
             timePicker.includeHours = false
             timePicker.setInitialTimeMillis(pref.getLong(ALERT_TIME_KEY, 0))
-            timePicker.setOnTimeSetOption("Ok") { _,m,s ->
+            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
                 val alertTimeLong = (m * ONE_MINUTE + s * ONE_SECOND)
                 pref.edit().putLong(ALERT_TIME_KEY, alertTimeLong).apply()
             }
-            timePicker.setTitle("Select time")
+            timePicker.setTitle(getString(R.string.timer_picker_title))
             timePicker.show(parentFragmentManager, "time_picker")
         }
         //...

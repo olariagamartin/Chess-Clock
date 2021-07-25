@@ -106,19 +106,18 @@ class ClockListFragment : Fragment() {
     }
 
     private fun showSnackBarOneClock() {
-        // todo: extract string
-        Snackbar.make(binding.root, "You must have at least one clock", Snackbar.LENGTH_SHORT)
+        Snackbar.make(binding.root, R.string.empty_clock_list_advice, Snackbar.LENGTH_SHORT)
             .show()
     }
 
     private fun showConfirmDeleteDialog (clockId: Long) {
         val dialog = MaterialAlertDialogBuilder(requireContext())
-        dialog.setTitle("Delete clock") // todo: use string resources
-        dialog.setMessage("Please confirm")
-        dialog.setPositiveButton("Ok", DialogInterface.OnClickListener { _, _ ->
+        dialog.setTitle(R.string.delete_clock_title)
+        dialog.setMessage(R.string.delete_clock_message)
+        dialog.setPositiveButton(R.string.delete_clock_confirm_button, DialogInterface.OnClickListener { _, _ ->
             viewModel.removeItem(clockId)
         })
-        dialog.setNegativeButton("Cancel", DialogInterface.OnClickListener { _, _ ->  })
+        dialog.setNegativeButton(R.string.cancel_button, DialogInterface.OnClickListener { _, _ ->  })
         dialog.show()
     }
 

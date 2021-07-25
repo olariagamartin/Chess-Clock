@@ -1,7 +1,9 @@
 package com.themarto.chessclock.clock_list
 
-import android.text.format.DateUtils
-import android.view.*
+import android.view.ContextMenu
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -13,7 +15,6 @@ import com.themarto.chessclock.utils.ChessUtils
 import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
 import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
-import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 
 class ClockListAdapter(
     var currentClockId: Long,
@@ -116,8 +117,8 @@ class ClockListAdapter(
             v: View?,
             menuInfo: ContextMenu.ContextMenuInfo?
         ) {
-            val editItem = menu?.add("Edit") //todo: extract string
-            val deleteItem = menu?.add("Delete")
+            val editItem = menu?.add(R.string.edit_menu_item)
+            val deleteItem = menu?.add(R.string.delete_menu_item)
 
             editItem?.setOnMenuItemClickListener {
                 clockItemListener.onEditItem(chessClock.id)

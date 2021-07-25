@@ -67,9 +67,8 @@ class ClocksFragment : Fragment() {
         }
 
         viewModel.updateHintText.observe(viewLifecycleOwner) {
-            // todo: extract text
-            binding.clock1.textViewHint.text = "Tap to resume"
-            binding.clock2.textViewHint.text = "Tap to resume"
+            binding.clock1.textViewHint.text = getString(R.string.paused_clock_hint)
+            binding.clock2.textViewHint.text = getString(R.string.paused_clock_hint)
         }
 
         viewModel.showHintOne.observe(viewLifecycleOwner) {
@@ -223,14 +222,14 @@ class ClocksFragment : Fragment() {
         }
     }
 
-    private fun resetClocksAlertDialog() { //todo: extract text
+    private fun resetClocksAlertDialog() {
         val restartBuilder = MaterialAlertDialogBuilder(requireContext())
         restartBuilder.apply {
-            setTitle("Reset Timer?") // todo: extract string
-            setPositiveButton("Reset", DialogInterface.OnClickListener { dialog, which ->
+            setTitle(R.string.reset_timer_title)
+            setPositiveButton(R.string.reset_button, DialogInterface.OnClickListener { dialog, which ->
                 resetTimer()
             })
-            setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+            setNegativeButton(R.string.cancel_button, DialogInterface.OnClickListener { dialog, which ->
                 // nothing
             })
         }.create().show()

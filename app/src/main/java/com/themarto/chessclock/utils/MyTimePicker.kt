@@ -1,8 +1,6 @@
 package com.themarto.chessclock.utils
 
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -17,7 +15,7 @@ import com.themarto.chessclock.R
  * to use only minutes and seconds by setting
  * to false the property "includeHours".
  */
-class MyTimePicker() : DialogFragment() {
+class MyTimePicker : DialogFragment() {
 
     private lateinit var timePickerLayout: View
     private lateinit var hourPicker: NumberPicker
@@ -111,7 +109,7 @@ class MyTimePicker() : DialogFragment() {
                 if (!includeHours) hour = 0
                 onTimeSetOption(hour, minPicker.value, secPicker.value)
             }
-                .setNegativeButton(cancelText) { _, _ ->
+                .setNegativeButton(R.string.cancel_button) { _, _ ->
                     onCancelOption
                 }
             // Create the AlertDialog object and return it
