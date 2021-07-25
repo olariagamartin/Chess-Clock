@@ -17,7 +17,7 @@
     <string name="clock_list_appbar_description">Clock list</string>
     <string name="settings_appbar_title">Settings</string>
     <string name="settings_app_bar_description">Settings</string>
-    <string name="back_icon_description">Back button</string>
+    <string name="back_icon_description">Back</string>
     <string name="exit_icon_description">Exit</string>
     <string name="sound_settings_icon_description">Go to sound settings</string>
     <string name="sound_option_menu_title">Sound Settings</string>
@@ -46,9 +46,9 @@
     <string name="cancel_button">Cancel</string>
     <string name="timer_picker_title">Select time</string>
     <string name="set_time_button">OK</string>
-    <string name="settings_button_description">Settings button</string>
-    <string name="reset_clocks_button_description">Reset clocks button</string>
-    <string name="pause_clocks_button_description">Pause clocks button</string>
+    <string name="settings_button_description">Settings</string>
+    <string name="reset_clocks_button_description">Reset clocks</string>
+    <string name="pause_clocks_button_description">Pause clocks</string>
     <string name="player_one_button_description">Player one time</string>
     <string name="player_two_button_description">Player two time</string>
     <string name="increment_button_description">Increment time</string>
@@ -58,7 +58,7 @@
     <string name="hours">Hours</string>
     <string name="hour_picker_description">Hours selector</string>
     <string name="minutes">Minutes</string>
-    <string name="minutes_picker_description">Minutes description</string>
+    <string name="minutes_picker_description">Minutes selector</string>
     <string name="seconds">Seconds</string>
     <string name="seconds_picker_description">Seconds selector</string>
     <string name="save_clock_description">Save clock</string>
