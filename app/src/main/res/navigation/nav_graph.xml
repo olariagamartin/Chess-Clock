@@ -12,7 +12,10 @@
         tools:layout="@layout/fragment_clocks" >
         <action
             android:id="@+id/action_clocksFragment_to_clockListFragment"
-            app:destination="@id/clockListFragment" />
+            app:destination="@id/clockListFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/freeze"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/clockListFragment"
@@ -21,10 +24,18 @@
         tools:layout="@layout/fragment_clock_list" >
         <action
             android:id="@+id/action_clockListFragment_to_createEditClockFragment"
-            app:destination="@id/createEditClockFragment" />
+            app:destination="@id/createEditClockFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/freeze"
+            app:popEnterAnim="@anim/freeze"
+            app:popExitAnim="@anim/slide_out_bottom" />
         <action
             android:id="@+id/action_clockListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/createEditClockFragment"
