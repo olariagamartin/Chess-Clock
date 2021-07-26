@@ -28,17 +28,6 @@ class SettingsFragment : Fragment() {
         const val ALERT_TIME_KEY = "alert_time"
     }
 
-    private val prefListener = SharedPreferences.OnSharedPreferenceChangeListener {
-            sharedPreferences, key ->
-        when (key) {
-            ALERT_TIME_KEY -> {
-                val alertTime = sharedPreferences.getLong(ALERT_TIME_KEY, 0) / ONE_SECOND
-                val alertTimeText = DateUtils.formatElapsedTime(alertTime)
-                binding.alertTimeSummary.text = alertTimeText
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -89,6 +78,8 @@ class SettingsFragment : Fragment() {
             timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
                 val alertTimeLong = (m * ONE_MINUTE + s * ONE_SECOND)
                 pref.edit().putLong(ALERT_TIME_KEY, alertTimeLong).apply()
+                val alertTimeText = DateUtils.formatElapsedTime(alertTimeLong / ONE_SECOND)
+                binding.alertTimeSummary.text = alertTimeText
             }
             timePicker.setTitle(getString(R.string.timer_picker_title))
             timePicker.show(parentFragmentManager, "time_picker")
@@ -111,16 +102,6 @@ class SettingsFragment : Fragment() {
         val alertTime = pref.getLong(ALERT_TIME_KEY, 0) / ONE_SECOND
         val alertTimeText = DateUtils.formatElapsedTime(alertTime)
         binding.alertTimeSummary.text = alertTimeText
-    }
-
-    override fun onResume() {
-        super.onResume()
-        pref.registerOnSharedPreferenceChangeListener(prefListener)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        pref.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
     override fun onDestroy() {
