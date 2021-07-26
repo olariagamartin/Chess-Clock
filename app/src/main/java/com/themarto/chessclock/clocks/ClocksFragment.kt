@@ -19,15 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.themarto.chessclock.R
-import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
-import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
-import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
-import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
-import com.themarto.chessclock.clocks.ClocksViewModel.Companion.NO_TURN
-import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_1
-import com.themarto.chessclock.clocks.ClocksViewModel.Companion.TURN_2
 import com.themarto.chessclock.databinding.FragmentClocksBinding
-import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
 class ClocksFragment : Fragment() {
 
