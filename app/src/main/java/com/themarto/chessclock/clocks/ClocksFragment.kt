@@ -1,6 +1,5 @@
 package com.themarto.chessclock.clocks
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.media.MediaPlayer
@@ -17,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClocksBinding
@@ -41,7 +42,9 @@ class ClocksFragment : Fragment() {
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
-            //TransitionManager.beginDelayedTransition(binding.root)
+            val changeBoundsTransition = ChangeBounds()
+            changeBoundsTransition.duration = 200
+            TransitionManager.beginDelayedTransition(binding.root, changeBoundsTransition)
             binding.guideline.setGuidelinePercent(it)
         })
 
@@ -200,6 +203,7 @@ class ClocksFragment : Fragment() {
     }
 
     // todo: test on different API's
+    @Suppress("DEPRECATION")
     private fun makeVibrate () {
         val vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -214,10 +218,10 @@ class ClocksFragment : Fragment() {
         val restartBuilder = MaterialAlertDialogBuilder(requireContext())
         restartBuilder.apply {
             setTitle(R.string.reset_timer_title)
-            setPositiveButton(R.string.reset_button, DialogInterface.OnClickListener { dialog, which ->
+            setPositiveButton(R.string.reset_button, DialogInterface.OnClickListener { _, _ ->
                 resetTimer()
             })
-            setNegativeButton(R.string.cancel_button, DialogInterface.OnClickListener { dialog, which ->
+            setNegativeButton(R.string.cancel_button, DialogInterface.OnClickListener { _, _ ->
                 // nothing
             })
         }.create().show()
