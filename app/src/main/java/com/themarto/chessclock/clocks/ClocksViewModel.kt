@@ -197,13 +197,19 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private fun timeUpPlayerOne() {
         _timeUpPlayerOne.value = true
         _gamePaused.value = true
-        if (pref.getBoolean(VIBRATE_KEY, true)) _vibrate.value = true
+        if (pref.getBoolean(VIBRATE_KEY, true)) {
+            _vibrate.value = true
+            _vibrate.value = false
+        }
     }
 
     private fun timeUpPlayerTwo() {
         _timeUpPlayerTwo.value = true
         _gamePaused.value = true
-        if (pref.getBoolean(VIBRATE_KEY, true)) _vibrate.value = true
+        if (pref.getBoolean(VIBRATE_KEY, true)) {
+            _vibrate.value = true
+            _vibrate.value = false
+        }
     }
 
     fun onClickClock1() {
@@ -306,7 +312,10 @@ class ClocksViewModel(application: Application) : ViewModel() {
                 timeAlertCheck1 = { currentTime ->
                     if (currentTime < timeAlert && showAlertTimeOne.value == false) {
                         _showAlertTimeOne.value = true
-                        if (vibrationActive) _vibrate.value = true
+                        if (vibrationActive) {
+                            _vibrate.value = true
+                            _vibrate.value = false
+                        }
                     } else if (currentTime > timeAlert && showAlertTimeOne.value == true) {
                         _showAlertTimeOne.value = false
                     }
@@ -319,7 +328,10 @@ class ClocksViewModel(application: Application) : ViewModel() {
                 timeAlertCheck2 = { currentTime ->
                     if (currentTime < timeAlert && showAlertTimeTwo.value == false) {
                         _showAlertTimeTwo.value = true
-                        if (vibrationActive) _vibrate.value = true
+                        if (vibrationActive) {
+                            _vibrate.value = true
+                            _vibrate.value = false
+                        }
                     } else if (currentTime > timeAlert && showAlertTimeTwo.value == true) {
                         _showAlertTimeTwo.value = false
                     }
