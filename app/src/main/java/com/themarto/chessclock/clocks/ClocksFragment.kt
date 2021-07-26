@@ -45,6 +45,7 @@ class ClocksFragment : Fragment() {
         val application = requireActivity().application
         val factory = ClocksViewModelFactory(application)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
+        viewModel.checkUpdatedPref()
 
         // Observers...
         viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
@@ -175,11 +176,6 @@ class ClocksFragment : Fragment() {
         }
         //...
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.setCurrentClockId()
     }
 
     private fun setClock1Theme() {

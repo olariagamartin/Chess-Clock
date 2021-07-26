@@ -5,6 +5,7 @@ import android.content.Context
 import android.text.format.DateUtils
 import androidx.lifecycle.*
 import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
 import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.VIBRATE_KEY
@@ -28,8 +29,6 @@ class ClocksViewModel(application: Application) : ViewModel() {
 
     private var clock: ChessClock? = null
 
-    private var clockId: Long = pref.getLong(CURRENT_CLOCK_KEY, -1)
-
     companion object {
         const val TURN_1 = 1
         const val TURN_2 = 2
@@ -38,6 +37,14 @@ class ClocksViewModel(application: Application) : ViewModel() {
         private const val PERCENT_66 = 0.66F
         private const val PERCENT_50 = 0.50F
     }
+
+    private var clockId: Long = pref.getLong(CURRENT_CLOCK_KEY, -1)
+
+    private var lowTimeWarningActive = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
+
+    private var vibrationActive = pref.getBoolean(VIBRATE_KEY, true)
+
+    private var timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
 
     // Timer 1
     private lateinit var timer1: MyCountDownTimer
@@ -104,9 +111,6 @@ class ClocksViewModel(application: Application) : ViewModel() {
         }
     }
 
-    // todo-waring: timeAlertChecks doesn't update after a change preference
-    private var timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
-
     private var timeAlertCheck1: (Long) -> Unit = {}
     private var timeAlertCheck2: (Long) -> Unit = {}
 
@@ -127,11 +131,18 @@ class ClocksViewModel(application: Application) : ViewModel() {
         initializeTimer2()
     }
 
-    // todo: check method
-    fun setCurrentClockId() {
-        val currentClockId = pref.getLong(CURRENT_CLOCK_KEY, -1)
-        if (currentClockId != clockId) {
-            clockId = currentClockId
+    fun checkUpdatedPref() {
+        // todo: extract methods
+        lowTimeWarningActive = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
+        timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
+        setAlertTimeChecks()
+
+        vibrationActive = pref.getBoolean(VIBRATE_KEY, true)
+
+        // clockId
+        val clockIdUpdated = pref.getLong(CURRENT_CLOCK_KEY, -1)
+        if (clockIdUpdated != clockId) {
+            clockId = clockIdUpdated
             if (timer1.state == NOT_STARTED && timer2.state == NOT_STARTED) {
                 initializeCurrentClock()
             }//todo: add else to show that the clock selected was updated
@@ -140,22 +151,22 @@ class ClocksViewModel(application: Application) : ViewModel() {
 
     private fun initializeCurrentClock() {
         //if (clockId != (-1).toLong()) {
-            viewModelScope.launch {
-                clock = database.get(clockId)
-                initializeTimer1()
-                initializeTimer2()
-                setAlertTimeChecks()
-            }
+        viewModelScope.launch {
+            clock = database.get(clockId)
+            initializeTimer1()
+            initializeTimer2()
+            setAlertTimeChecks()
+        }
         //}
     }
 
     private fun initializeTimer1() {
-        val firstPlayerTime = clock?.firstPlayerTime ?: ONE_MINUTE*5
+        val firstPlayerTime = clock?.firstPlayerTime ?: ONE_MINUTE * 5
         _timeLeft1.value = firstPlayerTime
         timer1 = object : MyCountDownTimer(firstPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft1.value = millisUntilFinished
-                timeAlertCheck1 (millisUntilFinished)
+                timeAlertCheck1(millisUntilFinished)
             }
 
             override fun onFinishTimer() {
@@ -167,12 +178,12 @@ class ClocksViewModel(application: Application) : ViewModel() {
     }
 
     private fun initializeTimer2() {
-        val secondPlayerTime = clock?.secondPlayerTime ?: ONE_MINUTE*5
+        val secondPlayerTime = clock?.secondPlayerTime ?: ONE_MINUTE * 5
         _timeLeft2.value = secondPlayerTime
-            timer2 = object : MyCountDownTimer(secondPlayerTime, ONE_SECOND / 100) {
+        timer2 = object : MyCountDownTimer(secondPlayerTime, ONE_SECOND / 100) {
             override fun onTickTimer(millisUntilFinished: Long) {
                 _timeLeft2.value = millisUntilFinished
-                timeAlertCheck2 (millisUntilFinished)
+                timeAlertCheck2(millisUntilFinished)
             }
 
             override fun onFinishTimer() {
@@ -186,13 +197,13 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private fun timeUpPlayerOne() {
         _timeUpPlayerOne.value = true
         _gamePaused.value = true
-        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
+        if (pref.getBoolean(VIBRATE_KEY, true)) _vibrate.value = true
     }
 
     private fun timeUpPlayerTwo() {
         _timeUpPlayerTwo.value = true
         _gamePaused.value = true
-        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
+        if (pref.getBoolean(VIBRATE_KEY, true)) _vibrate.value = true
     }
 
     fun onClickClock1() {
@@ -289,28 +300,37 @@ class ClocksViewModel(application: Application) : ViewModel() {
         }
     }
 
-    private fun setAlertTimeChecks () {
-        if (timeAlert > 0) {
+    private fun setAlertTimeChecks() {
+        if (lowTimeWarningActive && timeAlert > 0) {
             if (timeAlert < clock?.firstPlayerTime ?: ONE_MINUTE * 5) {
-                timeAlertCheck1 = {
-                    if (it < timeAlert && showAlertTimeOne.value == false) {
+                timeAlertCheck1 = { currentTime ->
+                    if (currentTime < timeAlert && showAlertTimeOne.value == false) {
                         _showAlertTimeOne.value = true
-                        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
-                    } else if (it > timeAlert && showAlertTimeOne.value == true) {
+                        if (vibrationActive) _vibrate.value = true
+                    } else if (currentTime > timeAlert && showAlertTimeOne.value == true) {
                         _showAlertTimeOne.value = false
                     }
                 }
             }
+            else {
+                timeAlertCheck1 = {}
+            }
             if (timeAlert < clock?.secondPlayerTime ?: ONE_MINUTE * 5) {
-                timeAlertCheck2 = {
-                    if (it < timeAlert && showAlertTimeTwo.value == false) {
+                timeAlertCheck2 = { currentTime ->
+                    if (currentTime < timeAlert && showAlertTimeTwo.value == false) {
                         _showAlertTimeTwo.value = true
-                        if (pref.getBoolean(VIBRATE_KEY, false)) _vibrate.value = true
-                    } else if (it > timeAlert && showAlertTimeTwo.value == true) {
+                        if (vibrationActive) _vibrate.value = true
+                    } else if (currentTime > timeAlert && showAlertTimeTwo.value == true) {
                         _showAlertTimeTwo.value = false
                     }
                 }
             }
+            else {
+                timeAlertCheck2 = {}
+            }
+        } else {
+            timeAlertCheck1 = {}
+            timeAlertCheck2 = {}
         }
     }
 
