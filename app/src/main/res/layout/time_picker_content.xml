@@ -18,18 +18,18 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="8dp"
+            android:text="@string/hours"/>
         <NumberPicker
             android:id="@+id/hours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/hour_picker_description"
             android:descendantFocusability="blocksDescendants" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hours"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="8dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -43,18 +43,19 @@
         app:layout_constraintEnd_toStartOf="@+id/seconds_container"
         app:layout_constraintStart_toEndOf="@+id/hours_container">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="8dp"
+            android:text="@string/minutes"/>
         <NumberPicker
             android:id="@+id/minutes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/minutes_picker_description"
             android:descendantFocusability="blocksDescendants" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/minutes"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="8dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -69,18 +70,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/minutes_container">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="8dp"
+            android:text="@string/seconds"/>
         <NumberPicker
             android:id="@+id/seconds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/seconds_picker_description"
             android:descendantFocusability="blocksDescendants" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/seconds"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="8dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
