@@ -28,6 +28,7 @@ class ClocksFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: ClocksViewModel
     private lateinit var clockSound: MediaPlayer
+    private lateinit var timeUpSound: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +36,7 @@ class ClocksFragment : Fragment() {
     ): View? {
         _binding = FragmentClocksBinding.inflate(inflater, container, false)
         clockSound = MediaPlayer.create(requireContext(), R.raw.chess_clock_sound)
+        timeUpSound = MediaPlayer.create(context, R.raw.time_up_sound)
         val application = requireActivity().application
         val factory = ClocksViewModelFactory(application)
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
@@ -145,6 +147,12 @@ class ClocksFragment : Fragment() {
         viewModel.vibrate.observe(viewLifecycleOwner) {
             if (it == true) makeVibrate()
         }
+
+        viewModel.playTimeUpSound.observe(viewLifecycleOwner) {
+            if (it == true) {
+                playTimeUpSound()
+            }
+        }
         //...
 
         setClock1Theme()
@@ -200,6 +208,14 @@ class ClocksFragment : Fragment() {
             clockSound.seekTo(0)
         }
         clockSound.start()
+    }
+
+    private fun playTimeUpSound () {
+        if (timeUpSound.isPlaying) {
+            timeUpSound.pause()
+            timeUpSound.seekTo(0)
+        }
+        timeUpSound.start()
     }
 
     // todo: test on different API's

@@ -117,6 +117,9 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private val _vibrate = MutableLiveData<Boolean>()
     val vibrate: LiveData<Boolean> get() = _vibrate
 
+    private val _playTimeUpSound = MutableLiveData<Boolean>()
+    val playTimeUpSound: LiveData<Boolean> get() = _playTimeUpSound
+
     init {
         initializeCurrentClock()
         _gamePaused.value = true
@@ -201,6 +204,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
             _vibrate.value = true
             _vibrate.value = false
         }
+        _playTimeUpSound.value = true
+        _playTimeUpSound.value = false
     }
 
     private fun timeUpPlayerTwo() {
@@ -210,6 +215,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
             _vibrate.value = true
             _vibrate.value = false
         }
+        _playTimeUpSound.value = true
+        _playTimeUpSound.value = false
     }
 
     fun onClickClock1() {
