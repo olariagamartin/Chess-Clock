@@ -223,12 +223,14 @@ class ClocksViewModel(application: Application) : ViewModel() {
         // todo: extract methods
         when (timer1.state) {
             NOT_STARTED -> {
-                timer2.startTimer()
-                if (turn.value == NO_TURN) _updateHintText.value = true
-                _turn.value = TURN_2
-                _gamePaused.value = false
-                _showHintOne.value = false
-                _showHintTwo.value = false
+                if (timer2.state == NOT_STARTED) {
+                    timer2.startTimer()
+                    if (turn.value == NO_TURN) _updateHintText.value = true
+                    _turn.value = TURN_2
+                    _gamePaused.value = false
+                    _showHintOne.value = false
+                    _showHintTwo.value = false
+                }
             }
             RUNNING -> {
                 timer1.pauseTimer()
@@ -257,12 +259,14 @@ class ClocksViewModel(application: Application) : ViewModel() {
     fun onClickClock2() {
         when (timer2.state) {
             NOT_STARTED -> {
-                timer1.startTimer()
-                if (turn.value == NO_TURN) _updateHintText.value = true
-                _turn.value = TURN_1
-                _gamePaused.value = false
-                _showHintOne.value = false
-                _showHintTwo.value = false
+                if (timer1.state == NOT_STARTED) {
+                    timer1.startTimer()
+                    if (turn.value == NO_TURN) _updateHintText.value = true
+                    _turn.value = TURN_1
+                    _gamePaused.value = false
+                    _showHintOne.value = false
+                    _showHintTwo.value = false
+                }
             }
             RUNNING -> {
                 timer2.pauseTimer()
