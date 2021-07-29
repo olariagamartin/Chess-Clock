@@ -1,7 +1,7 @@
 # Chess-Clock
 Simple chess clock
 
-This project is intented to put in practices some of the main concepts about Android Development nowdays.
+This project is intended to put in practices some of the main concepts about Android Development nowadays.
 
 * Implementing MVVM Architecture; ViewModel, LiveData.
 * Database; Room and Kotlin Coroutines.
