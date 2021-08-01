@@ -126,8 +126,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
         _turn.value = NO_TURN
         setPlayerMovesInitialValues()
         setShowHintInitialValues()
-        _showAlertTimeOne.value = false // todo: remove unnecessary initialization
-        _showAlertTimeTwo.value = false
+        setShowAlertTimeInitialValues()
     }
 
     fun checkUpdatedPref() {
@@ -156,6 +155,11 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private fun setShowHintInitialValues() {
         _showHintOne.value = true
         _showHintTwo.value = true
+    }
+
+    private fun setShowAlertTimeInitialValues () {
+        _showAlertTimeOne.value = false
+        _showAlertTimeTwo.value = false
     }
 
     private fun initializeCurrentClock() {
