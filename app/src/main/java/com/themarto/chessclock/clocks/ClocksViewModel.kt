@@ -187,8 +187,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
             }
 
             override fun onFinishTimer() {
-                _timeLeft1.value = 0
-                timeUpPlayerOne()
+                onTimeUpPlayerOne()
             }
 
         }
@@ -204,14 +203,14 @@ class ClocksViewModel(application: Application) : ViewModel() {
             }
 
             override fun onFinishTimer() {
-                _timeLeft2.value = 0
-                timeUpPlayerTwo()
+                onTimeUpPlayerTwo()
             }
 
         }
     }
 
-    private fun timeUpPlayerOne() {
+    private fun onTimeUpPlayerOne() {
+        _timeLeft1.value = 0
         _timeUpPlayerOne.value = true
         _gamePaused.value = true
         if (pref.getBoolean(VIBRATE_KEY, true)) {
@@ -222,7 +221,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
         _playTimeUpSound.value = false
     }
 
-    private fun timeUpPlayerTwo() {
+    private fun onTimeUpPlayerTwo() {
+        _timeLeft2.value = 0
         _timeUpPlayerTwo.value = true
         _gamePaused.value = true
         if (pref.getBoolean(VIBRATE_KEY, true)) {
