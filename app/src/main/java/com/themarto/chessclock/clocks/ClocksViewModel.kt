@@ -46,6 +46,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
 
     private var timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
 
+    private var soundAfterMoveActive = pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)
+
     // Timer 1
     private lateinit var timer1: MyCountDownTimer
     private val _timeLeft1 = MutableLiveData<Long>()
@@ -133,6 +135,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
         updateAlertPrefs()
 
         vibrationActive = pref.getBoolean(VIBRATE_KEY, true)
+
+        soundAfterMoveActive = pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)
 
         updateClock()
     }
@@ -257,7 +261,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
             RUNNING -> {
                 timer1.pauseTimer()
                 timer2.resumeTimer()
-                if (pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)) _playClockSound.value = true
+                if (soundAfterMoveActive) _playClockSound.value = true
                 _turn.value = TURN_2
                 clock?.let {
                     timer1.incrementTime(it.increment)
@@ -291,7 +295,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
             RUNNING -> {
                 timer2.pauseTimer()
                 timer1.resumeTimer()
-                if (pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)) _playClockSound.value = true
+                if (soundAfterMoveActive) _playClockSound.value = true
                 _turn.value = TURN_1
                 clock?.let {
                     timer2.incrementTime(it.increment)
