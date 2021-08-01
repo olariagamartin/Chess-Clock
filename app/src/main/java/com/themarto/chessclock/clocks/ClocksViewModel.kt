@@ -124,9 +124,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
         initializeCurrentClock()
         _gamePaused.value = true
         _turn.value = NO_TURN
-        setPlayersMoveInitialValue()
-        _showHintOne.value = true
-        _showHintTwo.value = true
+        setPlayerMovesInitialValues()
+        setShowHintInitialValues()
         _showAlertTimeOne.value = false // todo: remove unnecessary initialization
         _showAlertTimeTwo.value = false
     }
@@ -149,9 +148,14 @@ class ClocksViewModel(application: Application) : ViewModel() {
         }
     }
 
-    private fun setPlayersMoveInitialValue () {
+    private fun setPlayerMovesInitialValues () {
         _playerOneMoves.value = 0
         _playerTwoMoves.value = 0
+    }
+
+    private fun setShowHintInitialValues() {
+        _showHintOne.value = true
+        _showHintTwo.value = true
     }
 
     private fun initializeCurrentClock() {
