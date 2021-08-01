@@ -217,8 +217,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
             _vibrate.value = true
             _vibrate.value = false
         }
-        _playTimeUpSound.value = true
-        _playTimeUpSound.value = false
+        playTimeUpSound()
     }
 
     private fun onTimeUpPlayerTwo() {
@@ -229,6 +228,10 @@ class ClocksViewModel(application: Application) : ViewModel() {
             _vibrate.value = true
             _vibrate.value = false
         }
+        playTimeUpSound()
+    }
+
+    private fun playTimeUpSound () {
         _playTimeUpSound.value = true
         _playTimeUpSound.value = false
     }
