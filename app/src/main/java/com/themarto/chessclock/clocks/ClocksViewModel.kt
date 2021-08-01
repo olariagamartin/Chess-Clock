@@ -130,8 +130,6 @@ class ClocksViewModel(application: Application) : ViewModel() {
         _showHintTwo.value = true
         _showAlertTimeOne.value = false // todo: remove unnecessary initialization
         _showAlertTimeTwo.value = false
-        initializeTimer1() //todo: move to initializeCurrentClock
-        initializeTimer2()
     }
 
     fun checkUpdatedPref() {
