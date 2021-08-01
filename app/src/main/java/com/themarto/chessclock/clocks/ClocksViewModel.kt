@@ -130,14 +130,20 @@ class ClocksViewModel(application: Application) : ViewModel() {
     }
 
     fun checkUpdatedPref() {
-        // todo: extract methods
-        lowTimeWarningActive = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
-        timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
-        setAlertTimeChecks()
+        updateAlertPrefs()
 
         vibrationActive = pref.getBoolean(VIBRATE_KEY, true)
 
-        // clockId
+        updateClock()
+    }
+
+    private fun updateAlertPrefs() {
+        lowTimeWarningActive = pref.getBoolean(LOW_TIME_WARNING_KEY, false)
+        timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
+        setAlertTimeChecks()
+    }
+
+    private fun updateClock () {
         val clockIdUpdated = pref.getLong(CURRENT_CLOCK_KEY, -1)
         if (clockIdUpdated != clockId) {
             clockId = clockIdUpdated
