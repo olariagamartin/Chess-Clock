@@ -237,6 +237,11 @@ class ClocksViewModel(application: Application) : ViewModel() {
         }
     }
 
+    private fun hideHintTexts() {
+        _showHintOne.value = false
+        _showHintTwo.value = false
+    }
+
     fun onClickClock1() {
         // todo: extract methods
         when (timer1.state) {
@@ -246,8 +251,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                     if (turn.value == NO_TURN) _updateHintText.value = true
                     _turn.value = TURN_2
                     _gamePaused.value = false
-                    _showHintOne.value = false
-                    _showHintTwo.value = false
+                    hideHintTexts()
                 }
             }
             RUNNING -> {
@@ -267,8 +271,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                 if (turn.value == TURN_1) {
                     timer1.resumeTimer()
                     _gamePaused.value = false
-                    _showHintOne.value = false
-                    _showHintTwo.value = false
+                    hideHintTexts()
                 }
             }
         }
@@ -282,8 +285,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                     if (turn.value == NO_TURN) _updateHintText.value = true
                     _turn.value = TURN_1
                     _gamePaused.value = false
-                    _showHintOne.value = false
-                    _showHintTwo.value = false
+                    hideHintTexts()
                 }
             }
             RUNNING -> {
@@ -303,8 +305,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                 if (turn.value == TURN_2) {
                     timer2.resumeTimer()
                     _gamePaused.value = false
-                    _showHintOne.value = false
-                    _showHintTwo.value = false
+                    hideHintTexts()
                 }
             }
         }
