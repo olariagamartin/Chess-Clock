@@ -169,14 +169,12 @@ class ClocksViewModel(application: Application) : ViewModel() {
     }
 
     private fun initializeCurrentClock() {
-        //if (clockId != (-1).toLong()) {
         viewModelScope.launch {
             clock = database.get(clockId)
             initializeTimer1()
             initializeTimer2()
             setAlertTimeChecks()
         }
-        //}
     }
 
     private fun initializeTimer1() {
