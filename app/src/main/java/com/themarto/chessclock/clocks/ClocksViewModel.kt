@@ -213,10 +213,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
         _timeLeft1.value = 0
         _timeUpPlayerOne.value = true
         _gamePaused.value = true
-        if (pref.getBoolean(VIBRATE_KEY, true)) {
-            _vibrate.value = true
-            _vibrate.value = false
-        }
+        vibrate()
         playTimeUpSound()
     }
 
@@ -224,16 +221,20 @@ class ClocksViewModel(application: Application) : ViewModel() {
         _timeLeft2.value = 0
         _timeUpPlayerTwo.value = true
         _gamePaused.value = true
-        if (pref.getBoolean(VIBRATE_KEY, true)) {
-            _vibrate.value = true
-            _vibrate.value = false
-        }
+        vibrate()
         playTimeUpSound()
     }
 
     private fun playTimeUpSound () {
         _playTimeUpSound.value = true
         _playTimeUpSound.value = false
+    }
+
+    private fun vibrate () {
+        if (vibrationActive) {
+            _vibrate.value = true
+            _vibrate.value = false
+        }
     }
 
     fun onClickClock1() {
@@ -340,10 +341,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                 timeAlertCheck1 = { currentTime ->
                     if (currentTime < timeAlert && showAlertTimeOne.value == false) {
                         _showAlertTimeOne.value = true
-                        if (vibrationActive) {
-                            _vibrate.value = true
-                            _vibrate.value = false
-                        }
+                        vibrate()
                     } else if (currentTime > timeAlert && showAlertTimeOne.value == true) {
                         _showAlertTimeOne.value = false
                     }
@@ -356,10 +354,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                 timeAlertCheck2 = { currentTime ->
                     if (currentTime < timeAlert && showAlertTimeTwo.value == false) {
                         _showAlertTimeTwo.value = true
-                        if (vibrationActive) {
-                            _vibrate.value = true
-                            _vibrate.value = false
-                        }
+                        vibrate()
                     } else if (currentTime > timeAlert && showAlertTimeTwo.value == true) {
                         _showAlertTimeTwo.value = false
                     }
