@@ -124,17 +124,17 @@ class ClocksFragment : Fragment() {
         viewModel.timeUpPlayerOne.observe(viewLifecycleOwner) {
             binding.clock1.root.isClickable = false
             binding.clock2.root.isClickable = false
-            // todo: change red color
             binding.clock1Container.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
+                ContextCompat.getColor(requireContext(), R.color.design_default_color_error)
+            )
         }
 
         viewModel.timeUpPlayerTwo.observe(viewLifecycleOwner) {
             binding.clock1.root.isClickable = false
             binding.clock2.root.isClickable = false
-            // todo: change red color
             binding.clock2Container.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.design_default_color_error))
+                ContextCompat.getColor(requireContext(), R.color.design_default_color_error)
+            )
         }
 
         viewModel.playClockSound.observe(viewLifecycleOwner) {
@@ -182,24 +182,14 @@ class ClocksFragment : Fragment() {
     }
 
     private fun setClock1Theme() {
-        binding.clock1.textViewClock.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.grey_100
-            )
-        )
-        binding.clock1.textViewHint.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.grey_100
-            )
-        )
-        binding.clock1.textMovementsCount.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.grey_100
-            )
-        )
+        binding.clock1.textViewClock
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
+
+        binding.clock1.textViewHint
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
+
+        binding.clock1.textMovementsCount
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
     }
 
     private fun playClockSound() {
@@ -210,7 +200,7 @@ class ClocksFragment : Fragment() {
         clockSound.start()
     }
 
-    private fun playTimeUpSound () {
+    private fun playTimeUpSound() {
         if (timeUpSound.isPlaying) {
             timeUpSound.pause()
             timeUpSound.seekTo(0)
@@ -218,9 +208,8 @@ class ClocksFragment : Fragment() {
         timeUpSound.start()
     }
 
-    // todo: test on different API's
     @Suppress("DEPRECATION")
-    private fun makeVibrate () {
+    private fun makeVibrate() {
         val vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.cancel() // cancel any other current vibration
