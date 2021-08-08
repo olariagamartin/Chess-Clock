@@ -71,7 +71,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.alertTimeSettingContainer.setOnClickListener {
-            // todo: extract method
             showTimePickerForAlertTime()
         }
         //...
