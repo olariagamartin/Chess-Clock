@@ -74,30 +74,11 @@ class CreateEditClockFragment : Fragment() {
         })
 
         binding.playerOneTime.setOnClickListener {
-            // todo: extract method
-            val timePicker = MyTimePicker()
-            timePicker.maxValueHour = 10
-            viewModel.chessClock.value?.let { chessClock ->
-                timePicker.setInitialTimeMillis(chessClock.firstPlayerTime)
-            }
-            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { h,m,s ->
-                viewModel.onFirstPlayerTimeSet(h, m, s)
-            }
-            timePicker.setTitle(getString(R.string.timer_picker_title))
-            timePicker.show(parentFragmentManager, "time_picker")
+            showTimePickerForPlayerOne()
         }
 
         binding.playerTwoTime.setOnClickListener {
-            val timePicker = MyTimePicker()
-            timePicker.maxValueHour = 10
-            viewModel.chessClock.value?.let { chessClock ->
-                timePicker.setInitialTimeMillis(chessClock.secondPlayerTime)
-            }
-            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { h,m,s ->
-                viewModel.onSecondPlayerTimeSet(h, m, s)
-            }
-            timePicker.setTitle(getString(R.string.timer_picker_title))
-            timePicker.show(parentFragmentManager, "time_picker")
+            showTimePickerForPlayerTwo()
         }
 
         binding.sameTimeSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -105,20 +86,50 @@ class CreateEditClockFragment : Fragment() {
         }
 
         binding.incrementTime.setOnClickListener {
-            val timePicker = MyTimePicker()
-            timePicker.includeHours = false
-            viewModel.chessClock.value?.let { chessClock ->
-                timePicker.setInitialTimeMillis(chessClock.increment)
-            }
-            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
-                viewModel.onIncrementTimeSet(m, s)
-            }
-            timePicker.setTitle(getString(R.string.timer_picker_title))
-            timePicker.show(parentFragmentManager, "time_picker")
+            showTimePickerForIncrement()
         }
         //....
 
         return binding.root
+    }
+
+    private fun showTimePickerForPlayerOne () {
+        val timePicker = MyTimePicker()
+        timePicker.maxValueHour = 10
+        viewModel.chessClock.value?.let { chessClock ->
+            timePicker.setInitialTimeMillis(chessClock.firstPlayerTime)
+        }
+        timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { h,m,s ->
+            viewModel.onFirstPlayerTimeSet(h, m, s)
+        }
+        timePicker.setTitle(getString(R.string.timer_picker_title))
+        timePicker.show(parentFragmentManager, "time_picker")
+    }
+
+    private fun showTimePickerForPlayerTwo () {
+        val timePicker = MyTimePicker()
+        timePicker.maxValueHour = 10
+        viewModel.chessClock.value?.let { chessClock ->
+            timePicker.setInitialTimeMillis(chessClock.secondPlayerTime)
+        }
+        timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { h,m,s ->
+            viewModel.onSecondPlayerTimeSet(h, m, s)
+        }
+        timePicker.setTitle(getString(R.string.timer_picker_title))
+        timePicker.show(parentFragmentManager, "time_picker")
+    }
+
+    private fun showTimePickerForIncrement () {
+        val timePicker = MyTimePicker()
+        timePicker.includeHours = false
+        viewModel.chessClock.value?.let { chessClock ->
+            timePicker.setInitialTimeMillis(chessClock.increment)
+        }
+        timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
+            viewModel.onIncrementTimeSet(m, s)
+        }
+        timePicker.setTitle(getString(R.string.timer_picker_title))
+        timePicker.show(parentFragmentManager, "time_picker")
     }
 
     private fun setAppbarTitle(editOption: Boolean) {
