@@ -77,27 +77,27 @@ class CreateEditViewModel(
 
     fun onSaveOptionMenuClick() {
         if (editOption) {
-            viewModelScope.launch {
-                updateClock()
-                _closeFragment.value = true
-            }
+            updateClock()
         } else {
-            viewModelScope.launch {
-                createClock()
-                _closeFragment.value = true
+            createClock()
+        }
+    }
+
+    private fun updateClock() {
+        viewModelScope.launch {
+            chessClock.value?.let {
+                database.update(it)
             }
+            _closeFragment.value = true
         }
     }
 
-    private suspend fun updateClock() {
-        chessClock.value?.let {
-            database.update(it)
-        }
-    }
-
-    private suspend fun createClock() {
-        chessClock.value?.let {
-            database.insert(it)
+    private fun createClock() {
+        viewModelScope.launch {
+            chessClock.value?.let {
+                database.insert(it)
+            }
+            _closeFragment.value = true
         }
     }
 
