@@ -47,12 +47,20 @@ class CreateEditViewModel(
 
     private fun loadClock() {
         if (editOption) {
-            viewModelScope.launch {
-                _chessClock.value = database.get(clockId)
-            }
+            loadClockFromDatabase()
         } else {
-            _chessClock.value = getDefaultClock()
+            loadDefaultClock()
         }
+    }
+
+    private fun loadClockFromDatabase () {
+        viewModelScope.launch {
+            _chessClock.value = database.get(clockId)
+        }
+    }
+
+    private fun loadDefaultClock () {
+        _chessClock.value = getDefaultClock()
     }
 
     private fun getDefaultClock(): ChessClock {
