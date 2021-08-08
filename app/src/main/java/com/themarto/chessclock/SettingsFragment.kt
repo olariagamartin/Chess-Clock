@@ -72,17 +72,7 @@ class SettingsFragment : Fragment() {
 
         binding.alertTimeSettingContainer.setOnClickListener {
             // todo: extract method
-            val timePicker = MyTimePicker()
-            timePicker.includeHours = false
-            timePicker.setInitialTimeMillis(pref.getLong(ALERT_TIME_KEY, 0))
-            timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
-                val alertTimeLong = (m * ONE_MINUTE + s * ONE_SECOND)
-                pref.edit().putLong(ALERT_TIME_KEY, alertTimeLong).apply()
-                val alertTimeText = DateUtils.formatElapsedTime(alertTimeLong / ONE_SECOND)
-                binding.alertTimeSummary.text = alertTimeText
-            }
-            timePicker.setTitle(getString(R.string.timer_picker_title))
-            timePicker.show(parentFragmentManager, "time_picker")
+            showTimePickerForAlertTime()
         }
         //...
 
@@ -101,6 +91,36 @@ class SettingsFragment : Fragment() {
 
         val alertTime = pref.getLong(ALERT_TIME_KEY, 0) / ONE_SECOND
         val alertTimeText = DateUtils.formatElapsedTime(alertTime)
+        binding.alertTimeSummary.text = alertTimeText
+    }
+
+    private fun showTimePickerForAlertTime () {
+        val timePicker = MyTimePicker()
+        timePicker.includeHours = false
+        timePicker.setInitialTimeMillis(pref.getLong(ALERT_TIME_KEY, 0))
+        timePicker.setOnTimeSetOption(getString(R.string.set_time_button)) { _,m,s ->
+            onTimeAlertSet(m, s)
+        }
+        timePicker.setTitle(getString(R.string.timer_picker_title))
+        timePicker.show(parentFragmentManager, "time_picker")
+    }
+
+    private fun onTimeAlertSet (minutes: Int, seconds: Int) {
+        val alertTime = getTimeInMillis(minutes, seconds)
+        saveAlertTimePreference(alertTime)
+        updateTimeAlertText(alertTime)
+    }
+
+    private fun getTimeInMillis (minutes: Int, seconds: Int): Long {
+        return (minutes * ONE_MINUTE + seconds * ONE_SECOND)
+    }
+
+    private fun saveAlertTimePreference (alertTime: Long) {
+        pref.edit().putLong(ALERT_TIME_KEY, alertTime).apply()
+    }
+
+    private fun updateTimeAlertText (alertTime: Long)  {
+        val alertTimeText = DateUtils.formatElapsedTime(alertTime / ONE_SECOND)
         binding.alertTimeSummary.text = alertTimeText
     }
 
