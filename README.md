@@ -6,6 +6,8 @@ Simple chess clock
 * Create your own clocks
 * Time and increment
 
+Try the app: https://play.google.com/store/apps/details?id=com.themarto.chessclock
+
 ## Screenshots
 
 <img src="screenshots/start_game.jpg" height="400" alt="Start game"/> <img src="screenshots/running_game.jpg" height="400" alt="Running game"/>
