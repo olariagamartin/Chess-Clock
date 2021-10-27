@@ -153,7 +153,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
             clockId = clockIdUpdated
             if (timer1.state == NOT_STARTED && timer2.state == NOT_STARTED) {
                 initializeCurrentClock()
-            }//todo: add else to show that the clock selected was updated
+            }
         }
     }
 
@@ -247,7 +247,6 @@ class ClocksViewModel(application: Application) : ViewModel() {
     }
 
     fun onClickClock1() {
-        // todo: extract methods
         when (timer1.state) {
             NOT_STARTED -> {
                 if (timer2.state == NOT_STARTED) {
@@ -268,7 +267,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                     _timeLeft1.value = _timeLeft1.value?.plus(it.increment)
                 }
                 _playerOneMoves.value = _playerOneMoves.value?.plus(1)
-                // check after increment todo: move to let
+                // check after increment
                 timeAlertCheck1(timeLeft1.value!!)
             }
             PAUSED -> {
@@ -302,7 +301,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
                     _timeLeft2.value = _timeLeft2.value?.plus(it.increment)
                 }
                 _playerTwoMoves.value = _playerTwoMoves.value?.plus(1)
-                // check after increment todo: move to let
+                // check after increment
                 timeAlertCheck2(timeLeft2.value!!)
             }
             PAUSED -> {
