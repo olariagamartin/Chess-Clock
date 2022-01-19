@@ -10,6 +10,7 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.play.core.review.ReviewException
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClocksBinding
 
@@ -181,6 +187,31 @@ class ClocksFragment : Fragment() {
         return binding.root
     }
 
+    private fun requestReviewInfo () {
+        val manager = ReviewManagerFactory.create(requireContext())
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // We got the ReviewInfo object
+                val reviewInfo = task.result
+                launchInAppReview(manager, reviewInfo)
+            } else {
+                // There was some problem, log or handle the error code.
+                @ReviewErrorCode val reviewErrorCode = (task.exception as ReviewException).errorCode
+            }
+        }
+    }
+
+    private fun launchInAppReview (manager: ReviewManager, reviewInfo: ReviewInfo) {
+        val flow = manager.launchReviewFlow(requireActivity(), reviewInfo)
+        flow.addOnCompleteListener { _ ->
+            // The flow has finished. The API does not indicate whether the user
+            // reviewed or not, or even whether the review dialog was shown. Thus, no
+            // matter the result, we continue our app flow.
+            Toast.makeText(context, "Thank you", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun setClock1Theme() {
         binding.clock1.textViewClock
             .setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
@@ -206,6 +237,7 @@ class ClocksFragment : Fragment() {
             timeUpSound.seekTo(0)
         }
         timeUpSound.start()
+        requestReviewInfo()
     }
 
     @Suppress("DEPRECATION")
