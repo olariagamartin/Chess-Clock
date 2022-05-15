@@ -43,12 +43,12 @@ class ClocksFragment : Fragment() {
         viewModel.checkUpdatedPref()
 
         // Observers...
-        viewModel.guidelinePercentage.observe(viewLifecycleOwner, {
+        viewModel.guidelinePercentage.observe(viewLifecycleOwner) {
             val changeBoundsTransition = ChangeBounds()
             changeBoundsTransition.duration = 200
             TransitionManager.beginDelayedTransition(binding.root, changeBoundsTransition)
             binding.guideline.setGuidelinePercent(it)
-        })
+        }
 
         viewModel.timeLeftString1.observe(viewLifecycleOwner) {
             binding.clock1.textViewClock.text = it
