@@ -13,4 +13,21 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Theme colors -->
+    <color name="hot_pink">#E56997</color>
+    <color name="cyan">#66D2D6</color>
+
+    <color name="aquamarine">#74BDCB</color>
+    <color name="salmon">#FFA384</color>
+
+    <color name="lime_green">#5CD85A</color>
+    <color name="forest_green">#08313A</color>
+
+    <color name="yellow">#FAD02C</color>
+    <color name="dark_blue">#333652</color>
+
+    <color name="red_orange">#FC2E20</color>
+    <color name="black_lean">#010100</color>
+    <!-- -->
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PlayerColors">
+        <attr name="playerOneColor" format="color"/>
+        <attr name="playerOneTextColor" format="color"/>
+        <attr name="playerTwoColor" format="color"/>
+        <attr name="playerTwoTextColor" format="color"/>
+    </declare-styleable>
+</resources>

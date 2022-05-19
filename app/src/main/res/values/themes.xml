@@ -22,4 +22,54 @@
         <item name="colorOnSurface">@color/black</item>
     </style>
 
+    <!-- Themes -->
+    <style name="Theme.One" parent="Theme.ChessClock">
+        <item name="playerOneColor">@color/grey_800</item>
+        <item name="playerOneTextColor">@color/grey_100</item>
+
+        <item name="playerTwoColor">@color/grey_100</item>
+        <item name="playerTwoTextColor">@color/grey_800</item>
+    </style>
+
+    <style name="Theme.Two" parent="Theme.ChessClock">
+        <item name="playerOneColor">@color/hot_pink</item>
+        <item name="playerOneTextColor">@color/grey_50</item>
+
+        <item name="playerTwoColor">@color/cyan</item>
+        <item name="playerTwoTextColor">@color/grey_900</item>
+    </style>
+
+    <style name="Theme.Three" parent="Theme.ChessClock">
+        <item name="playerOneColor">@color/aquamarine</item>
+        <item name="playerOneTextColor">@color/grey_50</item>
+
+        <item name="playerTwoColor">@color/salmon</item>
+        <item name="playerTwoTextColor">@color/grey_900</item>
+    </style>
+
+    <style name="Theme.Four" parent="Theme.ChessClock">
+        <item name="playerOneColor">@color/lime_green</item>
+        <item name="playerOneTextColor">@color/grey_900</item>
+
+        <item name="playerTwoColor">@color/forest_green</item>
+        <item name="playerTwoTextColor">@color/grey_100</item>
+    </style>
+
+    <style name="Theme.Five" parent="Theme.ChessClock">
+        <item name="playerOneColor">@color/yellow</item>
+        <item name="playerOneTextColor">@color/dark_blue</item>
+
+        <item name="playerTwoColor">@color/dark_blue</item>
+        <item name="playerTwoTextColor">@color/yellow</item>
+    </style>
+
+    <style name="Theme.Six" parent="Theme.ChessClock">
+        <item name="playerOneColor">@color/red_orange</item>
+        <item name="playerOneTextColor">@color/grey_100</item>
+
+        <item name="playerTwoColor">@color/black_lean</item>
+        <item name="playerTwoTextColor">@color/grey_100</item>
+    </style>
+    <!-- -->
+
 </resources>
