@@ -42,7 +42,16 @@ class ClocksFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(ClocksViewModel::class.java)
         viewModel.checkUpdatedPref()
 
-        // Observers...
+        observeViewModel()
+
+        setupUIActions()
+
+        setClock1Theme()
+
+        return binding.root
+    }
+
+    private fun observeViewModel () {
         viewModel.guidelinePercentage.observe(viewLifecycleOwner) {
             val changeBoundsTransition = ChangeBounds()
             changeBoundsTransition.duration = 200
@@ -153,11 +162,9 @@ class ClocksFragment : Fragment() {
                 playTimeUpSound()
             }
         }
-        //...
+    }
 
-        setClock1Theme()
-
-        // UI actions
+    private fun setupUIActions () {
         binding.clock1.root.setOnClickListener {
             viewModel.onClickClock1()
         }
@@ -177,8 +184,6 @@ class ClocksFragment : Fragment() {
         binding.actionGoToSettings.setOnClickListener {
             viewModel.goToSettingsAction()
         }
-        //...
-        return binding.root
     }
 
     private fun setClock1Theme() {
