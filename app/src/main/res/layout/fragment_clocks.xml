@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".clocks.ClocksFragment">
+    tools:theme="@style/Theme.One">
 
     <LinearLayout
         android:id="@+id/clock1_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/grey_800"
+        android:background="?attr/playerOneColor"
         android:orientation="vertical"
         android:rotation="180"
         android:paddingTop="40dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <include
             android:id="@+id/clock1"
-            layout="@layout/clock" />
+            layout="@layout/clock_player_one" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -35,7 +35,7 @@
         android:id="@+id/clock2_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/grey_100"
+        android:background="?attr/playerTwoColor"
         android:orientation="vertical"
         android:paddingTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline">
         <include
             android:id="@+id/clock2"
-            layout="@layout/clock" />
+            layout="@layout/clock_player_two" />
     </LinearLayout>
 
     <ImageButton
