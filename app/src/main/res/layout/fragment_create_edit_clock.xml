@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".create_edit_clock.CreateEditClockFragment">
+    tools:theme="@style/Theme.One">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,8 +33,8 @@
             android:contentDescription="@string/player_one_button_description"
             android:gravity="end"
             android:padding="8dp"
-            android:textColor="@color/grey_50"
-            android:backgroundTint="@color/grey_800"
+            android:textColor="?attr/playerOneTextColor"
+            android:backgroundTint="?attr/playerOneColor"
             android:textSize="28sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/player_one_label"
@@ -49,8 +49,8 @@
             android:contentDescription="@string/player_two_button_description"
             android:gravity="end"
             android:padding="8dp"
-            android:textColor="@color/grey_800"
-            android:backgroundTint="@color/grey_50"
+            android:textColor="?attr/playerTwoTextColor"
+            android:backgroundTint="?attr/playerTwoColor"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/player_two_label"
