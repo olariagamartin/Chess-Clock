@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.themarto.chessclock.R
 import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
 import com.themarto.chessclock.databinding.FragmentClockListBinding
+import com.themarto.chessclock.select_theme.BottomSheetSelectTheme
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
 
 class ClockListFragment : Fragment() {
@@ -56,7 +57,7 @@ class ClockListFragment : Fragment() {
         binding.clockList.adapter = adapter
 
         // UI ACTIONS
-        binding.toolbar.setNavigationOnClickListener { 
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
@@ -65,6 +66,11 @@ class ClockListFragment : Fragment() {
                 R.id.sound_settings -> {
                     val action = ClockListFragmentDirections.actionClockListFragmentToSettingsFragment()
                     findNavController().navigate(action)
+                    true
+                }
+                R.id.select_theme -> {
+                    BottomSheetSelectTheme.newInstance()
+                        .show(parentFragmentManager, "select_theme")
                     true
                 }
                 else -> false

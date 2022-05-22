@@ -8,4 +8,11 @@
         android:icon="@drawable/ic_notifications"
         app:showAsAction="always"
         android:title="@string/sound_option_menu_title" />
+
+    <item
+        android:id="@+id/select_theme"
+        android:contentDescription="@string/select_theme_description"
+        android:icon="@drawable/ic_themes"
+        app:showAsAction="always"
+        android:title="@string/select_theme_title" />
 </menu>

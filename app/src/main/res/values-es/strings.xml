@@ -63,4 +63,6 @@
     <string name="seconds">Segundos</string>
     <string name="seconds_picker_description">Selector de segundos</string>
     <string name="save_clock_description">Guardar reloj</string>
+    <string name="select_theme_description">Elije un tema</string>
+    <string name="select_theme_title">Temas</string>
 </resources>
