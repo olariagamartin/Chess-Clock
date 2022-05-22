@@ -50,9 +50,11 @@ class BottomSheetSelectTheme : BottomSheetDialogFragment() {
     }
 
     private fun setupViews () {
-        binding.gridThemes.adapter = ThemeListAdapter(requireContext(), getThemes()) { theme ->
-            saveTheme(theme)
-            restartActivity()
+        binding.gridThemes.adapter = ThemeListAdapter(requireContext(), getThemes()) { themeId ->
+            saveTheme(themeId)
+            activity?.setTheme(ThemeUtils.getTheme(themeId))
+            dismiss()
+            activity?.onBackPressed()
         }
     }
 

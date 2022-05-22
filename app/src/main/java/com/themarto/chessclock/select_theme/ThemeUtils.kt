@@ -29,6 +29,17 @@ object ThemeUtils {
         }
     }
 
+    fun getTheme(themeId: Int): Int {
+        return when (themeId) {
+            THEME_SIX -> R.style.Theme_Six
+            THEME_FIVE -> R.style.Theme_Five
+            THEME_FOUR -> R.style.Theme_Four
+            THEME_THREE -> R.style.Theme_Three
+            THEME_TWO -> R.style.Theme_Two
+            else -> R.style.Theme_One
+        }
+    }
+
     fun getSelectedThemeId(context: Context): Int {
         return context.getSharedPreferences(SettingsFragment.PREFERENCES_NAME, Context.MODE_PRIVATE)
                 .getInt(SELECTED_THEME_KEY, 0)
