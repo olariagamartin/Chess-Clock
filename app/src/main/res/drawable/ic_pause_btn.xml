@@ -10,11 +10,11 @@
       android:fillAlpha="0.5"/>
   <path
       android:pathData="M45,45m-35,0a35,35 0,1 1,70 0a35,35 0,1 1,-70 0"
-      android:fillColor="#424242"/>
+      android:fillColor="#fafafa"/>
   <path
       android:pathData="M36,34h5.4v22h-5.4z"
-      android:fillColor="#F5F5F5"/>
+      android:fillColor="#424242"/>
   <path
       android:pathData="M48.6,34h5.4v22h-5.4z"
-      android:fillColor="#F5F5F5"/>
+      android:fillColor="#424242"/>
 </vector>
