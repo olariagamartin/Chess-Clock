@@ -15,6 +15,7 @@ import com.themarto.chessclock.utils.ChessUtils
 import com.themarto.chessclock.utils.ChessUtils.Companion.BLITZ
 import com.themarto.chessclock.utils.ChessUtils.Companion.BULLET
 import com.themarto.chessclock.utils.ChessUtils.Companion.RAPID
+import com.themarto.chessclock.utils.getColorFromAttr
 
 class ClockListAdapter(
     var currentClockId: Long,
@@ -91,14 +92,10 @@ class ClockListAdapter(
             }
 
             if (currentClockId == clock.id) {
-                cardView.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.grey_800
-                    )
-                )
-                gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_50))
-                gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_50))
+                cardView.setCardBackgroundColor(itemView.context.getColorFromAttr(R.attr.playerOneColor))
+                clockThumbnail.setColorFilter(itemView.context.getColorFromAttr(R.attr.playerOneTextColor))
+                gameType.setTextColor(itemView.context.getColorFromAttr(R.attr.playerOneTextColor))
+                gameTimes.setTextColor(itemView.context.getColorFromAttr(R.attr.playerOneTextColor))
             } else {
                 cardView.setCardBackgroundColor(
                     ContextCompat.getColor(
