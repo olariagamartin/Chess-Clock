@@ -131,17 +131,15 @@ class ClocksFragment : Fragment() {
         viewModel.timeUpPlayerOne.observe(viewLifecycleOwner) {
             binding.clock1.root.isClickable = false
             binding.clock2.root.isClickable = false
-            binding.clock1Container.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.design_default_color_error)
-            )
+            binding.clock1.textViewHint.setText(R.string.time_up)
+            binding.clock1.textViewHint.visibility = View.VISIBLE
         }
 
         viewModel.timeUpPlayerTwo.observe(viewLifecycleOwner) {
             binding.clock1.root.isClickable = false
             binding.clock2.root.isClickable = false
-            binding.clock2Container.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.design_default_color_error)
-            )
+            binding.clock2.textViewHint.setText(R.string.time_up)
+            binding.clock2.textViewHint.visibility = View.VISIBLE
         }
 
         viewModel.playClockSound.observe(viewLifecycleOwner) {

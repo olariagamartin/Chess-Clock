@@ -64,5 +64,6 @@
     <string name="save_clock_description">Save clock</string>
     <string name="select_theme_description">Choose a theme</string>
     <string name="select_theme_title">Themes</string>
+    <string name="time_up">Time Up</string>
 
 </resources>

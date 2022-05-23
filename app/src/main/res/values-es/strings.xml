@@ -65,4 +65,5 @@
     <string name="save_clock_description">Guardar reloj</string>
     <string name="select_theme_description">Elije un tema</string>
     <string name="select_theme_title">Temas</string>
+    <string name="time_up">Sin Tiempo</string>
 </resources>
