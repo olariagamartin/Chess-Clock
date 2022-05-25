@@ -97,12 +97,8 @@ class ClockListAdapter(
                 gameType.setTextColor(itemView.context.getColorFromAttr(R.attr.playerOneTextColor))
                 gameTimes.setTextColor(itemView.context.getColorFromAttr(R.attr.playerOneTextColor))
             } else {
-                cardView.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.grey_100
-                    )
-                )
+                cardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.grey_100))
+                clockThumbnail.setColorFilter(ContextCompat.getColor(itemView.context, R.color.grey_800))
                 gameType.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_800))
                 gameTimes.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey_800))
             }
