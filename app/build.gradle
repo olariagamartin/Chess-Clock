@@ -10,6 +10,7 @@ android {
         applicationId "com.themarto.chessclock"
         minSdkVersion 21
         compileSdk 33
+        targetSdk 33
         versionCode 8
         versionName "1.1.2"
 
