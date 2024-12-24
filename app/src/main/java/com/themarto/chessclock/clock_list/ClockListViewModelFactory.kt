@@ -8,7 +8,7 @@ import java.lang.IllegalArgumentException
 class ClockListViewModelFactory(private val application: Application, private val clockId: Long)
     : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ClockListViewModel::class.java)) {
             return ClockListViewModel(application, clockId) as T
         }
