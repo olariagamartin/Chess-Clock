@@ -5,7 +5,7 @@
     <item
         android:id="@+id/sound_settings"
         android:contentDescription="@string/sound_settings_icon_description"
-        android:icon="@drawable/ic_notifications"
+        android:icon="@drawable/ic_settings"
         app:showAsAction="always"
         android:title="@string/sound_option_menu_title" />
 
