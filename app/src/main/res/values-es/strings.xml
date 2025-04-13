@@ -27,6 +27,7 @@
     <string name="vibrate_settings_title">Vibrar</string>
     <string name="low_time_warning_settings_title">Advertencia de poco tiempo</string>
     <string name="alert_time_title">Tiempo de advertencia</string>
+    <string name="clock_font_size_title">Tamaño de fuente del reloj</string>
     <string name="option_menu_save_title">Guardar</string>
     <string name="app_bar_edit_title">Editar reloj</string>
     <string name="app_bar_create_title">Nuevo reloj</string>
@@ -66,4 +67,7 @@
     <string name="select_theme_description">Elije un tema</string>
     <string name="select_theme_title">Temas</string>
     <string name="time_up">Sin Tiempo</string>
+    <string name="small">Pequeño</string>
+    <string name="medium">Mediano</string>
+    <string name="large">Grande</string>
 </resources>

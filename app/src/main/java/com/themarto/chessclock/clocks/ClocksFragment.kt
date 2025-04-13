@@ -21,6 +21,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClocksBinding
+import com.themarto.chessclock.utils.ClockFontSizePicker
 
 class ClocksFragment : Fragment() {
 
@@ -156,6 +157,23 @@ class ClocksFragment : Fragment() {
         viewModel.playTimeUpSound.observe(viewLifecycleOwner) {
             if (it == true) {
                 playTimeUpSound()
+            }
+        }
+
+        viewModel.clockFontSize.observe(viewLifecycleOwner) { fontSize ->
+            when (fontSize) {
+                ClockFontSizePicker.FontSize.SMALL.name -> {
+                    binding.clock1.textViewClock.textSize = 60f
+                    binding.clock2.textViewClock.textSize = 60f
+                }
+                ClockFontSizePicker.FontSize.MEDIUM.name -> {
+                    binding.clock1.textViewClock.textSize = 80f
+                    binding.clock2.textViewClock.textSize = 80f
+                }
+                ClockFontSizePicker.FontSize.LARGE.name -> {
+                    binding.clock1.textViewClock.textSize = 100f
+                    binding.clock2.textViewClock.textSize = 100f
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.text.format.DateUtils
 import androidx.lifecycle.*
 import com.themarto.chessclock.SettingsFragment.Companion.ALERT_TIME_KEY
+import com.themarto.chessclock.SettingsFragment.Companion.CLOCK_FONT_SIZE_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.LOW_TIME_WARNING_KEY
 import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
 import com.themarto.chessclock.SettingsFragment.Companion.SOUND_AFTER_MOVE_KEY
@@ -12,6 +13,7 @@ import com.themarto.chessclock.SettingsFragment.Companion.VIBRATE_KEY
 import com.themarto.chessclock.database.ChessClock
 import com.themarto.chessclock.database.ChessClockDatabase
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
+import com.themarto.chessclock.utils.ClockFontSizePicker
 import com.themarto.chessclock.utils.MyCountDownTimer
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.NOT_STARTED
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
@@ -47,6 +49,11 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private var timeAlert = pref.getLong(ALERT_TIME_KEY, 0)
 
     private var soundAfterMoveActive = pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)
+
+    private val _clockFontSize = MutableLiveData<String>().apply {
+        value = pref.getString(CLOCK_FONT_SIZE_KEY, ClockFontSizePicker.FontSize.MEDIUM.name)
+    }
+    val clockFontSize: LiveData<String> = _clockFontSize
 
     // Timer 1
     private lateinit var timer1: MyCountDownTimer
@@ -138,6 +145,8 @@ class ClocksViewModel(application: Application) : ViewModel() {
 
         soundAfterMoveActive = pref.getBoolean(SOUND_AFTER_MOVE_KEY, true)
 
+        _clockFontSize.value = pref.getString(CLOCK_FONT_SIZE_KEY, ClockFontSizePicker.FontSize.MEDIUM.name)
+
         updateClock()
     }
 
@@ -178,6 +187,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
             initializeTimer1()
             initializeTimer2()
             setAlertTimeChecks()
+
         }
     }
 

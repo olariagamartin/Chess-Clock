@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.databinding.FragmentSettingsBinding
+import com.themarto.chessclock.utils.ClockFontSizePicker
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_SECOND
 import com.themarto.chessclock.utils.MyTimePicker
@@ -26,6 +27,7 @@ class SettingsFragment : Fragment() {
         const val VIBRATE_KEY = "vibrate"
         const val LOW_TIME_WARNING_KEY = "low_time_warning"
         const val ALERT_TIME_KEY = "alert_time"
+        const val CLOCK_FONT_SIZE_KEY = "clock_font_size"
     }
 
     override fun onCreateView(
@@ -72,6 +74,10 @@ class SettingsFragment : Fragment() {
 
         binding.alertTimeSettingContainer.setOnClickListener {
             showTimePickerForAlertTime()
+        }
+
+        binding.clockFontSizeContainer.setOnClickListener {
+            showClockFontSizePicker()
         }
         //...
 
@@ -121,6 +127,20 @@ class SettingsFragment : Fragment() {
     private fun updateTimeAlertText (alertTime: Long)  {
         val alertTimeText = DateUtils.formatElapsedTime(alertTime / ONE_SECOND)
         binding.alertTimeSummary.text = alertTimeText
+    }
+
+    private fun showClockFontSizePicker () {
+        val clockFontSizePicker = ClockFontSizePicker()
+        val selectedFontSize = pref.getString(CLOCK_FONT_SIZE_KEY, ClockFontSizePicker.FontSize.MEDIUM.name)
+        clockFontSizePicker.setInitialSelection(ClockFontSizePicker.FontSize.valueOf(selectedFontSize!!))
+        clockFontSizePicker.setOnConfirmOption {
+            onClockFontSizeConfirm(it)
+        }
+        clockFontSizePicker.show(parentFragmentManager, "clock_font_size_picker")
+    }
+
+    private fun onClockFontSizeConfirm (fontSize: ClockFontSizePicker.FontSize) {
+        pref.edit().putString(CLOCK_FONT_SIZE_KEY, fontSize.name).apply()
     }
 
     override fun onDestroy() {

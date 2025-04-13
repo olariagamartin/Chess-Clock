@@ -26,6 +26,7 @@
     <string name="vibrate_settings_title">Vibrate</string>
     <string name="low_time_warning_settings_title">Low time warning</string>
     <string name="alert_time_title">Alert time</string>
+    <string name="clock_font_size_title">Clock font size</string>
     <string name="option_menu_save_title">Save</string>
     <string name="app_bar_edit_title">Edit Clock</string>
     <string name="app_bar_create_title">New Clock</string>
@@ -65,5 +66,8 @@
     <string name="select_theme_description">Choose a theme</string>
     <string name="select_theme_title">Themes</string>
     <string name="time_up">Time Up</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
 
 </resources>
