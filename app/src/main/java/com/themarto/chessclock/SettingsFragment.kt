@@ -97,6 +97,22 @@ class SettingsFragment : Fragment() {
         val alertTime = pref.getLong(ALERT_TIME_KEY, 0) / ONE_SECOND
         val alertTimeText = DateUtils.formatElapsedTime(alertTime)
         binding.alertTimeSummary.text = alertTimeText
+
+        val clockFontSize = pref.getString(CLOCK_FONT_SIZE_KEY, ClockFontSizePicker.FontSize.MEDIUM.name)
+        setFontSizeValueText(clockFontSize)
+    }
+
+    private fun setFontSizeValueText(clockFontSize: String?) {
+        when (clockFontSize) {
+            ClockFontSizePicker.FontSize.SMALL.name -> binding.clockFontSizeValue.text =
+                getString(R.string.small)
+
+            ClockFontSizePicker.FontSize.MEDIUM.name -> binding.clockFontSizeValue.text =
+                getString(R.string.medium)
+
+            ClockFontSizePicker.FontSize.LARGE.name -> binding.clockFontSizeValue.text =
+                getString(R.string.large)
+        }
     }
 
     private fun showTimePickerForAlertTime () {
@@ -141,6 +157,7 @@ class SettingsFragment : Fragment() {
 
     private fun onClockFontSizeConfirm (fontSize: ClockFontSizePicker.FontSize) {
         pref.edit().putString(CLOCK_FONT_SIZE_KEY, fontSize.name).apply()
+        setFontSizeValueText(fontSize.name)
     }
 
     override fun onDestroy() {
