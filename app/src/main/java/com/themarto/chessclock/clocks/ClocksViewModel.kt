@@ -59,7 +59,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private lateinit var timer1: MyCountDownTimer
     private val _timeLeft1 = MutableLiveData<Long>()
     private val timeLeft1: LiveData<Long> get() = _timeLeft1
-    val timeLeftString1 = Transformations.map(timeLeft1) {
+    val timeLeftString1 = timeLeft1.map {
         /* elapsedSeconds passed this way allows to set times like
             14sec, 56millis (which it's shown as 00:14) to be 15sec,55millis
             (which it's shown as 00:15). So when the time is 0sec, n-millis, it will
@@ -80,7 +80,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private lateinit var timer2: MyCountDownTimer
     private val _timeLeft2 = MutableLiveData<Long>()
     private val timeLeft2: LiveData<Long> get() = _timeLeft2
-    val timeLeftString2 = Transformations.map(timeLeft2) {
+    val timeLeftString2 = timeLeft2.map {
         /* elapsedSeconds passed this way allows to set times like
             14sec, 56millis (which it's shown as 00:14) to be 15sec,55millis
             (which it's shown as 00:15). So when the time is 0sec, n-millis, it will
@@ -112,7 +112,7 @@ class ClocksViewModel(application: Application) : ViewModel() {
     private val _playClockSound = MutableLiveData<Boolean>()
     val playClockSound: LiveData<Boolean> get() = _playClockSound
 
-    val guidelinePercentage = Transformations.map(turn) {
+    val guidelinePercentage = turn.map {
         when (turn.value) {
             TURN_1 -> PERCENT_66
             TURN_2 -> PERCENT_33

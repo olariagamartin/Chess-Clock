@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentCreateEditClockBinding
 import com.themarto.chessclock.utils.MyTimePicker
+import com.themarto.chessclock.utils.ViewUtils
 
 class CreateEditClockFragment : Fragment() {
 
@@ -89,6 +90,8 @@ class CreateEditClockFragment : Fragment() {
             showTimePickerForIncrement()
         }
         //....
+
+        ViewUtils.handleInsets(binding.root)
 
         return binding.root
     }

@@ -21,15 +21,15 @@ class CreateEditViewModel(
     private val _chessClock = MutableLiveData<ChessClock>()
     val chessClock: LiveData<ChessClock> get() = _chessClock
 
-    val firstPlayerTime: LiveData<String> = Transformations.map(chessClock) {
+    val firstPlayerTime: LiveData<String> = chessClock.map {
         DateUtils.formatElapsedTime(it.firstPlayerTime / ONE_SECOND)
     }
 
-    val secondPlayerTime: LiveData<String> = Transformations.map(chessClock) {
+    val secondPlayerTime: LiveData<String> = chessClock.map {
         DateUtils.formatElapsedTime(it.secondPlayerTime / ONE_SECOND)
     }
 
-    val incrementTime: LiveData<String> = Transformations.map(chessClock) {
+    val incrementTime: LiveData<String> = chessClock.map {
         DateUtils.formatElapsedTime(it.increment / ONE_SECOND)
     }
 
@@ -103,19 +103,19 @@ class CreateEditViewModel(
 
     fun onFirstPlayerTimeSet(hours: Int, minutes: Int, seconds: Int) {
         val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE + hours * 60 * ONE_MINUTE
-        val clockUpdated = _chessClock.value
-        clockUpdated?.firstPlayerTime = timeMillis
+        val clockUpdated = _chessClock.value!!
+        clockUpdated.firstPlayerTime = timeMillis
         if (sameValueChecked) {
-            clockUpdated?.secondPlayerTime = timeMillis
+            clockUpdated.secondPlayerTime = timeMillis
         }
         _chessClock.value = clockUpdated
     }
 
     fun onSecondPlayerTimeSet(hours: Int, minutes: Int, seconds: Int) {
         val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE + hours * 60 * ONE_MINUTE
-        val clockUpdated = _chessClock.value
-        clockUpdated?.secondPlayerTime = timeMillis
-        if(clockUpdated?.firstPlayerTime != timeMillis) {
+        val clockUpdated = _chessClock.value!!
+        clockUpdated.secondPlayerTime = timeMillis
+        if(clockUpdated.firstPlayerTime != timeMillis) {
             _sameValueSwitch.value = false
         }
         _chessClock.value = clockUpdated
@@ -124,16 +124,16 @@ class CreateEditViewModel(
     fun onSameValueSwitchChange (checked: Boolean) {
         sameValueChecked = checked
         if (sameValueChecked) {
-            val clockUpdated = _chessClock.value
-            clockUpdated?.secondPlayerTime = clockUpdated?.firstPlayerTime!!
+            val clockUpdated = _chessClock.value!!
+            clockUpdated.secondPlayerTime = clockUpdated.firstPlayerTime
             _chessClock.value = clockUpdated
         }
     }
 
     fun onIncrementTimeSet (minutes: Int, seconds: Int) {
         val timeMillis = seconds * ONE_SECOND + minutes * ONE_MINUTE
-        val clockUpdated = _chessClock.value
-        clockUpdated?.increment = timeMillis
+        val clockUpdated = _chessClock.value!!
+        clockUpdated.increment = timeMillis
         _chessClock.value = clockUpdated
     }
 }

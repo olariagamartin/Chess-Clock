@@ -14,6 +14,7 @@ import com.themarto.chessclock.utils.ClockFontSizePicker
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_MINUTE
 import com.themarto.chessclock.utils.MyCountDownTimer.Companion.ONE_SECOND
 import com.themarto.chessclock.utils.MyTimePicker
+import com.themarto.chessclock.utils.ViewUtils
 
 class SettingsFragment : Fragment() {
 
@@ -81,6 +82,7 @@ class SettingsFragment : Fragment() {
         }
         //...
 
+        ViewUtils.handleInsets(binding.root)
         return binding.root
     }
 

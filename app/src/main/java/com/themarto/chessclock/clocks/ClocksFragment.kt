@@ -10,7 +10,7 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -22,6 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.themarto.chessclock.R
 import com.themarto.chessclock.databinding.FragmentClocksBinding
 import com.themarto.chessclock.utils.ClockFontSizePicker
+import com.themarto.chessclock.utils.ViewUtils
 
 class ClocksFragment : Fragment() {
 
@@ -46,6 +47,11 @@ class ClocksFragment : Fragment() {
         observeViewModel()
 
         setupUIActions()
+        ViewUtils.handleInsets(binding.clock1Container)
+        ViewUtils.handleInsets(binding.clock2Container)
+        activity?.window?.let {
+            WindowInsetsControllerCompat(it, binding.root).isAppearanceLightStatusBars = false
+        }
 
         return binding.root
     }

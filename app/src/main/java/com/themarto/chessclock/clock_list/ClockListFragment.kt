@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.themarto.chessclock.SettingsFragment.Companion.PREFERENCES_NAME
 import com.themarto.chessclock.databinding.FragmentClockListBinding
 import com.themarto.chessclock.select_theme.BottomSheetSelectTheme
 import com.themarto.chessclock.utils.ChessUtils.Companion.CURRENT_CLOCK_KEY
+import com.themarto.chessclock.utils.ViewUtils
 
 class ClockListFragment : Fragment() {
 
@@ -83,6 +85,12 @@ class ClockListFragment : Fragment() {
         }
         //....
 
+        ViewUtils.handleInsets(binding.root)
+
+        activity?.window?.let {
+            WindowInsetsControllerCompat(it, binding.root).isAppearanceLightStatusBars = true
+        }
+        
         return binding.root
     }
 
