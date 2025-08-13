@@ -64,16 +64,6 @@ class CreateEditClockFragment : Fragment() {
             viewModel.onNavigationClick()
         }
 
-        binding.toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.save_option_menu -> {
-                    viewModel.onSaveOptionMenuClick()
-                    true
-                }
-                else -> false
-            }
-        })
-
         binding.playerOneTime.setOnClickListener {
             showTimePickerForPlayerOne()
         }
@@ -88,6 +78,10 @@ class CreateEditClockFragment : Fragment() {
 
         binding.incrementTime.setOnClickListener {
             showTimePickerForIncrement()
+        }
+
+        binding.btnSave.setOnClickListener {
+            viewModel.onSaveClick()
         }
         //....
 

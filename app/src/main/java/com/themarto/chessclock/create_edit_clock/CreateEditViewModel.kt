@@ -75,7 +75,7 @@ class CreateEditViewModel(
         _closeFragment.value = false
     }
 
-    fun onSaveOptionMenuClick() {
+    fun onSaveClick() {
         if (editOption) {
             updateClock()
         } else {

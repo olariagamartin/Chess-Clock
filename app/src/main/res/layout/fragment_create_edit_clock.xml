@@ -122,6 +122,17 @@
             app:layout_constraintTop_toBottomOf="@+id/player_two_time"
             app:switchPadding="8dp" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/option_menu_save_title"
+            android:contentDescription="@string/save_clock_description"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -135,8 +146,8 @@
             app:navigationContentDescription="@string/exit_icon_description"
             app:navigationIcon="@drawable/ic_close"
             android:paddingEnd="8dp"
+            tools:title="New Clock"
             android:paddingStart="0dp"
-            app:menu="@menu/create_edit_clock_menu"
             style="@style/Widget.MaterialComponents.Toolbar.Surface" />
     </com.google.android.material.appbar.AppBarLayout>
 
